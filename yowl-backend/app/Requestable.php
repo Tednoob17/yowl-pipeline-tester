@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Request;
+namespace App;
 
 use Illuminate\Contracts\Validation\Validator;
 use Symfony\Component\HttpFoundation\Response;

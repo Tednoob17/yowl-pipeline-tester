@@ -14,3 +14,5 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('reports', ReportController::class);
 Route::apiResource('permissions', UserPermissionController::class);
 Route::apiResource('roles', UserRoleController::class);
+
+Route::post('/signup', [AuthController::class, 'register']);

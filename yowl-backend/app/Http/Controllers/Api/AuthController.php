@@ -15,14 +15,14 @@ class AuthController extends Controller
     public function register(RegisterRequest $request): JsonResponse
     {
         $age=Carbon::parse($request->birthdate)->age;
-        if($age<13 || $age>35){
+        if($age < 13 || $age > 35){
             return $this->handleResponse("", "This platfrom allow only people with age between 13 and 35 years old", 403, false);
         }else{
         // if (Auth::guest()) {
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'bithdate'=>$request->birthdate,
+            'bithdate' => $request->birthdate,
             'password' => Hash::make($request->password),
             'terms' => $request->terms
         ]);
@@ -34,5 +34,5 @@ class AuthController extends Controller
         //     return $this->handleResponse("Unauthorized to register again",  "Already registred and connected", Response::HTTP_FORBIDDEN);
         // }
         }
-    }   
+    }
 }

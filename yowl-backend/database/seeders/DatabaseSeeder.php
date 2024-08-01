@@ -14,15 +14,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(20)->withPersonalTeam()->create();
+        // User::factory(20)->withPersonalTeam()->create();
 
-        User::factory()->withPersonalTeam()->create([
-            'name' => 'Georges AYENI',
-            'email' => 'admin@mail.com',
-        ]);
+        // User::factory()->withPersonalTeam()->create([
+        //     'name' => 'Georges AYENI',
+        //     'email' => 'admin@mail.com',
+        // ]);
 
         $this->call([
-            NoteSeeder::class,
+            // NoteSeeder::class,
             ReportSeeder::class,
             PermissionSeeder::class,
             RoleSeeder::class,
