@@ -17,7 +17,7 @@ class ReportController extends Controller
     {
         try
         {
-            $reports = Report::paginate(10);
+            $reports = Report::with('user')->paginate(10);
             return response()->json([
                 "status" => "success",
                 "reports" => $reports
@@ -39,7 +39,12 @@ class ReportController extends Controller
     {
         try
         {
-            $report = Report::create($request->validated());
+            $report = Report::create([
+                'reason' => $request->reason,
+                'description' => $request->description,
+                'url' => $request->url,
+                'user_id' => $request->user()->id
+            ]);
             return response()->json([
                 "status" => "success",
                 "message" => "Report created successfully",
@@ -62,7 +67,8 @@ class ReportController extends Controller
     {
         try
         {
-            $report = Report::find($report);
+            $report = Report::find($report)->with('user')->first();
+
             return response()->json([
                 "status" => "success",
                 "report" => $report
@@ -84,10 +90,15 @@ class ReportController extends Controller
     {
         try
         {
-            $report = Report::find($report);
+            $report = Report::find($report)->first();
             try
             {
-                $report->update($request->validated());
+                $report->update([
+                    'reason' => $request->reason,
+                    'description' => $request->description,
+                    'url' => $request->url,
+                    'user_id' => $request->user()->id
+                ]);
                 return response()->json([
                     "status" => "success",
                     "message" => "Report updated successfully",

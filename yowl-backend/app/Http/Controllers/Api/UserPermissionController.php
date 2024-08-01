@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Permissions\StoreRequest;
+use App\Http\Requests\Permissions\UpdateRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
@@ -54,9 +55,8 @@ class UserPermissionController extends Controller
         }
     }
 
-    public function update(Request $request, $permission): JsonResponse
+    public function update(UpdateRequest $request, $permission): JsonResponse
     {
-
         try
         {
             $permission = Permission::find($permission);
@@ -68,6 +68,27 @@ class UserPermissionController extends Controller
                 "status" => "success",
                 "message" => "Permission updated successfully",
                 "permission" => $permission,
+            ], 200);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json([
+                "status" => "error",
+                "message" => "Permission not found",
+            ], 404);
+        }
+    }
+
+    public function destroy($permission): JsonResponse
+    {
+        try
+        {
+            $permission = Permission::find($permission);
+            $permission->delete();
+
+            return response()->json([
+                "status" => "success",
+                "message" => "Permission deleted successfully",
             ], 200);
         }
         catch (\Exception $e)

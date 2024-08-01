@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\ReportController;
+use App\Http\Controllers\Api\UserPermissionController;
+use App\Http\Controllers\UserRoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -9,3 +11,5 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::apiResource('reports', ReportController::class);
+Route::apiResource('permissions', UserPermissionController::class);
+Route::apiResource('roles', UserRoleController::class);
