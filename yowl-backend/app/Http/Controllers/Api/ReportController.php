@@ -15,12 +15,21 @@ class ReportController extends Controller
      */
     public function index() : JsonResponse
     {
-        $reports = Report::all();
-
-        return response()->json([
-            "status" => "success",
-            "reports" => $reports
-        ], 200);
+        try
+        {
+            $reports = Report::paginate(10);
+            return response()->json([
+                "status" => "success",
+                "reports" => $reports
+            ], 200);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json([
+                "status" => "error",
+                "message" => "Internal server error"
+            ], 500);
+        }
     }
 
     /**
@@ -28,13 +37,22 @@ class ReportController extends Controller
      */
     public function store(StoreRequest $request) : JsonResponse
     {
-        $report = Report::create($request->validated());
-
-        return response()->json([
-            "status" => "success",
-            "message" => "Report created successfully",
-            "report" => $report
-        ], 201);
+        try
+        {
+            $report = Report::create($request->validated());
+            return response()->json([
+                "status" => "success",
+                "message" => "Report created successfully",
+                "report" => $report
+            ], 201);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json([
+                "status" => "error",
+                "message" => "Internal server error"
+            ], 500);
+        }
     }
 
     /**
@@ -42,11 +60,21 @@ class ReportController extends Controller
      */
     public function show($report): JsonResponse
     {
-        $report = Report::find($report);
-        return response()->json([
-            "status" => "success",
-            "report" => $report
-        ], 200);
+        try
+        {
+            $report = Report::find($report);
+            return response()->json([
+                "status" => "success",
+                "report" => $report
+            ], 200);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json([
+                "status" => "error",
+                "message" => "Report not found"
+            ], 404);
+        }
     }
 
     /**
@@ -54,14 +82,33 @@ class ReportController extends Controller
      */
     public function update(UpdateRequest $request, $report)
     {
-        $report = Report::find($report);
-        $report->update($request->validated());
-
-        return response()->json([
-            "status" => "success",
-            "message" => "Report updated successfully",
-            "report" => $report
-        ], 200);
+        try
+        {
+            $report = Report::find($report);
+            try
+            {
+                $report->update($request->validated());
+                return response()->json([
+                    "status" => "success",
+                    "message" => "Report updated successfully",
+                    "report" => $report
+                ], 200);
+            }
+            catch (\Exception $e)
+            {
+                return response()->json([
+                    "status" => "error",
+                    "message" => "Internal server error"
+                ], 500);
+            }
+        }
+        catch (\Exception $e)
+        {
+            return response()->json([
+                "status" => "error",
+                "message" => "Report not found"
+            ], 404);
+        }
     }
 
     /**
@@ -69,12 +116,31 @@ class ReportController extends Controller
      */
     public function destroy($report)
     {
-        Report::destroy($report);
-
-        return response()->json([
-            'status' => 'success',
-            'deleted_report' => $report,
-            'message' => 'Report deleted successfully'
-        ], 204);
+        try
+        {
+            $report = Report::find($report);
+            try
+            {
+                $report->delete();
+                return response()->json([
+                    "status" => "success",
+                    "message" => "Report deleted successfully"
+                ], 200);
+            }
+            catch (\Exception $e)
+            {
+                return response()->json([
+                    "status" => "error",
+                    "message" => "Internal server error"
+                ], 500);
+            }
+        }
+        catch (\Exception $e)
+        {
+            return response()->json([
+                "status" => "error",
+                "message" => "Report not found"
+            ], 404);
+        }
     }
 }
