@@ -9,7 +9,7 @@ import LoginForm from '@/components/forms/LoginForm.vue';
       </login-form>
 
       <div
-        class="tw-h-full md:tw-py-6 tw-flex tw-items-center tw-relative max-md:before:tw-hidden before:tw-absolute before:tw-bg-gradient-to-r before:tw-from-gray-50 before:tw-via-[#E4FE66] before:tw-to-[#55F5A3] before:tw-h-full before:tw-w-3/4 before:tw-right-0 before:tw-z-0"
+        class="tw-h-full md:tw-py-6 tw-items-center tw-relative max-md:before:tw-hidden sm:tw-flex tw-hidden before:tw-absolute before:tw-bg-gradient-to-r before:tw-from-gray-50 before:tw-via-[#E4FE66] before:tw-to-[#55F5A3] before:tw-h-full before:tw-w-3/4 before:tw-right-0 before:tw-z-0"
       >
         <img
           src="https://readymadeui.com/photo.webp"
