@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Permissions\StoreRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
@@ -20,11 +21,8 @@ class UserPermissionController extends Controller
     }
 
 
-    public function store(Request $request): JsonResponse
+    public function store(StoreRequest $request): JsonResponse
     {
-        $request->validate([
-            'name' => 'required|string',
-        ]);
 
         $permission = Permission::create([
             'name' => $request->name,
@@ -44,6 +42,31 @@ class UserPermissionController extends Controller
             $permission = Permission::find($permission);
             return response()->json([
                 "status" => "success",
+                "permission" => $permission,
+            ], 200);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json([
+                "status" => "error",
+                "message" => "Permission not found",
+            ], 404);
+        }
+    }
+
+    public function update(Request $request, $permission): JsonResponse
+    {
+
+        try
+        {
+            $permission = Permission::find($permission);
+            $permission->update([
+                'name' => $request->name,
+            ]);
+
+            return response()->json([
+                "status" => "success",
+                "message" => "Permission updated successfully",
                 "permission" => $permission,
             ], 200);
         }

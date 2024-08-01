@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Permissions;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreRequest extends FormRequest
 {
@@ -25,5 +27,12 @@ class StoreRequest extends FormRequest
             'name' => ['required', 'string'],
             'description' => ['nullable', 'string'],
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json($validator->errors(), 422)
+        );
     }
 }
