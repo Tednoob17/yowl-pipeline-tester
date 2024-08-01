@@ -2,16 +2,18 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Request\Resquestable;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
 {
+    use Resquestable;
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
