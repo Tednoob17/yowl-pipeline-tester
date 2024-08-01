@@ -3,7 +3,14 @@
 <template>
 
 <div>
-  <v-card class="mx-left" width="256">
+  <v-card
+    class="pa-4"
+    height="100px"
+    image="../src/assets/1.png"
+    flat
+  >
+  </v-card>
+  <v-card class="mx-left" width="20   ">
 
   <v-expansion-panels >
 
@@ -11,7 +18,10 @@
     </v-expansion-panel>
   </v-expansion-panels>
 </v-card>
-</div>
 
+  <v-text-field prepend-icon="mdi-magnify" hide-details single-line label="Search" class="mx-left">
+
+  </v-text-field>
+</div>
 
 </template>
