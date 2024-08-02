@@ -1,18 +1,22 @@
-import { baseService } from "./base.service";
+import { baseService } from './base.service'
 
 export function authService() {
-    const { axios } = baseService()
-    
-    const login = async (credentials) => {
-        return axios.post('/login', credentials)
-    }
-    
-    const register = async (credentials) => {
-        return axios.post('/register', credentials)
-    }
-    
-    return {
-        login,
-        register
-    }
+  const axios = baseService()
+
+  async function login(credentials) {
+    return axios.post('/login', credentials)
+  }
+
+  async function register(credentials) {
+    return axios.post('/register', credentials)
+  }
+
+  async function logout() {
+    return axios.post('/logout')
+  }
+  return {
+    login,
+    register,
+    logout
+  }
 }

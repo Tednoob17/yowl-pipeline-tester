@@ -2,7 +2,7 @@ import Axios from 'axios'
 import { useRouter } from 'vue-router'
 import { toast } from 'vuetify-sonner'
 
-export async function baseService() {
+export function baseService() {
   const baseURL = import.meta.env.VITE_API_URL ?? 'http://localhost:8000/api/'
 
   const router = useRouter()
@@ -26,29 +26,6 @@ export async function baseService() {
       return config
     },
     (error) => {
-      if (error.response.status === 401) {
-        localStorage.removeItem('token')
-        toast("Vous n'aurez pas accès à cette page, veuillez vous connecter", {
-          cardProps: {
-            color: 'error'
-          }
-        })
-        router.push({ name: 'login' })
-      }const admin = {
-        email: import.meta.env.VITE_ADMIN_USERNAME,
-        password: import.meta.env.VITE_ADMIN_PASSWORD
-      }
-      axios
-        .post('/login', admin)
-        .then((response) => {
-          localStorage.setItem('token', response.data.authToken)
-          axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.authToken}`
-          return axios.request(error.config)
-        })
-        .catch((error) => {
-          return Promise.reject(error)
-        })
-
       return Promise.reject(error)
     }
   )
@@ -65,7 +42,9 @@ export async function baseService() {
             color: 'error'
           }
         })
-        router.push({ name: 'login' })
+        if (router.currentRoute.value.name !== 'login') {
+          router.push({ name: 'login' })
+        }
       } else if (error.response.status === 404) {
         toast("La ressource demandée n'existe pas", {
           cardProps: {
