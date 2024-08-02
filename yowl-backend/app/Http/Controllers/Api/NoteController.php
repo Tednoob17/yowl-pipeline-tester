@@ -31,8 +31,8 @@ class NoteController extends Controller
         {
             $note = Note::create([
                 'stars' => $request->stars,
-                'user_from_id' => $request->user()->id,
-                'user_to_id' => $request->user_to_id
+                'user_from' => $request->user()->id,
+                'user_to' => $request->user_to_id
             ]);
             return response()->json([
                 "status" => "success",
@@ -44,7 +44,7 @@ class NoteController extends Controller
         {
             return response()->json([
                 "status" => "error",
-                "message" => "Internal server error"
+                "message" => "Internal server error" . $e->getMessage()
             ], 500);
         }
     }
