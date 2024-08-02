@@ -87,10 +87,10 @@ function submit() {
 
 <template>
   <main>
-    <div class="form-content sign-up">
+    <div class="form-content signs-up">
       <form>
         <h1>Create Account</h1>
-        <div id="socials-icons">
+        <div class="socials-icons">
           <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
           <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
           <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
