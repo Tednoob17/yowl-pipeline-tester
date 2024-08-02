@@ -11,9 +11,22 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('reports', ReportController::class)->middleware('auth:sanctum');
-Route::apiResource('permissions', UserPermissionController::class);
-Route::apiResource('roles', UserRoleController::class);
 
-Route::post('/signup', [AuthController::class, 'register']);
+Route::group(['middleware' => ['auth:sanctum',  ]], function () {
+    Route::post('/update-password', [AuthController::class, 'updatePassword']);
+
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/logout-all', [AuthController::class, 'logoutAll']);
+    Route::post('/refresh', [AuthController::class, 'refresh']);
+    Route::post('/current-user', [AuthController::class, 'currentUser']);
+
+    Route::apiResource('reports', ReportController::class);
+    Route::apiResource('permissions', UserPermissionController::class);
+    Route::apiResource('roles', UserRoleController::class);
+});
+
+Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+Route::post('/reset-password', [AuthController::class, 'resetPassword']);
