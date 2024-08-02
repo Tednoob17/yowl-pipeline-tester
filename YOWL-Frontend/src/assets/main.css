@@ -326,14 +326,14 @@ body{
     transform: translateX(100%);  /*  */
 }
 
-.sign-up{
-    left: 0;
+.signs-up{
+    left: 50%;
     width: 50%;
     /* opacity: 0; */
     z-index: 2;
 }
 
-.content.active .sign-up{
+.content.active .signs-up{
     transform: translateX(100%);
     opacity: 1;
     z-index: 5;       /*    */
@@ -352,7 +352,7 @@ body{
 }
 
 .socials-icons{
-    margin: 20px 0;              /**********************/
+    margin: 6px 0;              /**********************/
 }
 
 .socials-icons a{
@@ -369,12 +369,12 @@ body{
 .bubble-content{
     position: absolute;
     top: 0;
-    left: 50%;
+    left: 0;
     width: 50%;         /*********/
     height: 100%;
     overflow: hidden;
     transition: all 0.6s ease-in-out;
-    border-radius: 150px 0 0 100px;
+    border-radius: 0 150px 100px 0;
     z-index: 1000;
 }
 
