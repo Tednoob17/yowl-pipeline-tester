@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(20)->withPersonalTeam()->create();
+        User::factory(20)->withPersonalTeam()->create();
 
         User::factory()->withPersonalTeam()->create([
             'name' => 'Georges AYENI',
@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             CategorieSeeder::class,
-            // NoteSeeder::class,
+            NoteSeeder::class,
             ReportSeeder::class,
             PermissionSeeder::class,
             RoleSeeder::class,

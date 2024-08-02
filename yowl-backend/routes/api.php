@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategorieController;
+use App\Http\Controllers\Api\NoteController;
 use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\UserPermissionController;
 use App\Http\Controllers\Api\UserRoleController;
+use App\Http\Controllers\UserSettingsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +26,18 @@ Route::group(['middleware' => ['auth:sanctum',  ]], function () {
     Route::apiResource('reports', ReportController::class);
     Route::apiResource('permissions', UserPermissionController::class);
     Route::apiResource('roles', UserRoleController::class);
+    Route::apiResource('notes', NoteController::class);
     Route::apiResource('categories', CategorieController::class);
+
+
+    // settings
+    Route::get('/user-set', [UserSettingsController::class, 'index']);
+    // enable 2fa
+    Route::post('/enable-2fa', [UserSettingsController::class, 'enable2fa']);
+    // disable 2fa
+    Route::post('/disable-2fa', [UserSettingsController::class, 'disable2fa']);
+    // update user profile
+    Route::post('/update-profile', [UserSettingsController::class, 'update']);
 });
 
 Route::post('/register', [AuthController::class, 'register']);
