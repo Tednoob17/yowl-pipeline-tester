@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
+            RoomSeeder::class,
             CategorieSeeder::class,
             NoteSeeder::class,
             ReportSeeder::class,

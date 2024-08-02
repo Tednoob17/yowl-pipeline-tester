@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\NoteController;
 use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\UserPermissionController;
 use App\Http\Controllers\Api\UserRoleController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserSettingsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,17 +19,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['auth:sanctum',  ]], function () {
     Route::post('/update-password', [AuthController::class, 'updatePassword']);
 
+    // profile
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/logout-all', [AuthController::class, 'logoutAll']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::post('/current-user', [AuthController::class, 'currentUser']);
 
+    // ressources routes
     Route::apiResource('reports', ReportController::class);
     Route::apiResource('permissions', UserPermissionController::class);
     Route::apiResource('roles', UserRoleController::class);
     Route::apiResource('notes', NoteController::class);
     Route::apiResource('categories', CategorieController::class);
-
+    Route::apiResource('rooms', RoomController::class);
 
     // settings
     Route::get('/user-set', [UserSettingsController::class, 'index']);

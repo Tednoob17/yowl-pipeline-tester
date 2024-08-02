@@ -20,26 +20,6 @@ class NoteSeeder extends Seeder
                 'user_from' => 1,
                 'user_to' => 2
             ],
-            [
-                'stars' => 4,
-                'user_from' => 3,
-                'user_to' => 1
-            ],
-            [
-                'stars' => 3,
-                'user_from' => 5,
-                'user_to' => 6
-            ],
-            [
-                'stars' => 2,
-                'user_from' => 7,
-                'user_to' => 8
-            ],
-            [
-                'stars' => 1,
-                'user_from' => 1,
-                'user_to' => 2
-            ],
         ];
 
         foreach ($notes as $note) {

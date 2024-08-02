@@ -17,7 +17,9 @@ class NoteFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'stars' => fake()->randomDigitNotNull,
+            'user_from' => fake()->randomDigitNotNull,
+            'user_to' => fake()->randomDigitNotNull
         ];
     }
 }
