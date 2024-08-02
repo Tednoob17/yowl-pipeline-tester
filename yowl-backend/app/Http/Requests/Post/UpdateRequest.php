@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Room;
+namespace App\Http\Requests\Post;
 
 use App\Traits\Requestable;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRoomRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     use Requestable;
     /**
@@ -24,10 +24,8 @@ class StoreRoomRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:3',
-            'description' => 'nullable|min:3',
-            'password' => 'nullable|min:3',
-            'users' => 'required|array',
+            'link' => 'required|url|',
+            'panda' => 'required',
         ];
     }
 }

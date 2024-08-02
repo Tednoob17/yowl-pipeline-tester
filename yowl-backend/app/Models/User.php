@@ -103,4 +103,24 @@ class User extends Authenticatable
     {
         return $this->hasMany(Note::class, 'user_to', 'id');
     }
+
+    /**
+     * Get all of the messages for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'user_id', 'id');
+    }
+
+    /**
+     * Get all of the rooms for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function rooms(): HasMany
+    {
+        return $this->hasMany(Room::class, 'user_id', 'id');
+    }
 }

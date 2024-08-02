@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategorieController;
+use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\NoteController;
+use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ReportController;
+use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\UserPermissionController;
 use App\Http\Controllers\Api\UserRoleController;
-use App\Http\Controllers\RoomController;
-use App\Http\Controllers\UserSettingsController;
+use App\Http\Controllers\Api\UserSettingsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +34,14 @@ Route::group(['middleware' => ['auth:sanctum',  ]], function () {
     Route::apiResource('notes', NoteController::class);
     Route::apiResource('categories', CategorieController::class);
     Route::apiResource('rooms', RoomController::class);
+    Route::apiResource('messages', MessageController::class);
+
+    // post route
+    Route::get('posts', [PostController::class, 'index']);
+    Route::get('posts/{post}', [PostController::class, 'show']);
+    Route::post('posts', [PostController::class, 'store']);
+    Route::put('posts/{post}', [PostController::class, 'update']);
+    Route::delete('posts/{post}', [PostController::class, 'destroy']);
 
     // settings
     Route::get('/user-set', [UserSettingsController::class, 'index']);
