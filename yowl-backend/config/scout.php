@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'driver' => env('SCOUT_DRIVER', 'algolia'),
+    "driver" => env("SCOUT_DRIVER", "algolia"),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'prefix' => env('SCOUT_PREFIX', ''),
+    "prefix" => env("SCOUT_PREFIX", ""),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'queue' => env('SCOUT_QUEUE', false),
+    "queue" => env("SCOUT_QUEUE", false),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'after_commit' => false,
+    "after_commit" => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -68,9 +68,9 @@ return [
     |
     */
 
-    'chunk' => [
-        'searchable' => 500,
-        'unsearchable' => 500,
+    "chunk" => [
+        "searchable" => 500,
+        "unsearchable" => 500,
     ],
 
     /*
@@ -84,7 +84,7 @@ return [
     |
     */
 
-    'soft_delete' => false,
+    "soft_delete" => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -93,13 +93,13 @@ return [
     |
     | This option allows you to control whether to notify the search engine
     | of the user performing the search. This is sometimes useful if the
-    | engine supports any analytics based on this application's users.
+    | engine supports any analytics based on this application"s users.
     |
     | Supported engines: "algolia"
     |
     */
 
-    'identify' => env('SCOUT_IDENTIFY', false),
+    "identify" => env("SCOUT_IDENTIFY", false),
 
     /*
     |--------------------------------------------------------------------------
@@ -112,9 +112,9 @@ return [
     |
     */
 
-    'algolia' => [
-        'id' => env('ALGOLIA_APP_ID', ''),
-        'secret' => env('ALGOLIA_SECRET', ''),
+    "algolia" => [
+        "id" => env("ALGOLIA_APP_ID", ""),
+        "secret" => env("ALGOLIA_SECRET", ""),
     ],
 
     /*
@@ -130,12 +130,12 @@ return [
     |
     */
 
-    'meilisearch' => [
-        'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
-        'key' => env('MEILISEARCH_KEY'),
-        'index-settings' => [
-            // 'users' => [
-            //     'filterableAttributes'=> ['id', 'name', 'email'],
+    "meilisearch" => [
+        "host" => env("MEILISEARCH_HOST", "http://localhost:7700"),
+        "key" => env("MEILISEARCH_KEY"),
+        "index-settings" => [
+            // "users" => [
+            //     "filterableAttributes"=> ["id", "name", "email"],
             // ],
         ],
     ],
@@ -151,49 +151,49 @@ return [
     |
     */
 
-    'typesense' => [
-        'client-settings' => [
-            'api_key' => env('TYPESENSE_API_KEY', 'xyz'),
-            'nodes' => [
+    "typesense" => [
+        "client-settings" => [
+            "api_key" => env("TYPESENSE_API_KEY", "xyz"),
+            "nodes" => [
                 [
-                    'host' => env('TYPESENSE_HOST', 'localhost'),
-                    'port' => env('TYPESENSE_PORT', '8108'),
-                    'path' => env('TYPESENSE_PATH', ''),
-                    'protocol' => env('TYPESENSE_PROTOCOL', 'http'),
+                    "host" => env("TYPESENSE_HOST", "localhost"),
+                    "port" => env("TYPESENSE_PORT", "8108"),
+                    "path" => env("TYPESENSE_PATH", ""),
+                    "protocol" => env("TYPESENSE_PROTOCOL", "http"),
                 ],
             ],
-            'nearest_node' => [
-                'host' => env('TYPESENSE_HOST', 'localhost'),
-                'port' => env('TYPESENSE_PORT', '8108'),
-                'path' => env('TYPESENSE_PATH', ''),
-                'protocol' => env('TYPESENSE_PROTOCOL', 'http'),
+            "nearest_node" => [
+                "host" => env("TYPESENSE_HOST", "localhost"),
+                "port" => env("TYPESENSE_PORT", "8108"),
+                "path" => env("TYPESENSE_PATH", ""),
+                "protocol" => env("TYPESENSE_PROTOCOL", "http"),
             ],
-            'connection_timeout_seconds' => env('TYPESENSE_CONNECTION_TIMEOUT_SECONDS', 2),
-            'healthcheck_interval_seconds' => env('TYPESENSE_HEALTHCHECK_INTERVAL_SECONDS', 30),
-            'num_retries' => env('TYPESENSE_NUM_RETRIES', 3),
-            'retry_interval_seconds' => env('TYPESENSE_RETRY_INTERVAL_SECONDS', 1),
+            "connection_timeout_seconds" => env("TYPESENSE_CONNECTION_TIMEOUT_SECONDS", 2),
+            "healthcheck_interval_seconds" => env("TYPESENSE_HEALTHCHECK_INTERVAL_SECONDS", 30),
+            "num_retries" => env("TYPESENSE_NUM_RETRIES", 3),
+            "retry_interval_seconds" => env("TYPESENSE_RETRY_INTERVAL_SECONDS", 1),
         ],
-        'model-settings' => [
+        "model-settings" => [
             // User::class => [
-            //     'collection-schema' => [
-            //         'fields' => [
+            //     "collection-schema" => [
+            //         "fields" => [
             //             [
-            //                 'name' => 'id',
-            //                 'type' => 'string',
+            //                 "name" => "id",
+            //                 "type" => "string",
             //             ],
             //             [
-            //                 'name' => 'name',
-            //                 'type' => 'string',
+            //                 "name" => "name",
+            //                 "type" => "string",
             //             ],
             //             [
-            //                 'name' => 'created_at',
-            //                 'type' => 'int64',
+            //                 "name" => "created_at",
+            //                 "type" => "int64",
             //             ],
             //         ],
-            //         'default_sorting_field' => 'created_at',
+            //         "default_sorting_field" => "created_at",
             //     ],
-            //     'search-parameters' => [
-            //         'query_by' => 'name'
+            //     "search-parameters" => [
+            //         "query_by" => "name"
             //     ],
             // ],
         ],

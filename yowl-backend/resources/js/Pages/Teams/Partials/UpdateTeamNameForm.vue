@@ -25,7 +25,7 @@ const updateTeamName = () => {
 </script>
 
 <template>
-    <FormSection @submitted="updateTeamName">
+    <FormSection @submitted='updateTeamName'>
         <template #title>
             Team Name
         </template>
@@ -36,15 +36,15 @@ const updateTeamName = () => {
 
         <template #form>
             <!-- Team Owner Information -->
-            <div class="col-span-6">
-                <InputLabel value="Team Owner" />
+            <div class='col-span-6'>
+                <InputLabel value='Team Owner' />
 
-                <div class="flex items-center mt-2">
-                    <img class="w-12 h-12 rounded-full object-cover" :src="team.owner.profile_photo_url" :alt="team.owner.name">
+                <div class='flex items-center mt-2'>
+                    <img class='w-12 h-12 rounded-full object-cover' :src='team.owner.profile_photo_url' :alt='team.owner.name'>
 
-                    <div class="ms-4 leading-tight">
-                        <div class="text-gray-900">{{ team.owner.name }}</div>
-                        <div class="text-gray-700 text-sm">
+                    <div class='ms-4 leading-tight'>
+                        <div class='text-gray-900'>{{ team.owner.name }}</div>
+                        <div class='text-gray-700 text-sm'>
                             {{ team.owner.email }}
                         </div>
                     </div>
@@ -52,27 +52,27 @@ const updateTeamName = () => {
             </div>
 
             <!-- Team Name -->
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="name" value="Team Name" />
+            <div class='col-span-6 sm:col-span-4'>
+                <InputLabel for='name' value='Team Name' />
 
                 <TextInput
-                    id="name"
-                    v-model="form.name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    :disabled="! permissions.canUpdateTeam"
+                    id='name'
+                    v-model='form.name'
+                    type='text'
+                    class='mt-1 block w-full'
+                    :disabled='! permissions.canUpdateTeam'
                 />
 
-                <InputError :message="form.errors.name" class="mt-2" />
+                <InputError :message='form.errors.name' class='mt-2' />
             </div>
         </template>
 
-        <template v-if="permissions.canUpdateTeam" #actions>
-            <ActionMessage :on="form.recentlySuccessful" class="me-3">
+        <template v-if='permissions.canUpdateTeam' #actions>
+            <ActionMessage :on='form.recentlySuccessful' class='me-3'>
                 Saved.
             </ActionMessage>
 
-            <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            <PrimaryButton :class='{ 'opacity-25': form.processing }' :disabled='form.processing'>
                 Save
             </PrimaryButton>
         </template>

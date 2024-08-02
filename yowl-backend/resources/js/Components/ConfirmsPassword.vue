@@ -72,11 +72,11 @@ const closeModal = () => {
 
 <template>
     <span>
-        <span @click="startConfirmingPassword">
+        <span @click='startConfirmingPassword'>
             <slot />
         </span>
 
-        <DialogModal :show="confirmingPassword" @close="closeModal">
+        <DialogModal :show='confirmingPassword' @close='closeModal'>
             <template #title>
                 {{ title }}
             </template>
@@ -84,31 +84,31 @@ const closeModal = () => {
             <template #content>
                 {{ content }}
 
-                <div class="mt-4">
+                <div class='mt-4'>
                     <TextInput
-                        ref="passwordInput"
-                        v-model="form.password"
-                        type="password"
-                        class="mt-1 block w-3/4"
-                        placeholder="Password"
-                        autocomplete="current-password"
-                        @keyup.enter="confirmPassword"
+                        ref='passwordInput'
+                        v-model='form.password'
+                        type='password'
+                        class='mt-1 block w-3/4'
+                        placeholder='Password'
+                        autocomplete='current-password'
+                        @keyup.enter='confirmPassword'
                     />
 
-                    <InputError :message="form.error" class="mt-2" />
+                    <InputError :message='form.error' class='mt-2' />
                 </div>
             </template>
 
             <template #footer>
-                <SecondaryButton @click="closeModal">
+                <SecondaryButton @click='closeModal'>
                     Cancel
                 </SecondaryButton>
 
                 <PrimaryButton
-                    class="ms-3"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                    @click="confirmPassword"
+                    class='ms-3'
+                    :class='{ 'opacity-25': form.processing }'
+                    :disabled='form.processing'
+                    @click='confirmPassword'
                 >
                     {{ button }}
                 </PrimaryButton>

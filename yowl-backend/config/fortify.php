@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'guard' => 'web',
+    "guard" => "web",
 
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'passwords' => 'users',
+    "passwords" => "users",
 
     /*
     |--------------------------------------------------------------------------
@@ -36,18 +36,18 @@ return [
     |--------------------------------------------------------------------------
     |
     | This value defines which model attribute should be considered as your
-    | application's "username" field. Typically, this might be the email
+    | application"s "username" field. Typically, this might be the email
     | address of the users but you are free to change this value here.
     |
     | Out of the box, Fortify expects forgot password and reset password
-    | requests to have a field named 'email'. If the application uses
+    | requests to have a field named "email". If the application uses
     | another name for the field you may define it below as needed.
     |
     */
 
-    'username' => 'email',
+    "username" => "email",
 
-    'email' => 'email',
+    "email" => "email",
 
     /*
     |--------------------------------------------------------------------------
@@ -60,7 +60,7 @@ return [
     |
     */
 
-    'lowercase_usernames' => true,
+    "lowercase_usernames" => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -73,7 +73,7 @@ return [
     |
     */
 
-    'home' => '/dashboard',
+    "home" => "/dashboard",
 
     /*
     |--------------------------------------------------------------------------
@@ -86,9 +86,9 @@ return [
     |
     */
 
-    'prefix' => '',
+    "prefix" => "",
 
-    'domain' => null,
+    "domain" => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -101,7 +101,7 @@ return [
     |
     */
 
-    'middleware' => ['web'],
+    "middleware" => ["web"],
 
     /*
     |--------------------------------------------------------------------------
@@ -114,9 +114,9 @@ return [
     |
     */
 
-    'limiters' => [
-        'login' => 'login',
-        'two-factor' => 'two-factor',
+    "limiters" => [
+        "login" => "login",
+        "two-factor" => "two-factor",
     ],
 
     /*
@@ -126,11 +126,11 @@ return [
     |
     | Here you may specify if the routes returning views should be disabled as
     | you may not need them when building your own application. This may be
-    | especially true if you're writing a custom single-page application.
+    | especially true if you"re writing a custom single-page application.
     |
     */
 
-    'views' => true,
+    "views" => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -138,21 +138,21 @@ return [
     |--------------------------------------------------------------------------
     |
     | Some of the Fortify features are optional. You may disable the features
-    | by removing them from this array. You're free to only remove some of
+    | by removing them from this array. You"re free to only remove some of
     | these features or you can even remove all of these if you need to.
     |
     */
 
-    'features' => [
+    "features" => [
         Features::registration(),
         Features::resetPasswords(),
         Features::emailVerification(),
         Features::updateProfileInformation(),
         Features::updatePasswords(),
         Features::twoFactorAuthentication([
-            'confirm' => true,
-            'confirmPassword' => true,
-            // 'window' => 0,
+            "confirm" => true,
+            "confirmPassword" => true,
+            // "window" => 0,
         ]),
     ],
 
