@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CategorieController;
 use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\UserPermissionController;
 use App\Http\Controllers\Api\UserRoleController;
@@ -23,6 +24,7 @@ Route::group(['middleware' => ['auth:sanctum',  ]], function () {
     Route::apiResource('reports', ReportController::class);
     Route::apiResource('permissions', UserPermissionController::class);
     Route::apiResource('roles', UserRoleController::class);
+    Route::apiResource('categories', CategorieController::class);
 });
 
 Route::post('/register', [AuthController::class, 'register']);

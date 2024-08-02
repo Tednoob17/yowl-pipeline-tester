@@ -16,12 +16,15 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(20)->withPersonalTeam()->create();
 
-        // User::factory()->withPersonalTeam()->create([
-        //     'name' => 'Georges AYENI',
-        //     'email' => 'admin@mail.com',
-        // ]);
+        User::factory()->withPersonalTeam()->create([
+            'name' => 'Georges AYENI',
+            'email' => 'admin@mail.com',
+            'birthdate' => '2003-01-01',
+            'terms' => true,
+        ]);
 
         $this->call([
+            CategorieSeeder::class,
             // NoteSeeder::class,
             ReportSeeder::class,
             PermissionSeeder::class,

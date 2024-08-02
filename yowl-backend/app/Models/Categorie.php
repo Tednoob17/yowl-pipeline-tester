@@ -10,7 +10,7 @@ class Categorie extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'slug', 'description', 'parent_id'];
+    protected $fillable = ['name', 'description', 'parent_id'];
 
     /**
      * Get the categorie that owns the Categorie
