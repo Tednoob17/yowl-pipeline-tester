@@ -23,6 +23,9 @@ importers:
       vue-router:
         specifier: ^4.3.3
         version: 4.4.0(vue@3.4.35(typescript@5.5.4))
+      vuetify-sonner:
+        specifier: ^0.3.19
+        version: 0.3.19(vue@3.4.35(typescript@5.5.4))(vuetify@3.6.14(typescript@5.5.4)(vite-plugin-vuetify@2.0.3)(vue@3.4.35(typescript@5.5.4)))
     devDependencies:
       '@nightwatch/vue':
         specifier: ^3.1.1
@@ -3319,6 +3322,9 @@ packages:
     peerDependencies:
       vue: ^3.2.0
 
+  vue-sonner@1.1.2:
+    resolution: {integrity: sha512-yg4f5s0a3oiiI7cNvO0Dajux1Y7s04lxww3vnQtnwQawJ3KqaKA9RIRMdI9wGTosRGIOwgYFniFRGl4+IuKPZw==}
+
   vue@3.4.35:
     resolution: {integrity: sha512-+fl/GLmI4GPileHftVlCdB7fUL4aziPcqTudpTGXCT8s+iZWuOCeNEB5haX6Uz2IpRrbEXOgIFbe+XciCuGbNQ==}
     peerDependencies:
@@ -3326,6 +3332,12 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
+
+  vuetify-sonner@0.3.19:
+    resolution: {integrity: sha512-Fn13UyP0Lzh9B10doHX8friWGgj0+dkRXd2fysLhtako/qEBY9nvwqKIUmGM0cUdjAUxioj7EcGod3l5qVPJVg==}
+    peerDependencies:
+      vue: ^3.3.0
+      vuetify: ^3.3.0
 
   vuetify@3.6.14:
     resolution: {integrity: sha512-iSa3CgdTEt/7B0aGDmkBARe8rxDDycEYHu1zNtOf1Xpvs/Tv7Ql5yHGqM2XCY0h7SL8Dme39pJIovzg3q4JLbQ==}
@@ -6856,6 +6868,8 @@ snapshots:
       '@vue/devtools-api': 6.6.3
       vue: 3.4.35(typescript@5.5.4)
 
+  vue-sonner@1.1.2: {}
+
   vue@3.4.35(typescript@5.5.4):
     dependencies:
       '@vue/compiler-dom': 3.4.35
@@ -6865,6 +6879,12 @@ snapshots:
       '@vue/shared': 3.4.35
     optionalDependencies:
       typescript: 5.5.4
+
+  vuetify-sonner@0.3.19(vue@3.4.35(typescript@5.5.4))(vuetify@3.6.14(typescript@5.5.4)(vite-plugin-vuetify@2.0.3)(vue@3.4.35(typescript@5.5.4))):
+    dependencies:
+      vue: 3.4.35(typescript@5.5.4)
+      vue-sonner: 1.1.2
+      vuetify: 3.6.14(typescript@5.5.4)(vite-plugin-vuetify@2.0.3)(vue@3.4.35(typescript@5.5.4))
 
   vuetify@3.6.14(typescript@5.5.4)(vite-plugin-vuetify@2.0.3)(vue@3.4.35(typescript@5.5.4)):
     dependencies:
