@@ -14,7 +14,7 @@ class NoteController extends Controller
      */
     public function index()
     {
-        $notes = Note::with('user')->paginate(10);
+        $notes = Note::with(['user_from', 'user_to'])->paginate(10);
 
         return response()->json([
             "status" => "success",

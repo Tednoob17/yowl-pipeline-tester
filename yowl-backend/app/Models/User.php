@@ -91,7 +91,7 @@ class User extends Authenticatable
      */
     public function notes_given(): HasMany
     {
-        return $this->hasMany(Note::class, 'user_id', 'id');
+        return $this->hasMany(Note::class, 'user_from', 'id');
     }
 
     /**
@@ -101,6 +101,6 @@ class User extends Authenticatable
      */
     public function notes_received(): HasMany
     {
-        return $this->hasMany(Note::class, 'user_id', 'id');
+        return $this->hasMany(Note::class, 'user_to', 'id');
     }
 }

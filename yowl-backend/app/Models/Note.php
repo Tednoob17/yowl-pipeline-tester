@@ -12,8 +12,8 @@ class Note extends Model
 
     protected $fillable = [
         'stars',
-        'user_from_id',
-        'user_to_id'
+        'user_from',
+        'user_to'
     ];
 
     /**

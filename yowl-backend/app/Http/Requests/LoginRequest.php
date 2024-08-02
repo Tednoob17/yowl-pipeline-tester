@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests\Auth;
 
+use Illuminate\Auth\Events\Lockout;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Validation\ValidationException;
 use App\Traits\Requestable;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -15,6 +18,8 @@ class LoginRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        $this->ensureIsNotRateLimited();
+
         return true;
     }
 
@@ -30,6 +35,30 @@ class LoginRequest extends FormRequest
             'email' => ['required', 'email'],
             'password' => ['required', 'string'],
         ];
+    }
+
+
+    /**
+     * Ensure the login request is not rate limited.
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function ensureIsNotRateLimited(): void
+    {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+            return;
+        }
+
+        event(new Lockout($this));
+
+        $seconds = RateLimiter::availableIn($this->throttleKey());
+
+        throw ValidationException::withMessages([
+            'email' => trans('auth.throttle', [
+                'seconds' => $seconds,
+                'minutes' => ceil($seconds / 60),
+            ]),
+        ]);
     }
 
     // create custom messages for the rules
