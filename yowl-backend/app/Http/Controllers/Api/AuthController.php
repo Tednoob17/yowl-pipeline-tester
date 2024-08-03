@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Mail\VerificationMail;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -58,11 +60,15 @@ class AuthController extends Controller
 
                 Auth::login($user);
 
-                event(new Registered($user));
+                // event(new Registered($user));*
+
+                $token = $user->createToken("authToken")->plainTextToken;
+
+                Mail::to($user)->send(new VerificationMail($token));
 
                 $success = [
                     "user" => $user,
-                    "access_token" => $user->createToken("authToken")->plainTextToken
+                    "access_token" => $token
                 ];
 
                 return $this->handleResponse($success, "User succesfully created");
