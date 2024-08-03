@@ -12,15 +12,18 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        try
+        {
+            $comments = Comment::with('user')->get();
+            return response()->json([
+                'status' => 'success',
+                'comments' => $comments,
+            ]);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -28,38 +31,81 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try
+        {
+            $comment = Comment::create($request->all());
+            return response()->json([
+                'status' => 'success',
+                'comment' => $comment,
+                'message' => 'Comment created successfully',
+            ]);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Comment $comment)
+    public function show($comment)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Comment $comment)
-    {
-        //
+        try
+        {
+            $comment = Comment::with('user')->find($comment);
+            
+            return response()->json([
+                'status' => 'success',
+                'comment' => $comment,
+            ]);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Comment $comment)
+    public function update(Request $request, $comment)
     {
-        //
+        try
+        {
+            $comment = Comment::find($comment);
+            $comment->update($request->all());
+
+            return response()->json([
+                'status' => 'success',
+                'comment' => $comment,
+                'message' => 'Comment updated successfully',
+            ]);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Comment $comment)
+    public function destroy($comment)
     {
-        //
+        try
+        {
+            $comment = Comment::find($comment);
+            $comment->delete();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Comment deleted successfully',
+            ]);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 }
