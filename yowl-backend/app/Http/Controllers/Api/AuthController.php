@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -25,8 +26,11 @@ class AuthController extends Controller
         ])) {
             $user = User::find(auth()->user()->id);
 
+            $request->session()->regenerate();
+
             $success = [
-                "access_token" => $user->createToken("authToken")->plainTextToken,
+                "user" => $user,
+                "access_token" => $user->createToken("authToken")->plainTextToken
             ];
 
             return $this->handleResponse($success, "User succesfully connected");
@@ -52,7 +56,14 @@ class AuthController extends Controller
                     'terms' => $request->terms
                 ]);
 
-                $success = ["access_token" => $user->createToken("authToken")->plainTextToken];
+                Auth::login($user);
+
+                event(new Registered($user));
+
+                $success = [
+                    "user" => $user,
+                    "access_token" => $user->createToken("authToken")->plainTextToken
+                ];
 
                 return $this->handleResponse($success, "User succesfully created");
             } else {
@@ -63,7 +74,7 @@ class AuthController extends Controller
 
     public function logout(Request $request): JsonResponse
     {
-        $request?->user()->currentAccessToken()->delete();
+        auth()->user()->currentAccessToken()->delete();
 
         return $this->handleResponse(null, "User succesfully disconnected");
     }
