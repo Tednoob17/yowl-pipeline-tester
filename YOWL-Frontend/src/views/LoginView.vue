@@ -11,7 +11,9 @@ import '@/assets/css/login.css'
       <div class="toggle-container">
         <div class="toggle">
           <div class="toggle-panel toggle-right">
-            <h1>Hello, Friend!</h1>
+            <div class="text-h4 text-center">
+              <strong>Hello, Friend!</strong>
+            </div>
             <p>Register with your personal details to use all of site features</p>
             <button class="hidden" id="register">Sign Up</button>
           </div>

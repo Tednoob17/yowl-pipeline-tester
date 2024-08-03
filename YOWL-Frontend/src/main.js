@@ -1,4 +1,5 @@
 import './assets/css/main.css'
+import './assets/css/login.css'
 
 import { vuetify } from './plugins/vuetify'
 

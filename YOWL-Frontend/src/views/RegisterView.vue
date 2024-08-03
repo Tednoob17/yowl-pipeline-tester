@@ -9,7 +9,11 @@ import '@/assets/css/login.css'
       <div class="bubble-content">
         <div class="bubble">
           <div class="bubble-panel bubble-right">
-            <h1>Welcome Back!</h1>
+            <div>
+              <div class="text-h4 text-center">
+                <strong>Welcome Back!</strong>
+              </div>
+            </div>
             <p>Enter your personal details to use all of site features</p>
             <button class="hidden" id="login">Sign In</button>
           </div>

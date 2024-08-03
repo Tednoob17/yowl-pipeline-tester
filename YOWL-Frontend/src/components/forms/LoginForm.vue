@@ -68,7 +68,7 @@ watch(
       errors.value.password = ''
     }
   }
-)
+);
 </script>
 
 <template>
@@ -76,7 +76,11 @@ watch(
     <v-card variant="flat" class="form-container sign-in">
       <v-card-text>
         <v-form>
-          <v-card-title> Sign In </v-card-title>
+          <div>
+            <div class="text-h4 text-center">
+              <strong>Sign In</strong>
+            </div>
+          </div>
           <div class="tw-inline-flex tw-justify-center tw-w-full social-icons">
             <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
             <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
@@ -95,7 +99,6 @@ watch(
             <span class="tw-text-red-700" v-if="errors.password">{{ errors.password }}</span>
           </div>
           <div class="tw-flex tw-justify-between">
-            <a href="#">Forget Your Password ?</a>
             <v-btn :disabled="!isValid" @click="login"> Sign In </v-btn>
           </div>
         </v-form>

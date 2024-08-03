@@ -132,7 +132,7 @@ watch(
       errors.value.name = ''
     }
   }
-)
+);
 </script>
 
 <template>
@@ -141,7 +141,11 @@ watch(
       <v-card cariant="flat" elevation="0" height="100%">
         <v-form>
           <v-card-title>
-            <h2>Sign Up</h2>
+            <div>
+              <div class="text-h4 text-center">
+                <strong>Create Account</strong>
+              </div>
+            </div>
           </v-card-title>
           <div class="socials-icons">
             <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
