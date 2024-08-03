@@ -1,2 +1,1 @@
-# YOWL PROJECT
 

@@ -1,0 +1,54 @@
+
+services:
+  frontend:
+      build:
+          context:  ./YOWL-Frontend
+          dockerfile: Dockerfile
+      ports:
+        - 8181:80
+      networks:
+        - front-part
+      restart: always
+
+
+        
+  backend:
+      container_name: backend
+      build:
+          context: ./yowl-backend
+          dockerfile: Dockerfile
+      ports:
+        - 9000:800
+      networks:
+        - back-part
+      depends_on:
+        - frontend
+        - database
+
+
+  database:
+      container_name: database
+      image: postgres:16.3
+      restart: always
+      ports:
+        - 5432:5432
+      environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=postgres
+        - POSTGRES_HOST=localhost
+      volumes:
+        - db_data:/var/lib/pgsql/data
+
+volumes:
+  db_data:
+  
+networks:
+  front-part:
+      driver: bridge
+  back-part:
+      driver: bridge
+  database:
+      driver: bridge
+
+          

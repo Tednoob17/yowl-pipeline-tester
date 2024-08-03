@@ -1,8 +1,8 @@
 {
-  "recommendations": [
-    "Vue.volar",
-    "browserstackcom.nightwatch",
-    "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode"
+  'recommendations': [
+    'Vue.volar',
+    'browserstackcom.nightwatch',
+    'dbaeumer.vscode-eslint',
+    'esbenp.prettier-vscode'
   ]
 }
