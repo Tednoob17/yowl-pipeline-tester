@@ -152,7 +152,7 @@ watch(
           <span>or use your email for registeration</span>
           <input v-model="user.name" type="text" placeholder="Name" required />
           <div>
-            <span class="tw-text-red-700" v-if="errors.email">{{ errors.email }}</span>
+            <span class="tw-text-red-700" v-if="errors.name">{{ errors.name }}</span>
           </div>
           <input v-model="user.email" type="email" placeholder="Email" required />
           <div>

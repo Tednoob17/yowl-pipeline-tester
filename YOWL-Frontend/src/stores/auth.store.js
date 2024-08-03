@@ -39,6 +39,10 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = null
   }
 
+  async function veryfymail(email) {
+    return (await serve.veryfymail(email)).data
+  }
+
   return {
     user,
     isLoggedIn,
