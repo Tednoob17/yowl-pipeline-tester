@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { useRouter } from 'vue-router'
+import { useRouter} from 'vue-router'
 import { toast } from 'vuetify-sonner'
 
 export function baseService() {
@@ -35,62 +35,7 @@ export function baseService() {
       return response
     },
     (error) => {
-      if (error.response.status === 401) {
-        localStorage.removeItem('token')
-        toast("Vous n'aurez pas accès à cette page, veuillez vous connecter", {
-          cardProps: {
-            color: 'error'
-          }
-        })
-        if (router.currentRoute.value.name !== 'login') {
-          router.push({ name: 'login' })
-        }
-      } else if (error.response.status === 404) {
-        toast("La ressource demandée n'existe pas", {
-          cardProps: {
-            color: 'error'
-          }
-        })
-        router.push({ name: 'home' })
-      } else if (error.response.status === 422) {
-        toast('Veuillez vérifier les champs', {
-          cardProps: {
-            color: 'error'
-          }
-        })
-      } else if (error.response.status === 403) {
-        if (router.currentRoute.value.name !== 'login') {
-          toast("Vous n'avez pas les droits pour accéder à cette page", {
-            cardProps: {
-              color: 'error'
-            }
-          })
-        } else {
-          toast('Accès incorrect', {
-            cardProps: {
-              color: 'error'
-            }
-          })
-        }
-
-        if (router.currentRoute.value.name !== 'login') {
-          router.push({ name: 'login' })
-        }
-      } else if (error.response.status === 410) {
-        toast('Vous ne pouvez pas accéder à cette ressource.', {
-          cardProps: {
-            color: 'error'
-          }
-        })
-        router.push({ name: 'login' })
-      } else {
-        toast('Une erreur est survenue', {
-          cardProps: {
-            color: 'error'
-          }
-        })
-        return Promise.reject(error)
-      }
+      return Promise.reject(error)
     }
   )
 

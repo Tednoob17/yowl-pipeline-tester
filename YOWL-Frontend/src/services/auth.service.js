@@ -14,6 +14,7 @@ export function authService() {
   async function logout() {
     return axios.post('/logout')
   }
+  
   return {
     login,
     register,
