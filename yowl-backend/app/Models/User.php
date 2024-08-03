@@ -13,7 +13,6 @@ use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Note;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 // use Laravel\Scout\Searchable;
 
@@ -123,15 +122,5 @@ class User extends Authenticatable implements MustVerifyEmail
     public function rooms(): HasMany
     {
         return $this->hasMany(Room::class, 'user_id', 'id');
-    }
-
-    /**
-     * Get the verification_token associated with the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function verification_token(): HasOne
-    {
-        return $this->hasOne(Verification::class, 'user_id', 'id');
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Mail\VerificationMail;
+use App\Models\Team;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
@@ -41,6 +42,19 @@ class AuthController extends Controller
         }
     }
 
+
+    /**
+     * Create a personal team for the user.
+     */
+    protected function createTeam(User $user): void
+    {
+        $user->ownedTeams()->save(Team::forceCreate([
+            'user_id' => $user->id,
+            'name' => explode(' ', $user->name, 2)[0] . "'s Team",
+            'personal_team' => true,
+        ]));
+    }
+
     public function register(RegisterRequest $request): JsonResponse
     {
         $age = Carbon::parse($request->birthdate)->age;
@@ -58,7 +72,10 @@ class AuthController extends Controller
                     'terms' => $request->terms
                 ]);
 
-                Auth::login($user);
+                // assign role to user
+                $user->assignRole('user');
+
+                $this->createTeam($user);
 
                 // event(new Registered($user));*
 
