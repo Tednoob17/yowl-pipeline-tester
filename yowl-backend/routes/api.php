@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::group(['middleware' => ['auth:sanctum',]], function () {
+Route::group(['middleware' => ['auth:sanctum', 'ensure-have-age']], function () {
     Route::post('/update-password', [AuthController::class, 'updatePassword']);
 
     // profile

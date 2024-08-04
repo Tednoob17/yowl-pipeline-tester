@@ -123,4 +123,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Room::class, 'user_id', 'id');
     }
+
+    /**
+     * Get all of the browsers for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function browsers(): HasMany
+    {
+        return $this->hasMany(Browser::class, 'user_id', 'id');
+    }
 }
