@@ -1,4 +1,4 @@
-import './assets/main.css'
+import './assets/css/main.css'
 
 import { vuetify } from './plugins/vuetify'
 

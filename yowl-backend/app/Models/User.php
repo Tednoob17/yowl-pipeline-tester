@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -11,10 +12,11 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Note;
 
 // use Laravel\Scout\Searchable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
     use HasFactory;
@@ -34,6 +36,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'birthdate',
+        'terms'
     ];
 
     /**
@@ -68,5 +72,65 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get all of the reports for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function reports(): HasMany
+    {
+        return $this->hasMany(Report::class, 'user_id', 'id');
+    }
+
+    /**
+     * Get all of the notes given for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function notes_given(): HasMany
+    {
+        return $this->hasMany(Note::class, 'user_from', 'id');
+    }
+
+    /**
+     * Get all of the notes received for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function notes_received(): HasMany
+    {
+        return $this->hasMany(Note::class, 'user_to', 'id');
+    }
+
+    /**
+     * Get all of the messages for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'user_id', 'id');
+    }
+
+    /**
+     * Get all of the rooms for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function rooms(): HasMany
+    {
+        return $this->hasMany(Room::class, 'user_id', 'id');
+    }
+
+    /**
+     * Get all of the browsers for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function browsers(): HasMany
+    {
+        return $this->hasMany(Browser::class, 'user_id', 'id');
     }
 }
