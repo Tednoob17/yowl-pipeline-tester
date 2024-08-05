@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureHaveAge;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -16,6 +17,15 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
+        ]);
+
+        // aliase
+        $middleware->api(append: [
+            EnsureHaveAge::class,
+        ]);
+
+        $middleware->alias([
+            'ensure-have-age' => EnsureHaveAge::class,
         ]);
 
         $middleware->statefulApi();

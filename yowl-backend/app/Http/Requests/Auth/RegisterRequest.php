@@ -7,6 +7,7 @@ namespace App\Http\Requests\Auth;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Laravel\Jetstream\Jetstream;
 
 class RegisterRequest extends FormRequest
 {
@@ -32,7 +33,7 @@ class RegisterRequest extends FormRequest
             'password' => 'required|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/',
             'password_confirm' => 'required',
             'birthdate' => 'required|date',
-            'terms' => 'required'
+            'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : ''
         ];
     }
 

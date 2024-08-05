@@ -3,18 +3,103 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Mail\VerificationMail;
+use App\Models\Browser as ModelsBrowser;
+use App\Models\Team;
 use App\Models\User;
+use Browser;
 use Carbon\Carbon;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
+
+    public function login(LoginRequest $request): JsonResponse
+    {
+        if (Auth::attempt([
+            "email" => $request->email,
+            "password" => $request->password,
+        ])) {
+            $user = User::find(auth()->user()->id);
+
+                // $request->session()->regenerate();
+            ;
+            // dd($user);
+
+            if ($this->getBrowser() == "Mobile") {
+                $this->createUpdateBrowser("Mobile", $user);
+            } else if ($this->getBrowser() == "Tablet") {
+                $this->createUpdateBrowser("Tablet", $user);
+            } else if ($this->getBrowser() == "Desktop") {
+                $this->createUpdateBrowser("Desktop", $user);
+            } else if ($this->getBrowser() == "Bot") {
+                $this->createUpdateBrowser("Bot", $user);
+            } else {
+                $this->createUpdateBrowser("Other", $user);
+            }
+
+            $success = [
+                "user" => $user,
+                "access_token" => $user->createToken("authToken")->plainTextToken
+            ];
+
+            return $this->handleResponse($success, "User succesfully connected");
+        } else {
+            return $this->handleResponse("Unauthorized to login",  "Bad email or password", Response::HTTP_FORBIDDEN);
+        }
+    }
+
+    protected function createUpdateBrowser($name, $user)
+    {
+        if ($user->browser) {
+            if ($user->browser->name == $name) {
+                $user->browser->update([
+                    'name' => $name
+                ]);
+            }
+        } else {
+            ModelsBrowser::create([
+                'name' => $name,
+                'user_id' => $user->id
+            ]);
+        }
+    }
+
+    protected function getBrowser()
+    {
+        if (Browser::isMobile()) {
+            return "Mobile";
+        } else if (Browser::isTablet()) {
+            return "Tablet";
+        } else if (Browser::isDesktop()) {
+            return "Desktop";
+        } else if (Browser::isBot()) {
+            return "Bot";
+        } else {
+            return "Other";
+        }
+    }
+
+    /**
+     * Create a personal team for the user.
+     */
+    protected function createTeam(User $user): void
+    {
+        $user->ownedTeams()->save(Team::forceCreate([
+            'user_id' => $user->id,
+            'name' => explode(' ', $user->name, 2)[0] . "'s Team",
+            'personal_team' => true,
+        ]));
+    }
 
     public function register(RegisterRequest $request): JsonResponse
     {
@@ -33,19 +118,59 @@ class AuthController extends Controller
                     'terms' => $request->terms
                 ]);
 
-                $success = ["access_token" => $user->createToken("authToken")->plainTextToken];
+                // assign role to user
+                $user->assignRole('user');
+
+                $this->createTeam($user);
+
+                if ($this->getBrowser() == "Mobile") {
+                    ModelsBrowser::create([
+                        'name' => "Mobile",
+                        'user_id' => $user->id
+                    ]);
+                } else if ($this->getBrowser() == "Tablet") {
+                    ModelsBrowser::create([
+                        'name' => "Tablet",
+                        'user_id' => $user->id
+                    ]);
+                } else if ($this->getBrowser() == "Desktop") {
+                    ModelsBrowser::create([
+                        'name' => "Desktop",
+                        'user_id' => $user->id
+                    ]);
+                } else if ($this->getBrowser() == "Bot") {
+                    ModelsBrowser::create([
+                        'name' => "Bot",
+                        'user_id' => $user->id
+                    ]);
+                } else {
+                    ModelsBrowser::create([
+                        'name' => "Other",
+                        'user_id' => $user->id
+                    ]);
+                }
+
+                // event(new Registered($user));*
+
+                $token = $user->createToken("authToken")->plainTextToken;
+
+                Mail::to($user)->send(new VerificationMail($token));
+
+                $success = [
+                    "user" => $user,
+                    "access_token" => $token
+                ];
 
                 return $this->handleResponse($success, "User succesfully created");
-                // } else {
-                //     return $this->handleResponse("Unauthorized to register again",  "Already registred and connected", Response::HTTP_FORBIDDEN);
-                // }
+            } else {
+                return $this->handleResponse("Unauthorized to register again",  "Already registred and connected", Response::HTTP_FORBIDDEN);
             }
         }
     }
 
     public function logout(Request $request): JsonResponse
     {
-        $request?->user()->currentAccessToken()->delete();
+        auth()->user()->currentAccessToken()->delete();
 
         return $this->handleResponse(null, "User succesfully disconnected");
     }
