@@ -25,15 +25,15 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request): JsonResponse
     {
+        $request->validate([
+            'password' => ['required', 'string'],
+        ]);
+
         if (Auth::attempt([
             "email" => $request->email,
             "password" => $request->password,
         ])) {
             $user = User::find(auth()->user()->id);
-
-                // $request->session()->regenerate();
-            ;
-            // dd($user);
 
             if ($this->getBrowser() == "Mobile") {
                 $this->createUpdateBrowser("Mobile", $user);
