@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import ActionSection from '@/Components/Jet/ActionSection.vue';
 import ConfirmationModal from '@/Components/Jet/ConfirmationModal.vue';
-import DangerButton from '@/Components/DangerButton.vue';
+import DangerButton from '@/Components/Jet/DangerButton.vue';
 import SecondaryButton from '@/Components/Jet/SecondaryButton.vue';
 
 const props = defineProps({

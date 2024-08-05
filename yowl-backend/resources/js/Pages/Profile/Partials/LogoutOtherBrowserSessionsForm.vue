@@ -5,7 +5,7 @@ import ActionMessage from '@/Components/Jet/ActionMessage.vue';
 import ActionSection from '@/Components/Jet/ActionSection.vue';
 import DialogModal from '@/Components/Jet/DialogModal.vue';
 import InputError from '@/Components/Jet/InputError.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import PrimaryButton from '@/Components/Jet/PrimaryButton.vue';
 import SecondaryButton from '@/Components/Jet/SecondaryButton.vue';
 import TextInput from '@/Components/Jet/TextInput.vue';
 

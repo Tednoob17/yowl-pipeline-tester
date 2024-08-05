@@ -3,10 +3,10 @@ import { ref, computed, watch } from 'vue';
 import { router, useForm, usePage } from '@inertiajs/vue3';
 import ActionSection from '@/Components/Jet/ActionSection.vue';
 import ConfirmsPassword from '@/Components/Jet/ConfirmsPassword.vue';
-import DangerButton from '@/Components/DangerButton.vue';
+import DangerButton from '@/Components/Jet/DangerButton.vue';
 import InputError from '@/Components/Jet/InputError.vue';
 import InputLabel from '@/Components/Jet/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import PrimaryButton from '@/Components/Jet/PrimaryButton.vue';
 import SecondaryButton from '@/Components/Jet/SecondaryButton.vue';
 import TextInput from '@/Components/Jet/TextInput.vue';
 
