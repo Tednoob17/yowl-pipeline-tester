@@ -4,7 +4,6 @@ import MobileSvg from './MobileSVG.vue';
 import CommentSvg from './CommentSVG.vue';
 import AverageSvg from './AverageSVG.vue';
 import TimeSvg from './TimeSVG.vue';
-import { ref, defineProps } from 'vue';
 
 const props = defineProps({
     stats: Object,

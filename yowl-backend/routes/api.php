@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\UserPermissionController;
 use App\Http\Controllers\Api\UserRoleController;
 use App\Http\Controllers\Api\UserSettingsController;
+use App\Http\Controllers\ExtensionWebController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -59,5 +60,8 @@ Route::post('/login', [AuthController::class, 'login'])->name('api.login');
 
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+
+Route::post('/extension-web', [ExtensionWebController::class, 'create']);
+Route::get('/extension-web/{id}', [ExtensionWebController::class, 'get']);
 
 require __DIR__ . '/auth/email.php';
