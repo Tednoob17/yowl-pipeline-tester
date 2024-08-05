@@ -1,7 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import DataCard from '@/Components/Stats/DataCard.vue';
-import { ref, defineProps } from 'vue';
 
 const props = defineProps({
     stats: Object,

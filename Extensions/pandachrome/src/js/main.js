@@ -18,8 +18,17 @@ div.style.bottom = '10px';
 
 div.style.right = '10px';
 
-localStorage.setItem('page', page);
-
-div.addEventListener('click', () => {
-    window.open('http://localhost:5173/posts/create/true', '_blank');
+div.addEventListener('click', async () => {
+    await fetch('http://localhost:8000/api/extension-web', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ link: page })
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data);
+            window.open("http://localhost:5174/posts/create/"+data.extensionWeb.id, '_blank');
+        });
 });
