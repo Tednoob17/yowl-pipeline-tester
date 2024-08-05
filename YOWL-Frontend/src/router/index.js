@@ -19,6 +19,16 @@ const router = createRouter({
       component: () => import('../views/RegisterView.vue')
     },
     {
+      path: '/posts/create/:id',
+      name: 'new-post',
+      component: () => import('../views/Post/NewPost.vue')
+    },
+    {
+      path: '/posts/create',
+      name: 'new-post-web',
+      component: () => import('../views/Post/NewPost.vue')
+    },
+    {
       path: '/test',
       name: 'test',
       component: () => import('../views/Testing/TestingView.vue')
