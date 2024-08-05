@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\StoreRequest;
 use App\Http\Requests\Post\UpdateRequest;
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -19,7 +20,7 @@ class PostController extends Controller
      */
     public function index(): JsonResponse
     {
-        $posts = Post::with('user')->paginate(10);
+        $posts = Post::with(['user', 'comment', 'comment.user', 'comment.comment', 'comment.comment.user'])->paginate(10);
 
         return response()->json([
             "success" => true,
@@ -31,18 +32,15 @@ class PostController extends Controller
      * Show the form for creating a new resource.
      * @return \Illuminate\Http\Response
      */
-    public function show($post) : JsonResponse
+    public function show($post): JsonResponse
     {
-        try
-        {
-            $post = Post::with('user')->find($post);
+        try {
+            $post = Post::with(['user', 'comment'])->find($post);
             return response()->json([
                 "success" => true,
                 "post" => $post,
             ]);
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return response()->json([
                 "success" => false,
                 "message" => $e->getMessage(),
@@ -56,16 +54,31 @@ class PostController extends Controller
     public function store(StoreRequest $request): JsonResponse
     {
         try {
-            $post = Post::create([
-                'link' => $request->link,
-                'panda' => $request->panda,
-                'user_id' => Auth::id(),
-            ]);
+            $post = Post::where('link', $request->link)->first();
 
-            return response()->json([
-                "success" => true,
-                "post" => $post,
-            ]);
+            if ($post) {
+                $comment = Comment::create([
+                    'post_id' => $post->id,
+                    'user_id' => Auth::id(),
+                    'content' => $request->panda,
+                ]);
+
+                return response()->json([
+                    "success" => true,
+                    "comment" => $comment,
+                ]);
+            } else {
+                $post = Post::create([
+                    'link' => $request->link,
+                    'panda' => $request->panda,
+                    'user_id' => Auth::id(),
+                ]);
+
+                return response()->json([
+                    "success" => true,
+                    "post" => $post,
+                ]);
+            }
         } catch (\Exception $e) {
             return response()->json([
                 "success" => false,
