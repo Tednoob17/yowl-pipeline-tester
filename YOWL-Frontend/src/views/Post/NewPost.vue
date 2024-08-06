@@ -50,6 +50,12 @@ const submit = async () => {
     })
 }
 
+// await linkPreviewService()
+//   .getLinkPreview()
+//   .then((res) => {
+//     console.log(res)
+//   })
+
 async function loadlink() {
   const id = router.currentRoute.value.params.id
   console.log(id)

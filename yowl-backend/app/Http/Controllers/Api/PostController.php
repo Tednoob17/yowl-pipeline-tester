@@ -7,8 +7,6 @@ use App\Http\Requests\Post\StoreRequest;
 use App\Http\Requests\Post\UpdateRequest;
 use App\Models\Comment;
 use App\Models\Post;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,7 +18,8 @@ class PostController extends Controller
      */
     public function index(): JsonResponse
     {
-        $posts = Post::with(['user', 'comment', 'comment.user', 'comment.comment', 'comment.comment.user'])->paginate(10);
+        $posts = Post::with(['user', 'likes'])->get();
+        //, 'comment', 'comment.user', 'comment.comment', 'comment.comment.user'])->paginate(10);
 
         return response()->json([
             "success" => true,
