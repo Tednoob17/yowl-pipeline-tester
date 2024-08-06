@@ -27,8 +27,13 @@ export const usePostStore = defineStore('posts', () => {
     }
 
     async function createPost(post) {
+        posts.value.posts.unshift({
+            panda: post.panda,
+            link: post.link,
+            images: post.images,
+        })
         await serve.createPost(post).then(response => {
-            posts.value.push(response.data)
+            posts.value.posts.unshift(response.data)
         }).catch(error => {
             console.error(error)
         })
@@ -45,10 +50,16 @@ export const usePostStore = defineStore('posts', () => {
 
     async function deletePost(id) {
         await serve.deletePost(id).then(() => {
-            posts.value = posts.value.filter(p => p.id !== id)
+            const new_table = posts.value.posts.filter(p => p.id !== id)
+            posts.value.posts = new_table
         }).catch(error => {
             console.error(error)
         })
+    }
+
+    function setPost(post)
+    {
+        post.value = post
     }
 
     return {
@@ -56,6 +67,7 @@ export const usePostStore = defineStore('posts', () => {
         post,
         getPosts,
         fetchPosts,
+        setPost,
         fetchPost,
         createPost,
         updatePost,

@@ -48,8 +48,6 @@ class Post extends Model implements HasMedia
         return $this->hasMany(Comment::class);
     }
 
-    // likes
-
     /**
      * Get the likes for the Post
      *
@@ -58,5 +56,15 @@ class Post extends Model implements HasMedia
     public function likes()
     {
         return $this->hasMany(Like::class);
+    }
+
+    /**
+     * Get the postImages for the Post
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function images()
+    {
+        return $this->hasMany(PostImage::class);
     }
 }

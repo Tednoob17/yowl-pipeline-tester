@@ -6,6 +6,7 @@ import { toast } from 'vuetify-sonner'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const enablefa = ref(false)
 const loading = ref(false)
 const authStore = useAuthStore()
 
@@ -23,6 +24,12 @@ function init() {
   })
 }
 
+function enableThefa() {
+  authStore.enablefa(enablefa.value).then(() => {
+    toast.success('2FA updated successfully')
+  })
+}
+
 init()
 
 const logout = () => {
@@ -32,24 +39,25 @@ const logout = () => {
 }
 
 function updatePassword() {
+  if (password.value.old === '') {
+    toast.error('Old password is required')
+    return
+  }
+
   const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/
-  if (!passwordRegex.test(password.new)) {
+  if (!passwordRegex.test(password.value.new)) {
     toast.error(
-      'Password must contain at least 8 characters, including uppercase, lowercase, and numbers'
+      'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number'
     )
     return
   }
 
-  if (password.new !== password.confirm) {
+  if (password.value.new !== password.value.confirm) {
     toast.error('Passwords do not match')
     return
   }
   authStore
-    .updatePassword({
-      old: password.old,
-      new: password.new,
-      confirm: password.confirm
-    })
+    .updatePassword(password.value.old, password.value.new)
     .then(() => {
       toast.success('Password updated successfully')
     })
@@ -70,6 +78,20 @@ function update() {
     .catch(() => {
       toast.error('An error occurred while updating the user')
     })
+}
+
+function deleteAccount() {
+  if (confirm('Are you sure you want to delete your account?')) {
+    authStore
+      .removeAccount()
+      .then(() => {
+        toast.success('User deleted successfully')
+        router.push({ name: 'login' })
+      })
+      .catch(() => {
+        toast.error('An error occurred while deleting the user')
+      })
+  }
 }
 </script>
 
@@ -156,49 +178,47 @@ function update() {
         </div>
         <div class="md:tw-w-[75%] tw-w-full">
           <div>
-            <form action="">
-              <div class="tw-mt-4 tw-pr-4">
+            <div class="tw-mt-4 tw-pr-4">
+              <label class="tw-w-full tw-text-slate-800 tw-text-lg tw-mx-2 tw-font-bold" for=""
+                >Old password</label
+              >
+              <input
+                v-model="password.old"
+                class="tw-mx-2 tw-px-2 tw-text-black tw-w-full tw-rounded-md tw-text-md tw-py-2 tw-my-2 focus:tw-outline-blue-800 tw-bg-[#dee2e6]"
+                type="password"
+                required
+              />
+            </div>
+            <div class="tw-grid">
+              <div class="tw-mt-4 tw-pr-4 md:tw-w-1/2 tw-min-w-full">
                 <label class="tw-w-full tw-text-slate-800 tw-text-lg tw-mx-2 tw-font-bold" for=""
-                  >Old password</label
+                  >New password</label
                 >
                 <input
-                  v-model="password.old"
+                  v-model="password.new"
                   class="tw-mx-2 tw-px-2 tw-text-black tw-w-full tw-rounded-md tw-text-md tw-py-2 tw-my-2 focus:tw-outline-blue-800 tw-bg-[#dee2e6]"
                   type="password"
                   required
                 />
               </div>
-              <div class="tw-grid">
-                <div class="tw-mt-4 tw-pr-4 md:tw-w-1/2 tw-min-w-full">
-                  <label class="tw-w-full tw-text-slate-800 tw-text-lg tw-mx-2 tw-font-bold" for=""
-                    >New password</label
-                  >
-                  <input
-                    v-model="password.new"
-                    class="tw-mx-2 tw-px-2 tw-text-black tw-w-full tw-rounded-md tw-text-md tw-py-2 tw-my-2 focus:tw-outline-blue-800 tw-bg-[#dee2e6]"
-                    type="password"
-                    required
-                  />
-                </div>
-                <div class="tw-mt-4 tw-pr-4 md:tw-w-1/2 tw-min-w-full">
-                  <label class="tw-w-full tw-text-slate-800 tw-text-lg tw-mx-2 tw-font-bold" for=""
-                    >New password confirmation</label
-                  >
-                  <input
-                    v-model="password.confirm"
-                    class="tw-mx-2 tw-px-2 tw-text-black tw-w-full tw-rounded-md tw-text-md tw-py-2 tw-my-2 focus:tw-outline-blue-800 tw-bg-[#dee2e6]"
-                    type="password"
-                    required
-                  />
-                </div>
+              <div class="tw-mt-4 tw-pr-4 md:tw-w-1/2 tw-min-w-full">
+                <label class="tw-w-full tw-text-slate-800 tw-text-lg tw-mx-2 tw-font-bold" for=""
+                  >New password confirmation</label
+                >
+                <input
+                  v-model="password.confirm"
+                  class="tw-mx-2 tw-px-2 tw-text-black tw-w-full tw-rounded-md tw-text-md tw-py-2 tw-my-2 focus:tw-outline-blue-800 tw-bg-[#dee2e6]"
+                  type="password"
+                  required
+                />
               </div>
-              <button
-                @click="updatePassword"
-                class="hover:tw-bg-blue-400 tw-rounded-md tw-font-bold tw-m-2 tw-text-white tw-bg-blue-800 tw-px-4 tw-text-ml tw-p-2"
-              >
-                Update
-              </button>
-            </form>
+            </div>
+            <button
+              @click="updatePassword"
+              class="hover:tw-bg-blue-400 tw-rounded-md tw-font-bold tw-m-2 tw-text-white tw-bg-blue-800 tw-px-4 tw-text-ml tw-p-2"
+            >
+              Update
+            </button>
           </div>
         </div>
       </div>
@@ -209,29 +229,34 @@ function update() {
         </div>
         <div class="md:tw-w-[75%] tw-w-full">
           <div>
-            <form action="">
-              <div class="tw-mt-4 tw-pr-4 tw-flex">
-                <label
-                  class="checkbox tw-text-slate-800 tw-text-lg tw-mx-2 tw-my-auto tw-font-bold"
-                  for=""
-                  >Enable or disable 2FA</label
-                >
-                <div class="tw-pt-2">
-                  <input class="tw-h-6 tw-w-6 tw-my-auto" type="checkbox" id="checkbox" />
-                </div>
-              </div>
-              <button
-                class="hover:tw-bg-blue-400 tw-rounded-md tw-font-bold tw-m-2 tw-text-white tw-bg-blue-800 tw-px-4 tw-text-ml tw-p-2"
+            <div class="tw-mt-4 tw-pr-4 tw-flex">
+              <label
+                class="checkbox tw-text-slate-800 tw-text-lg tw-mx-2 tw-my-auto tw-font-bold"
+                for=""
+                >Enable or disable 2FA</label
               >
-                Update
-              </button>
-            </form>
+              <div class="tw-pt-2">
+                <input
+                  v-model="enablefa"
+                  class="tw-h-6 tw-w-6 tw-my-auto"
+                  type="checkbox"
+                  id="checkbox"
+                />
+              </div>
+            </div>
+            <button
+              @click="enableThefa"
+              class="hover:tw-bg-blue-400 tw-rounded-md tw-font-bold tw-m-2 tw-text-white tw-bg-blue-800 tw-px-4 tw-text-ml tw-p-2"
+            >
+              Update
+            </button>
           </div>
         </div>
       </div>
       <div class="tw-grid tw-justify-center">
         <div class="place-self-end">
           <button
+            @click="deleteAccount"
             class="hover:tw-bg-blue-400 tw-rounded-md tw-font-bold tw-m-2 tw-text-white tw-bg-red-600 tw-px-4 tw-text-ml tw-p-2"
           >
             Delete my account

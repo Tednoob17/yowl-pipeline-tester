@@ -1,15 +1,10 @@
 <script setup>
 import { useNavStore } from '@/stores/tab.store'
 import { useAuthStore } from '@/stores/auth.store'
-import { ref, onBeforeMount } from 'vue'
+import { ref, onBeforeMount, onMounted } from 'vue'
 const navStore = useNavStore()
 const authStore = useAuthStore()
 const username = ref('')
-onBeforeMount(() => {
-  authStore.initAuth().then(() => {
-    username.value = authStore.user.name.split(' ')[0] ?? 'User'
-  })
-});
 </script>
 
 <template>

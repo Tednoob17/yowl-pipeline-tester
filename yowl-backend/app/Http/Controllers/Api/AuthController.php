@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\User\UpdatePasswordRequest;
 use App\Mail\VerificationMail;
 use App\Models\Browser as ModelsBrowser;
 use App\Models\Team;
@@ -233,14 +234,10 @@ class AuthController extends Controller
             : $this->handleResponse("", "Password not reset", 403, false);
     }
 
-    public function updatePassword(Request $request): JsonResponse
+    public function updatePassword(UpdatePasswordRequest $request): JsonResponse
     {
-        $request->validate([
-            'current_password' => 'required',
-            'password' => 'required|confirmed',
-        ]);
 
-        if (!Hash::check($request->current_password, $request->user()->password)) {
+        if (!Hash::check($request->old, $request->user()->password)) {
             return $this->handleResponse("", "Current password is incorrect", 403, false);
         }
 

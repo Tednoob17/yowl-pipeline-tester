@@ -53,11 +53,12 @@ Route::group(['middleware' => ['auth:sanctum', 'ensure-have-age']], function () 
     // settings
     Route::get('/user-set', [UserSettingsController::class, 'index']);
     // enable 2fa
-    Route::post('/enable-2fa', [UserSettingsController::class, 'enable2fa']);
-    // disable 2fa
-    Route::post('/disable-2fa', [UserSettingsController::class, 'disable2fa']);
+    Route::post('/enablefa', [UserSettingsController::class, 'enable2fa']);
+
     // update user profile
     Route::put('/update-profile', [UserSettingsController::class, 'update']);
+    // delete user profile
+    Route::delete('/delete-profile', [UserSettingsController::class, 'deleteAccount']);
 });
 
 Route::post('/register', [AuthController::class, 'register'])->name('api.register');

@@ -22,16 +22,27 @@ export function authService() {
     })
   }
 
-  async function updatePassword(passwords) {
-    return axios.put('/update-password', passwords)
+  async function updatePassword(old, password) {
+    return axios.post('/update-password', { old: old, password: password })
   }
 
   async function logout() {
     return axios.post('/logout')
   }
 
+  async function enablefa(value) {
+    return axios.post('/enablefa', { value: value })
+  }
+
+  async function removeAccount() {
+    return axios.delete('/delete-profile')
+  }
+
   return {
+    removeAccount,
     updatePassword,
+    axios,
+    enablefa,
     current,
     login,
     updateUser,

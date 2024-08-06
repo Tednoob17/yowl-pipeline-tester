@@ -34,19 +34,6 @@ class UserSettingsController extends Controller
         ], 200);
     }
 
-    public function disable2fa(Request $request)
-    {
-        $user = auth()->user();
-
-        // $user->twoFactorAuthenticatable()->disableTwoFactorAuth();
-
-        return response()->json([
-            "status" => "success",
-            "message" => "2FA disabled successfully",
-            "user" => $user
-        ], 200);
-    }
-
     /**
      * Validate and update the given user's profile information.
      *
@@ -99,6 +86,26 @@ class UserSettingsController extends Controller
         ])->save();
 
         $user->sendEmailVerificationNotification();
+    }
+
+    public function deleteAccount(Request $request)
+    {
+        try
+        {
+            $user = auth()->user();
+            $user->delete();
+            return response()->json([
+                "status" => "success",
+                "message" => "User deleted successfully"
+            ], 200);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json([
+                "status" => "error",
+                "message" => "An error occurred while deleting the user"
+            ], 500);
+        }
     }
 }
 
