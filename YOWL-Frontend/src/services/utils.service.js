@@ -6,7 +6,7 @@ export function utilsService()
 
     async function getVal(url)
     {
-        return (await serve.get(url)).data;
+        return (await serve.get(url));
     }
 
     return {
