@@ -20,7 +20,7 @@ class PostController extends Controller
     {
         $posts = Post::with(['user', 'likes'])->get();
         foreach ($posts as $post) {
-            $post["medias"] = $post->getMedia();
+            $post["medias"] = $post->getMedia('default');
         }
         //, 'comment', 'comment.user', 'comment.comment', 'comment.comment.user'])->paginate(10);
 

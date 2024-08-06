@@ -2,8 +2,8 @@
 import { useRouter } from 'vue-router'
 import { usePostStore } from '@/stores/post.store'
 import { ref } from 'vue'
-import { useCreatePostStore } from '@/stores/createpost.store';
-import { utilsService } from '@/services/utils.service';
+import { useCreatePostStore } from '@/stores/createpost.store'
+import { utilsService } from '@/services/utils.service'
 
 const dialogStore = useCreatePostStore()
 const postStore = usePostStore()
@@ -11,13 +11,14 @@ const router = useRouter()
 const link = ref('')
 const content = ref('')
 const errors = ref('')
+const image = ref(null)
 const locked = ref(false)
 
 const submit = async () => {
   await postStore
-    .createPost({ panda: content.value, link: link.value })
+    .createPost({ panda: content.value, link: link.value, file: image.value })
     .then(() => {
-      router.push({ name: 'home' })
+      dialogStore.setDialog(false)
     })
     .catch((error) => {
       console.log(error)
@@ -56,6 +57,13 @@ if (router.currentRoute.value.name === 'new-post' && !!router.currentRoute.value
             outlined
             :error-messages="errors"
           ></v-text-field>
+          <v-file-input clearable v-model="image" accept="image/*" label="Image">
+            <template v-slot:prepend>
+              <v-chip v-if="image" label close @click:close="image = null">
+                {{ image.name }}
+              </v-chip>
+            </template>
+          </v-file-input>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>

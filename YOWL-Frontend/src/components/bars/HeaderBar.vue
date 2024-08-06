@@ -1,6 +1,8 @@
 <script setup>
 import { useNavStore } from '@/stores/tab.store';
+import { useCreatePostStore } from '@/stores/createpost.store';
 
+const dialogStore = useCreatePostStore();
 const tabStore = useNavStore();
 </script>
 <template>
@@ -13,6 +15,12 @@ const tabStore = useNavStore();
         <v-tab value="hot">Hot <v-icon>mdi-fire</v-icon></v-tab>
         <v-tab value="rising">Rising <v-icon>mdi-panda</v-icon></v-tab>
       </v-tabs>
+    </div>
+    <div class="tw-flex">
+      <v-btn @click="dialogStore.setDialog()" class="tw-my-auto tw-mx-5" variant="text" color="primary">
+        <v-icon>mdi-plus</v-icon>
+        New panda
+      </v-btn>
     </div>
   </div>
 </template>

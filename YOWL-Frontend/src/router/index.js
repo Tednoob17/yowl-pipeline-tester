@@ -32,8 +32,27 @@ const router = createRouter({
       path: '/test',
       name: 'test',
       component: () => import('../views/Testing/TestingView.vue')
+    },
+    // not found
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('../views/NotFoundView.vue'),
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/login', '/register', '/forgot-password', '/reset-password'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem('token');
+
+  if (authRequired && !loggedIn) {
+    return next('/login');
+  }
+
+  next();
+});
+
 
 export default router

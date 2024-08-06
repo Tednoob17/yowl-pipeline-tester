@@ -12,7 +12,7 @@ export function baseService() {
   const axios = Axios.create({
     baseURL: baseURL,
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'multipart/form-data',
       Accept: 'application/json'
     }
   })

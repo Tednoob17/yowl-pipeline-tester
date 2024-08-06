@@ -22,18 +22,35 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function login(credentials) {
-    user.value = (await serve.login(credentials)).data
-    localStorage.setItem('user', JSON.stringify(user.value))
-    localStorage.setItem('token', user.value.data.access_token)
-    return user.value
+    return await serve
+      .login(credentials)
+      .then((response) => {
+        user.value = response.data
+        localStorage.setItem('user', JSON.stringify(user.value))
+        localStorage.setItem('token', user.value.data.access_token)
+      })
+      .then(() => {
+        return true
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   }
 
   async function register(credentials) {
-    const result = (await serve.register(credentials)).data
-    localStorage.setItem('user', JSON.stringify(result))
-    user.value = result
-    localStorage.setItem('token', user.value.data.access_token)
-    return user.value
+    await serve
+      .register(credentials)
+      .then((response) => {
+        user.value = response.data
+        localStorage.setItem('user', JSON.stringify(user.value))
+        localStorage.setItem('token', user.value.data.access_token)
+      })
+      .then(() => {
+        return true
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   }
 
   async function logout() {
