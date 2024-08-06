@@ -19,6 +19,9 @@ class PostController extends Controller
     public function index(): JsonResponse
     {
         $posts = Post::with(['user', 'likes'])->get();
+        foreach ($posts as $post) {
+            $post["medias"] = $post->getMedia();
+        }
         //, 'comment', 'comment.user', 'comment.comment', 'comment.comment.user'])->paginate(10);
 
         return response()->json([
@@ -38,6 +41,7 @@ class PostController extends Controller
             return response()->json([
                 "success" => true,
                 "post" => $post,
+                "media" => $post->getMedia(),
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -72,6 +76,8 @@ class PostController extends Controller
                     'panda' => $request->panda,
                     'user_id' => Auth::id(),
                 ]);
+
+                $post->addAllMediaFromRequest();
 
                 return response()->json([
                     "success" => true,

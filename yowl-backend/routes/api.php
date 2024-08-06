@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\UserPermissionController;
 use App\Http\Controllers\Api\UserRoleController;
 use App\Http\Controllers\Api\UserSettingsController;
 use App\Http\Controllers\ExtensionWebController;
+use App\Http\Controllers\LikeController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +45,10 @@ Route::group(['middleware' => ['auth:sanctum', 'ensure-have-age']], function () 
     Route::post('posts', [PostController::class, 'store']);
     Route::put('posts/{post}', [PostController::class, 'update']);
     Route::delete('posts/{post}', [PostController::class, 'destroy']);
+
+    // likes route
+    Route::get('likes/{post}', [LikeController::class, 'index']); // get all likes for a post
+    Route::delete('likes/{like}', [LikeController::class, 'destroy']); // dislike
 
     // settings
     Route::get('/user-set', [UserSettingsController::class, 'index']);
