@@ -13,7 +13,11 @@ export function postService() {
   }
 
   async function createPost(post) {
-    return axios.post(base_url, post)
+    return axios.post(base_url, post, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
   }
 
   async function updatePost(id, post) {

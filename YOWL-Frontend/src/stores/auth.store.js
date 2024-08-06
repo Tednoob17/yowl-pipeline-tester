@@ -4,7 +4,7 @@ import { authService } from '@/services/auth.service'
 
 export const useAuthStore = defineStore('auth', () => {
   const serve = authService()
-  const user = ref(null)
+  const user = ref({})
 
   const isLoggedIn = computed(() => !!user.value)
 
@@ -14,11 +14,10 @@ export const useAuthStore = defineStore('auth', () => {
 
   const getUserBirthdate = computed(() => user.value?.birthdate)
 
-  function initAuth() {
-    const local_user = localStorage.getItem('user')
-    if (!!local_user) {
-      user.value = JSON.parse(local_user)
-    }
+  async function initAuth() {
+    return await serve.current().then((response) => {
+      return user.value = response.data
+    })
   }
 
   async function login(credentials) {
@@ -35,6 +34,24 @@ export const useAuthStore = defineStore('auth', () => {
       .catch((error) => {
         console.error(error)
       })
+  }
+
+  async function updateUser(user) {
+    await serve
+      .updateUser(user)
+      .then(() => {
+        localStorage.setItem('user', JSON.stringify(user.value))
+      })
+      .then(() => {
+        return true
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
+  async function updatePassword(passwords) {
+    await serve.updatePassword(passwords)
   }
 
   async function register(credentials) {
@@ -56,6 +73,7 @@ export const useAuthStore = defineStore('auth', () => {
   async function logout() {
     await serve.logout()
     localStorage.removeItem('user')
+    localStorage.removeItem('token')
     user.value = null
   }
 
@@ -69,6 +87,9 @@ export const useAuthStore = defineStore('auth', () => {
     getUserName,
     getUserEmail,
     getUserBirthdate,
+    updatePassword,
+    updateUser,
+    veryfymail,
     initAuth,
     login,
     register,

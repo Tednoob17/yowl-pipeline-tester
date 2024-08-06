@@ -57,7 +57,7 @@ Route::group(['middleware' => ['auth:sanctum', 'ensure-have-age']], function () 
     // disable 2fa
     Route::post('/disable-2fa', [UserSettingsController::class, 'disable2fa']);
     // update user profile
-    Route::post('/update-profile', [UserSettingsController::class, 'update']);
+    Route::put('/update-profile', [UserSettingsController::class, 'update']);
 });
 
 Route::post('/register', [AuthController::class, 'register'])->name('api.register');

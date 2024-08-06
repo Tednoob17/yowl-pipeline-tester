@@ -15,6 +15,17 @@
       </v-skeleton-loader>
     </div>
     <CreateModal />
+    <v-fab
+      @click="postDialStore.setDialog(true)"
+      color="primary"
+      icon="mdi-plus"
+      class="n-ms-4 mb-4"
+      location="bottom end"
+      size="64"
+      absolute
+      app
+      appear
+    ></v-fab>
   </div>
 </template>
 

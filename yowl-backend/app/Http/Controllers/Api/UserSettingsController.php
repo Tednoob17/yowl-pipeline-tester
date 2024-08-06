@@ -52,7 +52,7 @@ class UserSettingsController extends Controller
      *
      * @param  array<string, mixed>  $input
      */
-    public function update(UserUpdateRequest $request): JsonResponse
+    public function update(Request $request): JsonResponse
     {
         $user = auth()->user();
 
