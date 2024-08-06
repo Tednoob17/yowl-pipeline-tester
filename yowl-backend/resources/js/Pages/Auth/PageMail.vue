@@ -1,1 +1,5 @@
-
+<template>
+    <main>
+        
+    </main>
+</template>
