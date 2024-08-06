@@ -11,6 +11,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 // use Laravel\Scout\Searchable;
 
@@ -34,6 +35,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'github_id',
     ];
 
     /**

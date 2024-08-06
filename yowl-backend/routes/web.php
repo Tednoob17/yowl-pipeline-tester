@@ -16,13 +16,9 @@ Route::get("/", function () {
 });
 
 
-Route::get('/auth/redirect', function() {
-    return Socialite::driver('github')->redirect();
-});
+Route::get('/auth/github', [GithubController::class, 'redirect'])->name('auth.github');
 
-Route::get('/auth/callback', function () {
-    $user = Socialite::driver('github')->user();
-});
+Route::get('/auth/github/callback', [GithubController::class, 'callback']);
 
 
 Route::middleware([
