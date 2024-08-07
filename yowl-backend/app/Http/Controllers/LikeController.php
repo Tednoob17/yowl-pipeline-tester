@@ -20,26 +20,34 @@ class LikeController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($like)
+    // if exists, remove like, else create like
+    public function store(Request $request)
     {
         try
         {
-            $like = Like::find($like);
-            $like->delete();
-
-            return response()->json([
-                "success" => true,
-                "message" => "Like deleted successfully",
-            ]);
+            $like = Like::where('post_id', $request->post_id)->where('user_id', $request->user_id)->first();
+            if ($like)
+            {
+                $like->delete();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Like removed.',
+                ]);
+            }
+            else
+            {
+                $like = Like::create($request->all());
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Like created.',
+                ]);
+            }
         }
         catch (\Exception $e)
         {
             return response()->json([
-                "success" => false,
-                "message" => $e->getMessage(),
+                'success' => false,
+                'message' => $e->getMessage(),
             ]);
         }
     }
