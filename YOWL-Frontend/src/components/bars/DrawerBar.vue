@@ -1,7 +1,7 @@
 <script setup>
+import { ref, onMounted } from 'vue'
 import { useNavStore } from '@/stores/tab.store'
 import { useAuthStore } from '@/stores/auth.store'
-import { ref, onBeforeMount, onMounted } from 'vue'
 const navStore = useNavStore()
 const authStore = useAuthStore()
 const username = ref('')
@@ -17,7 +17,7 @@ const username = ref('')
         </template>
         <v-list-item-title>Home</v-list-item-title>
       </v-list-item>
-      <v-list-item :to="`/profile/${username}`">
+      <v-list-item :to="`/profile`">
         <template v-slot:prepend>
           <v-icon icon="mdi-account"></v-icon>
         </template>

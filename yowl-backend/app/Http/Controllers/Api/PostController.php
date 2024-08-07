@@ -37,7 +37,7 @@ class PostController extends Controller
     public function show($post): JsonResponse
     {
         try {
-            $post = Post::with(['user', 'comment'])->find($post);
+            $post = Post::with(['user', 'likes', 'comment', 'images'])->find($post);
             return response()->json([
                 "success" => true,
                 "post" => $post,

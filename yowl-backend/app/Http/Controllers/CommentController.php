@@ -26,6 +26,23 @@ class CommentController extends Controller
         }
     }
 
+    public function getPostComments($post)
+    {
+        try
+        {
+            $comments = Comment::with('user')->where('post_id', $post)->get();
+            return response()->json([
+                'status' => 'success',
+                'comments' => $comments,
+            ]);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+    
+
     /**
      * Store a newly created resource in storage.
      */
@@ -54,7 +71,7 @@ class CommentController extends Controller
         try
         {
             $comment = Comment::with('user')->find($comment);
-            
+
             return response()->json([
                 'status' => 'success',
                 'comment' => $comment,

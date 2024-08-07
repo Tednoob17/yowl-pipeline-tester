@@ -114,7 +114,7 @@ function deleteAccount() {
           <div class="md:tw-flex">
             <img
               class="tw-h-20 tw-rounded-lg tw-mt-4 tw-mx-4"
-              src="../../assets/profile photo.jpg"
+              :src="authStore.user.profile_photo_url"
               alt=""
             />
             <div class="tw-mt-6">

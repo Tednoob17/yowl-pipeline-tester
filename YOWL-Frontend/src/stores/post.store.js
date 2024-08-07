@@ -6,7 +6,7 @@ export const usePostStore = defineStore('posts', () => {
 
     const posts = ref([])
     const serve = postService()
-    const post = ref(null)
+    const post = ref({})
 
     const getPosts = computed(() => posts.value)
 
@@ -20,7 +20,7 @@ export const usePostStore = defineStore('posts', () => {
 
     async function fetchPost(id) {
         await serve.getPost(id).then(response => {
-            post.value = response.data
+            post.value = response.data.post
         }).catch(error => {
             console.error(error)
         })
@@ -57,15 +57,29 @@ export const usePostStore = defineStore('posts', () => {
         })
     }
 
-    function setPost(post)
+    function setPost(posts)
     {
-        post.value = post
+        post.value = posts
+    }
+
+    async function newComment(comment, post_id, user_id)
+    {
+        post.value.comment.unshift({
+            comment: comment,
+            post_id: post_id,
+        })
+        await serve.newComment(comment, post_id, user_id).then(response => {
+            post.value.comment.unshift(response.data.comments)
+        }).catch(error => {
+            console.error(error)
+        })
     }
 
     return {
         posts,
         post,
         getPosts,
+        newComment,
         fetchPosts,
         setPost,
         fetchPost,
