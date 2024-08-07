@@ -20,6 +20,10 @@ export const useAuthStore = defineStore('auth', () => {
       authenticated.value = true
       user.value = response.data
       localStorage.setItem('user', JSON.stringify(user.value))
+    }).then(() => {
+      return true
+    }).catch((error) => {
+      console.error(error)
     })
   }
 

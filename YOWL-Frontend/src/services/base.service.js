@@ -36,10 +36,10 @@ export function baseService() {
     },
     (error) => {
       if (error.response.status === 401 || error.response.status === 403) {
-        // localStorage.removeItem('token')
-        // localStorage.removeItem('user')
-        // router.push('/login')
-        // toast.error('You are not authorized to access this resource')
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        router.push('/login')
+        toast.error('You are not authorized to access this resource')
       }
       return Promise.reject(error)
     }
