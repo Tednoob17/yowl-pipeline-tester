@@ -139,7 +139,7 @@ watch(
   <main>
     <div class="form-content signs-up">
       <v-card cariant="flat" elevation="0" height="100%">
-        <v-form>
+        <v-form class="sign-up-form">
           <v-card-title>
             <div>
               <div class="text-h4 text-center">

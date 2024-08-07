@@ -10,11 +10,9 @@ authStore.initAuth();
 </script>
 
 <template>
-  <v-app>
     <header-bar></header-bar>
     <v-main>
       <RouterView />
       <VSonner />
     </v-main>
-  </v-app>
 </template>

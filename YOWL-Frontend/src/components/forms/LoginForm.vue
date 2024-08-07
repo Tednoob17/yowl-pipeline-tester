@@ -104,5 +104,5 @@ watch(
         </v-form>
       </v-card-text>
     </v-card>
-  </main>
+</main>
 </template>

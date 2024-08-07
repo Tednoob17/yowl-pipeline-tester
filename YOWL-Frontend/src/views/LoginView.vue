@@ -1,14 +1,14 @@
 <script setup>
-import LoginForm from '@/components/forms/LoginForm.vue'
-import '@/assets/css/login.css'
+import LoginForm from '@/components/forms/LoginForm.vue';
+import '../assets/css/style.css'
 </script>
 
 <template>
-  <div class="tw-flex tw-items-center tw-justify-center tw-h-screen">
-    <div class="container" id="container">
-      <login-form></login-form>
+  <div class="tw-flex tw-items-center tw-justify-center tw-h-screen" id="container">
+    <div class="container">
+      <login-form class="tw-w-full"></login-form>
 
-      <div class="toggle-container">
+  <div class="toggle-container">
         <div class="toggle">
           <div class="toggle-panel toggle-right">
             <div class="text-h4 text-center">
@@ -19,6 +19,7 @@ import '@/assets/css/login.css'
           </div>
         </div>
       </div>
-    </div>
   </div>
+  </div>
+
 </template>
