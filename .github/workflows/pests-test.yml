@@ -24,7 +24,7 @@ jobs:
         fail-fast: true
 
     - name: Install dependencies
-      run: composer install
+      run: cd yowl-backend && composer install
 
     - name: Run Laravel Pest tests
       run: ./yowl-backend/vendor/bin/pest
