@@ -19,7 +19,7 @@ class PostController extends Controller
      */
     public function index(): JsonResponse
     {
-        $posts = Post::with(['user', 'likes', 'images'])->get();
+        $posts = Post::with(['user', 'likes', 'images'])->withCount('comment')->get();
         //, 'comment', 'comment.user', 'comment.comment', 'comment.comment.user'])->paginate(10);
 
         // $limit_posts = Post::withCount('comment')->having('comment_count', '<', 10)->get();
@@ -37,7 +37,7 @@ class PostController extends Controller
     public function show($post): JsonResponse
     {
         try {
-            $post = Post::with(['user', 'likes', 'comment', 'images'])->find($post);
+            $post = Post::with(['user', 'likes', 'comment', 'comment.user', 'images'])->find($post);
             return response()->json([
                 "success" => true,
                 "post" => $post,
@@ -57,6 +57,8 @@ class PostController extends Controller
     public function store(StoreRequest $request): JsonResponse
     {
         try {
+            $request->link = str_replace('http', 'https', $request->link);
+
             $post = Post::where('link', $request->link)->first();
 
             if ($post) {

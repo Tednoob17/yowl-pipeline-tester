@@ -1,0 +1,20 @@
+{
+  "browser_action": {
+    "default_title": "Free pandas",
+    "default_popup": "src/description.html"
+  },
+  "name": "Free Pandas",
+  "description": "Extension powered by free pandas to get link on all internet and share them with pandas community website",
+  "version": "1.0",
+  "content_scripts": [
+    {
+      "js": [
+        "src/js/main.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]  
+}
+

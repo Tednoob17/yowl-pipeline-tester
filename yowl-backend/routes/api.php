@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth:sanctum', 'ensure-have-age']], function () 
     Route::apiResource('notes', NoteController::class);
     Route::apiResource('categories', CategorieController::class);
     Route::apiResource('comments', CommentController::class);
+    Route::post('comments/{post}', [CommentController::class, 'getPostComments']);
     Route::apiResource('rooms', RoomController::class);
     Route::apiResource('messages', MessageController::class);
 
