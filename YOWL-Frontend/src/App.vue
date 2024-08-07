@@ -12,4 +12,5 @@ import { useAuthStore } from './stores/auth.store';
       <RouterView />
       <VSonner />
     </v-main>
+  </v-app>
 </template>
