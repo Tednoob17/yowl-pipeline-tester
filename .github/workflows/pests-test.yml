@@ -1,0 +1,30 @@
+name: Run Pests Tests
+
+on: 
+  push:
+    branches: [deploy-test]
+  pull_request:
+    branches: [deploy-test]
+
+jobs: 
+  check-pests:
+    runs-on: ubuntu-latest
+
+
+    steps:
+    - name: Checkout test by test
+      uses: actions/checkout@v4
+
+    - name: Setup PHP with tools
+      uses: shivammathur/setup-php@v2
+      with: 
+        php-version: '8.3'
+        tools: composer:v2
+      env:
+        fail-fast: true
+
+    - name: Install dependencies
+      run: composer install
+
+    - name: Run Laravel Pest tests
+      run: ./yowl-backend/vendor/bin/pest
