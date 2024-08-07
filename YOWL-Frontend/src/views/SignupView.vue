@@ -4,7 +4,7 @@
 import { ref, watch, computed } from 'vue'
 import { useAuthStore } from '@/stores/auth.store'
 import { useRouter } from 'vue-router'
-import '@/assets/css/signup.css'
+// import '@/assets/css/signup.css'
 
 const authStore = useAuthStore()
 

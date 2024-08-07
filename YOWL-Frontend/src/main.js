@@ -1,12 +1,9 @@
-import './assets/css/main.css'
-import './assets/css/login.css'
-import './assets/css/signin.css'
-import './assets/css/signup.css'
-
 import { vuetify } from './plugins/vuetify'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import './assets/css/main.css'
+import './assets/css/login.css'
 
 import App from './App.vue'
 import router from './router'
