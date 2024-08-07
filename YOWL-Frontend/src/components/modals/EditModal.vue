@@ -26,11 +26,6 @@ function completeUpdate() {
   updatePost
 }
 
-// function deleteComment(id) {
-//   postStore.deleteComment(id)
-//   toast.error('Commentaire supprimé')
-// }
-
 function deletePost() {
   postStore.deletePost(postStore.post.id)
   tabStore.editDialog = false
