@@ -1,6 +1,6 @@
 <script setup>
 import LoginForm from '@/components/forms/LoginForm.vue';
-import '../assets/css/'
+import '../assets/css/login.css'
 </script>
 
 <template>
