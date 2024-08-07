@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { useRouter} from 'vue-router'
+import { useRouter } from 'vue-router'
 import { toast } from 'vuetify-sonner'
 
 export function baseService() {
@@ -35,6 +35,12 @@ export function baseService() {
       return response
     },
     (error) => {
+      if (error.response.status === 401 || error.response.status === 403) {
+        // localStorage.removeItem('token')
+        // localStorage.removeItem('user')
+        // router.push('/login')
+        // toast.error('You are not authorized to access this resource')
+      }
       return Promise.reject(error)
     }
   )

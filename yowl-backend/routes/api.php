@@ -10,6 +10,8 @@ use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\UserPermissionController;
 use App\Http\Controllers\Api\UserRoleController;
 use App\Http\Controllers\Api\UserSettingsController;
+use App\Http\Controllers\ExtensionWebController;
+use App\Http\Controllers\LikeController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::group(['middleware' => ['auth:sanctum',]], function () {
+Route::group(['middleware' => ['auth:sanctum', 'ensure-have-age']], function () {
     Route::post('/update-password', [AuthController::class, 'updatePassword']);
 
     // profile
@@ -44,14 +46,19 @@ Route::group(['middleware' => ['auth:sanctum',]], function () {
     Route::put('posts/{post}', [PostController::class, 'update']);
     Route::delete('posts/{post}', [PostController::class, 'destroy']);
 
+    // likes route
+    Route::get('likes/{post}', [LikeController::class, 'index']); // get all likes for a post
+    Route::delete('likes/{like}', [LikeController::class, 'destroy']); // dislike
+
     // settings
     Route::get('/user-set', [UserSettingsController::class, 'index']);
     // enable 2fa
-    Route::post('/enable-2fa', [UserSettingsController::class, 'enable2fa']);
-    // disable 2fa
-    Route::post('/disable-2fa', [UserSettingsController::class, 'disable2fa']);
+    Route::post('/enablefa', [UserSettingsController::class, 'enable2fa']);
+
     // update user profile
-    Route::post('/update-profile', [UserSettingsController::class, 'update']);
+    Route::put('/update-profile', [UserSettingsController::class, 'update']);
+    // delete user profile
+    Route::delete('/delete-profile', [UserSettingsController::class, 'deleteAccount']);
 });
 
 Route::post('/register', [AuthController::class, 'register'])->name('api.register');
@@ -59,5 +66,8 @@ Route::post('/login', [AuthController::class, 'login'])->name('api.login');
 
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+
+Route::post('/extension-web', [ExtensionWebController::class, 'create']);
+Route::get('/extension-web/{id}', [ExtensionWebController::class, 'get']);
 
 require __DIR__ . '/auth/email.php';

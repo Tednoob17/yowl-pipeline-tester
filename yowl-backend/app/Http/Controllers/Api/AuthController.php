@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\User\UpdatePasswordRequest;
 use App\Mail\VerificationMail;
+use App\Models\Browser as ModelsBrowser;
 use App\Models\Team;
 use App\Models\User;
+use Browser;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
@@ -23,13 +26,27 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request): JsonResponse
     {
+        $request->validate([
+            'password' => ['required', 'string'],
+        ]);
+
         if (Auth::attempt([
             "email" => $request->email,
             "password" => $request->password,
         ])) {
             $user = User::find(auth()->user()->id);
 
-            $request->session()->regenerate();
+            if ($this->getBrowser() == "Mobile") {
+                $this->createUpdateBrowser("Mobile", $user);
+            } else if ($this->getBrowser() == "Tablet") {
+                $this->createUpdateBrowser("Tablet", $user);
+            } else if ($this->getBrowser() == "Desktop") {
+                $this->createUpdateBrowser("Desktop", $user);
+            } else if ($this->getBrowser() == "Bot") {
+                $this->createUpdateBrowser("Bot", $user);
+            } else {
+                $this->createUpdateBrowser("Other", $user);
+            }
 
             $success = [
                 "user" => $user,
@@ -42,6 +59,36 @@ class AuthController extends Controller
         }
     }
 
+    protected function createUpdateBrowser($name, $user)
+    {
+        if ($user->browser) {
+            if ($user->browser->name == $name) {
+                $user->browser->update([
+                    'name' => $name
+                ]);
+            }
+        } else {
+            ModelsBrowser::create([
+                'name' => $name,
+                'user_id' => $user->id
+            ]);
+        }
+    }
+
+    protected function getBrowser()
+    {
+        if (Browser::isMobile()) {
+            return "Mobile";
+        } else if (Browser::isTablet()) {
+            return "Tablet";
+        } else if (Browser::isDesktop()) {
+            return "Desktop";
+        } else if (Browser::isBot()) {
+            return "Bot";
+        } else {
+            return "Other";
+        }
+    }
 
     /**
      * Create a personal team for the user.
@@ -76,6 +123,33 @@ class AuthController extends Controller
                 $user->assignRole('user');
 
                 $this->createTeam($user);
+
+                if ($this->getBrowser() == "Mobile") {
+                    ModelsBrowser::create([
+                        'name' => "Mobile",
+                        'user_id' => $user->id
+                    ]);
+                } else if ($this->getBrowser() == "Tablet") {
+                    ModelsBrowser::create([
+                        'name' => "Tablet",
+                        'user_id' => $user->id
+                    ]);
+                } else if ($this->getBrowser() == "Desktop") {
+                    ModelsBrowser::create([
+                        'name' => "Desktop",
+                        'user_id' => $user->id
+                    ]);
+                } else if ($this->getBrowser() == "Bot") {
+                    ModelsBrowser::create([
+                        'name' => "Bot",
+                        'user_id' => $user->id
+                    ]);
+                } else {
+                    ModelsBrowser::create([
+                        'name' => "Other",
+                        'user_id' => $user->id
+                    ]);
+                }
 
                 // event(new Registered($user));*
 
@@ -160,14 +234,10 @@ class AuthController extends Controller
             : $this->handleResponse("", "Password not reset", 403, false);
     }
 
-    public function updatePassword(Request $request): JsonResponse
+    public function updatePassword(UpdatePasswordRequest $request): JsonResponse
     {
-        $request->validate([
-            'current_password' => 'required',
-            'password' => 'required|confirmed',
-        ]);
 
-        if (!Hash::check($request->current_password, $request->user()->password)) {
+        if (!Hash::check($request->old, $request->user()->password)) {
             return $this->handleResponse("", "Current password is incorrect", 403, false);
         }
 

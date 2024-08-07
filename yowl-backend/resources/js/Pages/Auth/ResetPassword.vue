@@ -4,7 +4,7 @@ import AuthenticationCard from '@/Components/Jet/AuthenticationCard.vue';
 import AuthenticationCardLogo from '@/Components/Jet/AuthenticationCardLogo.vue';
 import InputError from '@/Components/Jet/InputError.vue';
 import InputLabel from '@/Components/Jet/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import PrimaryButton from '@/Components/Jet/PrimaryButton.vue';
 import TextInput from '@/Components/Jet/TextInput.vue';
 
 const props = defineProps({

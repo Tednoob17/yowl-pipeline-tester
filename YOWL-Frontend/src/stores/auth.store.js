@@ -4,7 +4,8 @@ import { authService } from '@/services/auth.service'
 
 export const useAuthStore = defineStore('auth', () => {
   const serve = authService()
-  const user = ref(null)
+  const user = ref({})
+  const authenticated = ref(false)
 
   const isLoggedIn = computed(() => !!user.value)
 
@@ -14,28 +15,74 @@ export const useAuthStore = defineStore('auth', () => {
 
   const getUserBirthdate = computed(() => user.value?.birthdate)
 
-  function initAuth() {
-    const local_user = localStorage.getItem('user')
-    if (!!local_user) {
-      user.value = JSON.parse(local_user)
-    }
+  async function initAuth() {
+    authenticated.value = true
+    return await serve.current().then((response) => {
+      authenticated.value = false
+      return (user.value = response.data)
+    })
   }
 
   async function login(credentials) {
-    user.value = (await serve.login(credentials)).data
-    localStorage.setItem('user', JSON.stringify(user.value))
-    return user.value
+    return await serve
+      .login(credentials)
+      .then((response) => {
+        user.value = response.data
+        localStorage.setItem('user', JSON.stringify(user.value))
+        localStorage.setItem('token', user.value.data.access_token)
+      })
+      .then(async () => {
+        serve.axios.defaults.headers.common['Authorization'] =
+          `Bearer ${user.value.data.access_token}`
+        // get user data
+        await initAuth()
+      })
+      .then(() => {
+        return true
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
+  async function updateUser(user) {
+    await serve
+      .updateUser(user)
+      .then(() => {
+        localStorage.setItem('user', JSON.stringify(user.value))
+      })
+      .then(() => {
+        return true
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
+  async function updatePassword(old, newpass) {
+    await serve.updatePassword(old, newpass)
   }
 
   async function register(credentials) {
-    const result = (await serve.register(credentials)).data
-    localStorage.setItem('user', JSON.stringify(result))
-    return user.value
+    await serve
+      .register(credentials)
+      .then((response) => {
+        user.value = response.data
+        localStorage.setItem('user', JSON.stringify(user.value))
+        localStorage.setItem('token', user.value.data.access_token)
+      })
+      .then(() => {
+        return true
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   }
 
   async function logout() {
     await serve.logout()
     localStorage.removeItem('user')
+    localStorage.removeItem('token')
     user.value = null
   }
 
@@ -43,12 +90,26 @@ export const useAuthStore = defineStore('auth', () => {
     return (await serve.veryfymail(email)).data
   }
 
+  async function enablefa(value) {
+    return (await serve.enablefa(value)).data
+  }
+
+  async function removeAccount() {
+    return (await serve.removeAccount()).data
+  }
+
   return {
     user,
+    authenticated,
+    removeAccount,
     isLoggedIn,
+    enablefa,
     getUserName,
     getUserEmail,
     getUserBirthdate,
+    updatePassword,
+    updateUser,
+    veryfymail,
     initAuth,
     login,
     register,
