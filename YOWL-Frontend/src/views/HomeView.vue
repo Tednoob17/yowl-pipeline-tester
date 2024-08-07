@@ -4,6 +4,13 @@
 
     <v-skeleton-loader :loading="tabStore.mainLoading" type="card">
       <div
+        class="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center tw-h-96"
+        v-if="postStore.getPosts.posts < 1"
+      >
+          Aucun pandas trouvé
+    </div>
+      <div
+        v-else
         class="tw-grid tw-grid-flow-row tw-grid-cols-1 sm:tw-grid-cols-2 md:tw-grid-cols-3 lg:tw-grid-cols-4 tw-gap-4 tw-p-5"
       >
         <div class="tw-w-full" v-for="post in postStore.getPosts.posts" :key="post.id">
@@ -40,11 +47,11 @@
                 icon="mdi-comment-multiple-outline"
                 text
               ></v-btn>
-              <v-btn
-                color="black"
-                icon="mdi-pencil"
-                text
-              ></v-btn>
+              <div
+                class="mx-2"
+              >
+                {{ post.comment_count }}
+            </div>
               <v-spacer></v-spacer>
               <v-btn
                 @click="postStore.deletePost(post.id)"

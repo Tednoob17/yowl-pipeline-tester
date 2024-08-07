@@ -1,16 +1,43 @@
 <script setup>
-import { onBeforeMount, ref } from 'vue'
+import { ref } from 'vue'
+import CommentTile from '../inputs/CommentTile.vue'
 import { usePostStore } from '@/stores/post.store'
 import { useNavStore } from '@/stores/tab.store'
 import { useAuthStore } from '@/stores/auth.store'
+import { toast } from 'vuetify-sonner'
 
 const authStore = useAuthStore()
 const tabStore = useNavStore()
 const postStore = usePostStore()
 const comment = ref('')
 
+const iseditingpost = ref(false)
+
 function addComment(commentaire, post_id, user_id) {
+  if (commentaire === '') {
+    toast.error('Commentaire vide')
+  }
   postStore.newComment(commentaire, post_id, user_id)
+  comment.value = ''
+}
+
+function completeUpdate() {
+  iseditingpost.value = !iseditingpost.value
+  updatePost
+}
+
+// function deleteComment(id) {
+//   postStore.deleteComment(id)
+//   toast.error('Commentaire supprimé')
+// }
+
+function deletePost() {
+  postStore.deletePost(postStore.post.id)
+  tabStore.editDialog = false
+}
+
+function updatePost() {
+  postStore.updatePost(postStore.post.id, postStore.post)
 }
 </script>
 
@@ -23,7 +50,7 @@ function addComment(commentaire, post_id, user_id) {
             v-if="postStore.post.images.length > 0"
             cycle
             hide-delimiters
-            height="500"
+            height="300"
             :show-arrows="postStore.post.images.length > 1"
           >
             <v-carousel-item
@@ -34,7 +61,8 @@ function addComment(commentaire, post_id, user_id) {
               width="100%"
             >
               <v-fab
-                icon="mdi-dots-horizontal"
+                @click="tabStore.editDialog = false"
+                icon="mdi-arrow-left-top-bold"
                 class="bg-transparent mr-4 mt-4"
                 location="top right"
                 size="64"
@@ -43,12 +71,36 @@ function addComment(commentaire, post_id, user_id) {
               ></v-fab>
             </v-carousel-item>
           </v-carousel>
-          <v-card-title>
-            {{ postStore.post.panda }}
-          </v-card-title>
-          <v-card-text>
-            {{ postStore.post.link }}
-          </v-card-text>
+          <div v-if="iseditingpost">
+            <v-card-title>
+              <v-text-field
+                @keyup.enter="updatePost"
+                v-model="postStore.post.panda"
+                label="Panda"
+                outlined
+                dense
+                clearable
+              ></v-text-field>
+            </v-card-title>
+            <v-card-text>
+              <v-text-field
+                @keyup.enter="updatePost"
+                v-model="postStore.post.link"
+                label="Link"
+                outlined
+                dense
+                clearable
+              ></v-text-field>
+            </v-card-text>
+          </div>
+          <div v-else>
+            <v-card-title>
+              {{ postStore.post.panda }}
+            </v-card-title>
+            <v-card-text>
+              {{ postStore.post.link }}
+            </v-card-text>
+          </div>
           <v-card-actions>
             <v-icon color="primary" icon="mdi-comment-multiple-outline"></v-icon>
             <div class="tw-mx-2">
@@ -60,33 +112,27 @@ function addComment(commentaire, post_id, user_id) {
             </div>
             <v-btn
               v-if="authStore.user.id === postStore.post.user.id"
-              @click="true"
+              @click="completeUpdate"
               color="black"
-              icon="mdi-pencil"
+              :icon="iseditingpost ? 'mdi-check' : 'mdi-pencil'"
               text
             ></v-btn>
             <v-spacer></v-spacer>
             <v-btn
               v-if="authStore.user.id === postStore.post.user.id"
-              @click="postStore.deletePost(postStore.post.id)"
+              @click="deletePost"
               color="error"
               icon="mdi-delete"
               text
             ></v-btn>
           </v-card-actions>
         </v-card>
-        <v-fab
-          @click="tabStore.setEditDialog(false)"
-          icon="mdi-arrow-left-top"
-          class="mr-4 mb-10"
-          location="bottom right"
-          size="50"
-        ></v-fab>
+
         <v-card>
           <v-card-title> other panda's </v-card-title>
           <v-card-text>
             <v-text-field
-              @click="addComment(comment, post.id, authStore.user.id)"
+              @keyup.enter="addComment(comment, postStore.post.id, authStore.user.id)"
               v-model="comment"
               label="Comment"
               outlined
@@ -94,7 +140,12 @@ function addComment(commentaire, post_id, user_id) {
               clearable
             ></v-text-field>
             <v-list>
-              {{ postStore.post.comment }}
+              <comment-tile
+                v-for="(item, i) in postStore.post.comment"
+                :key="i"
+                :comment="item"
+                :auth="authStore.user"
+              ></comment-tile>
             </v-list>
           </v-card-text>
         </v-card>

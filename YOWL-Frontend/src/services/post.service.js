@@ -26,7 +26,12 @@ export function postService() {
 
   async function newComment(comment, post_id, user_id)
   {
-    return axios.post(`${base_url}/${post_id}/comments`, {comment: comment, user: user_id})
+    return axios.post(`comments`, {content: comment, post_id: post_id ,user_id: user_id})
+  }
+
+  async function deleteComment(id)
+  {
+    return axios.delete(`comments/${id}`)
   }
 
   async function deletePost(id) {
@@ -35,6 +40,7 @@ export function postService() {
 
   return {
     getPosts,
+    deleteComment,
     getPost,
     newComment,
     createPost,

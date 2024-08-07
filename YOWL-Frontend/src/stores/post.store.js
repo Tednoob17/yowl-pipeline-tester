@@ -27,13 +27,8 @@ export const usePostStore = defineStore('posts', () => {
     }
 
     async function createPost(post) {
-        posts.value.posts.unshift({
-            panda: post.panda,
-            link: post.link,
-            images: post.images,
-        })
-        await serve.createPost(post).then(response => {
-            posts.value.posts.unshift(response.data)
+        await serve.createPost(post).then(async () => {
+            await fetchPosts()
         }).catch(error => {
             console.error(error)
         })
@@ -64,12 +59,18 @@ export const usePostStore = defineStore('posts', () => {
 
     async function newComment(comment, post_id, user_id)
     {
-        post.value.comment.unshift({
-            comment: comment,
-            post_id: post_id,
-        })
         await serve.newComment(comment, post_id, user_id).then(response => {
-            post.value.comment.unshift(response.data.comments)
+            post.value.comment = response.data.comments
+        }).catch(error => {
+            console.error(error)
+        })
+    }
+
+    async function deleteComment(id)
+    {
+        await serve.deleteComment(id).then(() => {
+            const new_table = post.value.comment.filter(p => p.id !== id)
+            post.value.comment = new_table
         }).catch(error => {
             console.error(error)
         })
@@ -80,6 +81,7 @@ export const usePostStore = defineStore('posts', () => {
         post,
         getPosts,
         newComment,
+        deleteComment,
         fetchPosts,
         setPost,
         fetchPost,
