@@ -35,13 +35,12 @@
             <v-card-text>{{ post.link }}</v-card-text>
             <v-card-actions>
               <v-btn
-                @click="postStore.setPost(post); tabStore.setEditDialog(true)"
+                @click="editPost(post)"
                 color="primary"
                 icon="mdi-comment-multiple-outline"
                 text
               ></v-btn>
               <v-btn
-                @click="router.push({ name: 'edit-post', params: { id: post.id } })"
                 color="black"
                 icon="mdi-pencil"
                 text
@@ -96,11 +95,16 @@ if (router.currentRoute.value.name === 'new-post') {
   postDialStore.setDialog(true)
 }
 
+function editPost(post) {
+  postStore.setPost(post)
+  tabStore.setEditDialog(true, post.id)
+}
+
 onMounted(async () => {
   tabStore.setMainLoading(true)
   await authStore.initAuth().then(async () => {
     await postStore.fetchPosts().then(() => {
-      tabStore.setMainLoading(authStore.authenticated)
+      tabStore.setMainLoading(!authStore.authenticated)
     })
   })
 })

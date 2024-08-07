@@ -16,10 +16,10 @@ export const useAuthStore = defineStore('auth', () => {
   const getUserBirthdate = computed(() => user.value?.birthdate)
 
   async function initAuth() {
-    authenticated.value = true
     return await serve.current().then((response) => {
-      authenticated.value = false
-      return (user.value = response.data)
+      authenticated.value = true
+      user.value = response.data
+      localStorage.setItem('user', JSON.stringify(user.value))
     })
   }
 

@@ -1,8 +1,12 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import { usePostStore } from './post.store'; 
+import { useAuthStore } from './auth.store';
 
 export const useNavStore = defineStore('tab', () => {
     const tabs = ref(0);
+    const postStore = usePostStore();
+    const authStore = useAuthStore();
     const drawer = ref(false);
     const mainLoading = ref(false);
     const editDialog = ref(false);
@@ -13,9 +17,21 @@ export const useNavStore = defineStore('tab', () => {
 
     const getMainLoading = computed(() => mainLoading.value);
 
-    function setEditDialog(val = !editDialog.value)
+    function setEditDialog(val = !editDialog.value, id)
     {
-        editDialog.value = val
+        
+        if (id)
+        {
+            postStore.fetchPost(id).then(() => {
+                editDialog.value = val;
+            }).catch(error => {
+                console.error(error);
+            });
+        }
+        else
+        {
+            editDialog.value = val;
+        }
     }
 
     function setMainLoading(val = !mainLoading.value)

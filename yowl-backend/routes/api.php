@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\UserPermissionController;
 use App\Http\Controllers\Api\UserRoleController;
 use App\Http\Controllers\Api\UserSettingsController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ExtensionWebController;
 use App\Http\Controllers\LikeController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -36,6 +37,7 @@ Route::group(['middleware' => ['auth:sanctum', 'ensure-have-age']], function () 
     Route::apiResource('roles', UserRoleController::class);
     Route::apiResource('notes', NoteController::class);
     Route::apiResource('categories', CategorieController::class);
+    Route::apiResource('comments', CommentController::class);
     Route::apiResource('rooms', RoomController::class);
     Route::apiResource('messages', MessageController::class);
 
