@@ -43,8 +43,6 @@ export const usePostStore = defineStore('posts', () => {
   }
 
   async function updatePost(id, post) {
-    const index = posts.value.data.findIndex((p) => p.id === id)
-    posts.value[index] = response.data
     await serve
       .updatePost(id, post)
       .then((response) => {
@@ -56,13 +54,9 @@ export const usePostStore = defineStore('posts', () => {
   }
 
   async function deletePost(id) {
-    console.log(posts.value);
-    const new_table = posts.value.data.filter((p) => p.id !== id)
-    posts.value = new_table
     await serve
       .deletePost(id)
       .then(() => {
-        console.log(posts.value)
         fetchPosts()
       })
       .catch((error) => {

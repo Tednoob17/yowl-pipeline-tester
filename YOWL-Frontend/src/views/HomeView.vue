@@ -54,7 +54,7 @@ onMounted(async () => {
       type="card, list-item"
       height="100%"
     >
-      <v-tabs-window class="tw-w-full tw-px-4 py-8 tw-h-screen" v-model="tabStore.tabs">
+      <v-tabs-window class="tw-w-full tw-px-4 py-8 tw-h-[80vh]" v-model="tabStore.tabs">
         <div
           class="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center tw-h-96"
           v-if="postStore.getPosts.post_recent < 1 && tabStore.tabs === 'recent'"
