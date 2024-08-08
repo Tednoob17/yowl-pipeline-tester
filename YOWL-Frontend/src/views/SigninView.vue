@@ -239,6 +239,7 @@ const signup = async () => {
   justify-content: center;
   align-items: center;
   background-image: url('../assets/img/bg-login.png');
+  background-size: cover;
   height: 100vh;
   background-color: #f5f5f5;
 }

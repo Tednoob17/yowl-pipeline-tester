@@ -51,7 +51,7 @@ onMounted(async () => {
     <v-skeleton-loader
       class="bg-transparent"
       :loading="tabStore.mainLoading"
-      type="card"
+      type="card, list-item"
       height="100%"
     >
       <v-tabs-window class="tw-w-full tw-px-4 py-8 tw-h-screen" v-model="tabStore.tabs">

@@ -5,7 +5,7 @@ import { VSonner } from 'vuetify-sonner'
 </script>
 
 <template>
-  <v-app>
+  <v-app color="transparent" class="tw-backdrop-blur-lg">
     <drawer-bar></drawer-bar>
     <v-main>
       <RouterView />
