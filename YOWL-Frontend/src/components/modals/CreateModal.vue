@@ -15,20 +15,22 @@ const image = ref(null)
 const locked = ref(false)
 
 const submit = async () => {
-  await form.value.validate().then((res) => {
-    if (!form.value.valid) {
-      return
-    }
-    else
-    {
-      postStore.createPost({ panda: content.value, link: link.value, file: image.value }).then((res) => {
-        dialogStore.setDialog(false)
-        console.log(res)
-      }).catch((error) => {
-        console.log(error)
-      })
-    }
-  })
+  if (!(content.value && link.value)) return
+
+  const pattern = /^(http|https):\/\/[^ "]+$/
+  if (!pattern.test(link.value)) {
+    return
+  }
+
+  postStore
+    .createPost({ panda: content.value, link: link.value, file: image.value })
+    .then((res) => {
+      dialogStore.setDialog(false)
+      console.log(res)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 }
 
 const rules = {
@@ -85,14 +87,10 @@ if (router.currentRoute.value.name === 'new-post' && !!router.currentRoute.value
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            @click="dialogStore.setDialog(false)"
-            class="tw-mr-2"
-            color="error" 
-          > Cancel </v-btn>
-          <v-btn
-            color="black"
-           @click="submit"> Valider </v-btn>
+          <v-btn @click="dialogStore.setDialog(false)" class="tw-mr-2" color="error">
+            Cancel
+          </v-btn>
+          <v-btn color="black" @click="submit"> Valider </v-btn>
         </v-card-actions>
       </v-form>
     </v-card>

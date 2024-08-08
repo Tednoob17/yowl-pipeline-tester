@@ -13,7 +13,7 @@ export const usePostStore = defineStore('posts', () => {
     await serve
       .getPosts()
       .then((response) => {
-        posts.value = response.data.posts
+        posts.value = response.data
       })
       .catch((error) => {
         console.error(error)
