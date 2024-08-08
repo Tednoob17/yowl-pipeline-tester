@@ -15,7 +15,7 @@ const iseditingpost = ref(false)
 
 function addComment(commentaire, post_id, user_id) {
   if (commentaire === '') {
-    toast.error('Commentaire vide')
+    toast.error('Panda vide')
   }
   postStore.newComment(commentaire, post_id, user_id)
   comment.value = ''
@@ -141,7 +141,6 @@ function updatePost() {
               @keyup.enter="addComment(comment, postStore.post.id, authStore.user.id)"
               v-model="comment"
               label="Comment"
-              outlined
               dense
               clearable
             ></v-text-field>

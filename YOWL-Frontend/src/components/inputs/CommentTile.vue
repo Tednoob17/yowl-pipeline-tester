@@ -31,7 +31,7 @@ function deleteComment(id) {
         Edit your panda
       </v-card-title>
       <v-card-text>
-        <v-text-field v-model="comment.content" outlined></v-text-field>
+        <v-text-field v-model="comment.content"></v-text-field>
       </v-card-text>
       <v-card-actions>
         <v-btn @click="deleteComment(comment.id)" color="error" text>Delete</v-btn>

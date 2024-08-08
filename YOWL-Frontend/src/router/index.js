@@ -24,6 +24,16 @@ const router = createRouter({
       component: () => import('../views/MessageView.vue')
     },
     {
+      path: '/login',
+      name: 'signin',
+      component: () => import('../views/SigninView.vue')
+    },
+    {
+      path: '/landing',
+      name: 'pages',
+      component: () => import('../views/LandingpageView.vue')
+    },
+    {
       path: '/profile',
       name: 'profile',
       component: () => import('../views/Profile/ProfileVIew.vue')
@@ -38,11 +48,11 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/login', '/register',  '/signin', '/signup', '/forgot-password', '/reset-password'];
+  const publicPages = ['/login', '/register', '/signin', '/signup', '/landing', '/forgot-password', '/reset-password'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('token');
 
-  if (authRequired && !loggedIn && to.name !== 'not-found') {
+  if (authRequired && !loggedIn && to.name !== 'not-found' && to.name == 'pages') {
     return next('/login');
   }
 

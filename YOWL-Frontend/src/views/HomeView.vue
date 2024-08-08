@@ -227,17 +227,6 @@ onMounted(async () => {
           ></v-pagination>
         </v-tabs-window-item>
       </v-tabs-window>
-      <v-fab
-        @click="postDialStore.setDialog(true)"
-        icon="mdi-plus"
-        location="bottom end"
-        class="tw-text-white"
-        color="primary"
-        size="64"
-        fixed
-        app
-        appear
-      ></v-fab>
     <edit-modal />
     <CreateModal />
   </div>
