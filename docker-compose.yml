@@ -1,0 +1,39 @@
+
+services:
+  frontend:
+      build:
+          context:  ./YOWL-Frontend
+          dockerfile: Dockerfile
+      ports:
+        - 8181:80
+      networks:
+        - front-part
+
+
+        
+  backend:
+      container_name: backend
+      build:
+          context: ./yowl-backend
+          dockerfile: Dockerfile
+      ports:
+        - 9000:8000
+      networks:
+        - back-part
+      depends_on:
+        - database
+
+
+  database:
+      container_name: database
+      image: postgres:16.3
+      ports:
+        - 5432:5432
+      env_file:
+       - ./yowl-backend/.env
+      volumes:
+        - db_data:/var/lib/pgsql/data
+
+volumes:
+  db_data:
+
