@@ -77,7 +77,6 @@ function updatePost() {
                 @keyup.enter="updatePost"
                 v-model="postStore.post.panda"
                 label="Panda"
-                outlined
                 dense
                 clearable
               ></v-text-field>
@@ -87,7 +86,6 @@ function updatePost() {
                 @keyup.enter="updatePost"
                 v-model="postStore.post.link"
                 label="Link"
-                outlined
                 dense
                 clearable
               ></v-text-field>
@@ -106,10 +104,10 @@ function updatePost() {
             <div class="tw-mx-2">
               {{ postStore.post.comment.length }}
             </div>
-            <!-- <v-icon color="error" icon="mdi-heart"></v-icon>
+            <v-icon color="error" icon="mdi-heart"></v-icon>
             <div class="tw-mx-2">
               {{ postStore.post.likes.length }}
-            </div> -->
+            </div>
             <v-btn
               v-if="authStore.user.id === postStore.post.user.id"
               @click="completeUpdate"
@@ -140,7 +138,6 @@ function updatePost() {
               ></comment-tile>
             </v-list>
             <v-text-field
-              class="tw-fixed tw-bottom-2 tw-w-[95%] tw-mx-auto tw-bg-white"
               @keyup.enter="addComment(comment, postStore.post.id, authStore.user.id)"
               v-model="comment"
               label="Comment"

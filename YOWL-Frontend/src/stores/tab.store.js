@@ -19,10 +19,10 @@ export const useNavStore = defineStore('tab', () => {
 
     function setEditDialog(val = !editDialog.value, id)
     {
-        
         if (id)
         {
-            postStore.fetchPost(id).then(() => {
+            postStore.fetchPost(id).then((res) => {
+                console.log(postStore.post);
                 editDialog.value = val;
             }).catch(error => {
                 console.error(error);

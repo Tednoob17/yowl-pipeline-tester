@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { postService } from '@/services/post.service'
+import { toast } from 'vuetify-sonner'
 
 export const usePostStore = defineStore('posts', () => {
   const posts = ref([])
@@ -72,6 +73,7 @@ export const usePostStore = defineStore('posts', () => {
     await serve
       .newComment(comment, post_id, user_id)
       .then((response) => {
+        console.log(response.data.comments);
         post.value.comment = response.data.comments
       })
       .catch((error) => {
@@ -91,10 +93,23 @@ export const usePostStore = defineStore('posts', () => {
       })
   }
 
+  async function editComment(id, comment) {
+    await serve
+      .editComment(id, comment)
+      .then(() => {
+        fetchPosts()
+        fetchPost(post.value.id)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
   return {
     posts,
     post,
     getPosts,
+    editComment,
     newComment,
     deleteComment,
     fetchPosts,

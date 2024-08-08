@@ -50,11 +50,14 @@ onMounted(async () => {
     <!-- {{ postStore.getPosts }} -->
     <v-skeleton-loader
       class="bg-transparent"
+      v-if="tabStore.mainLoading"
       :loading="tabStore.mainLoading"
       type="card, list-item"
       height="100%"
     >
-      <v-tabs-window class="tw-w-full tw-px-4 py-8 tw-h-[80vh]" v-model="tabStore.tabs">
+      
+    </v-skeleton-loader>
+    <v-tabs-window v-else class="tw-w-full tw-px-4 py-8" v-model="tabStore.tabs">
         <div
           class="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center tw-h-96"
           v-if="postStore.getPosts.post_recent < 1 && tabStore.tabs === 'recent'"
@@ -105,13 +108,6 @@ onMounted(async () => {
                 <div class="mx-2">
                   {{ post.comment_count }}
                 </div>
-                <v-spacer></v-spacer>
-                <v-btn
-                  @click="postStore.deletePost(post.id)"
-                  color="error"
-                  icon="mdi-delete"
-                  text
-                ></v-btn>
               </v-card-actions>
             </v-card>
           </div>
@@ -166,13 +162,6 @@ onMounted(async () => {
                 <div class="mx-2">
                   {{ post.comment_count }}
                 </div>
-                <v-spacer></v-spacer>
-                <v-btn
-                  @click="postStore.deletePost(post.id)"
-                  color="error"
-                  icon="mdi-delete"
-                  text
-                ></v-btn>
               </v-card-actions>
             </v-card>
           </div>
@@ -227,38 +216,36 @@ onMounted(async () => {
                 <div class="mx-2">
                   {{ post.comment_count }}
                 </div>
-                <v-spacer></v-spacer>
-                <v-btn
-                  @click="postStore.deletePost(post.id)"
-                  color="error"
-                  icon="mdi-delete"
-                  text
-                ></v-btn>
               </v-card-actions>
             </v-card>
           </div>
+          <v-pagination
+            v-if="postStore.getPosts.post_all.last_page > 1"
+            v-model="postStore.getPosts.post_all.current_page"
+            :length="postStore.getPosts.post_all.last_page"
+            @input="postStore.fetchPosts"
+          ></v-pagination>
         </v-tabs-window-item>
       </v-tabs-window>
-    </v-skeleton-loader>
-
+      <v-fab
+        @click="postDialStore.setDialog(true)"
+        icon="mdi-plus"
+        location="bottom end"
+        class="tw-text-white"
+        color="primary"
+        size="64"
+        fixed
+        app
+        appear
+      ></v-fab>
     <edit-modal />
     <CreateModal />
-    <v-fab
-      @click="postDialStore.setDialog(true)"
-      icon="mdi-plus"
-      location="bottom end"
-      class="tw-text-white"
-      color="transparent"
-      size="64"
-      fixed
-      app
-      appear
-    ></v-fab>
   </div>
 </template>
 
 <style scoped>
 .root {
   background-image: url('../assets/img/bg-login.png');
+  background-size: cover;
 }
 </style>

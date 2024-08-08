@@ -18,8 +18,9 @@ const user = ref({
     name: '',
     email: '',
     password: '',
-    password_comfirm: '',
-    birthdate: ''
+    password_confirm: '',
+    birthdate: '',
+    terms: false
   }
 })
 
@@ -67,7 +68,7 @@ const login = async () => {
 
 const signup = async () => {
   await signupForm.value.validate().then((res) => {
-    if (!signupForm.value.valid) {
+    if (!signupForm) {
       return
     } else {
       authStore
@@ -215,6 +216,11 @@ const signup = async () => {
                   required
                 >
                 </v-text-field>
+                <v-checkbox
+                  v-model="user.signup.terms"
+                  label="I agree to the terms and conditions"
+                  required
+                ></v-checkbox>
                 <v-btn
                   append-icon="mdi-arrow-right"
                   class="tw-mt-4"
