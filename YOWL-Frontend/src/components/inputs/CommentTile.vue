@@ -1,6 +1,6 @@
 <script setup>
 import { usePostStore } from '@/stores/post.store'
-
+import CommentTile from '../inputs/CommentTile'
 const postStore = usePostStore()
 
 defineProps({
