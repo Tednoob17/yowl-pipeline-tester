@@ -19,14 +19,16 @@ class PostController extends Controller
      */
     public function index(): JsonResponse
     {
-        $posts = Post::with(['user', 'likes', 'images'])->withCount('comment', 'likes')->paginate(10);
-        //, 'comment', 'comment.user', 'comment.comment', 'comment.comment.user'])->paginate(10);
-
-        // $limit_posts = Post::withCount('comment')->having('comment_count', '<', 10)->get();
+        $average = Post::avg('vues');
+        $post_hot = Post::with(['user', 'likes', 'comment', 'comment.user', 'images'])->where('vues', '>', $average)->orderBy('vues', 'desc')->limit(10)->get();
+        $post_recent = Post::with(['user', 'likes', 'comment', 'comment.user', 'images'])->orderBy('created_at', 'desc')->limit(10)->get();
+        $post_all = Post::with(['user', 'likes', 'images'])->withCount('comment', 'likes')->paginate(10);
 
         return response()->json([
             "success" => true,
-            "posts" => $posts,
+            "post_hot" => $post_hot,
+            "post_recent" => $post_recent,
+            "post_all" => $post_all,
         ]);
     }
 
@@ -55,14 +57,16 @@ class PostController extends Controller
     public function show($post): JsonResponse
     {
         try {
-            // calculate the average of the post vues
             $average = Post::avg('vues');
-            // get 10 post that have the most vues
-            $post = Post::with(['user', 'likes', 'comment', 'comment.user', 'images'])->find($post)->where('vues', '>', $average)->orderBy('vues', 'desc')->limit(10)->get();
+            $post_hot = Post::with(['user', 'likes', 'comment', 'comment.user', 'images'])->find($post)->where('vues', '>', $average)->orderBy('vues', 'desc')->limit(10)->get();
+            $post_recent = Post::with(['user', 'likes', 'comment', 'comment.user', 'images'])->orderBy('created_at', 'desc')->limit(10)->get();
+            $post_all = Post::with(['user', 'likes', 'images'])->withCount('comment', 'likes')->paginate(10);
             return response()->json([
                 "success" => true,
                 "post" => $post,
-                "media" => $post->getMedia(),
+                "post_hot" => $post_hot,
+                "post_recent" => $post_recent,
+                "post_all" => $post_all,
             ]);
         } catch (\Exception $e) {
             return response()->json([
