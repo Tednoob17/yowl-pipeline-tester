@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run Laravel Pest tests
-        run: ./yowl-backend/vendor/bin/pest
+        run: cd ./yowl-backend/  && vendor/bin/pest
 
   push_to_mirror:
     runs-on: ubuntu-latest
