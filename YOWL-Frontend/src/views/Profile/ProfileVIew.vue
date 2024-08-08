@@ -2,7 +2,6 @@
 import HeaderBar from '@/components/bars/HeaderBar.vue'
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth.store'
-import { toast } from 'vuetify-sonner'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -20,14 +19,11 @@ function init() {
   loading.value = true
   authStore.initAuth().then(() => {
     loading.value = false
-    console.log(authStore.user)
   })
 }
 
 function enableThefa() {
-  authStore.enablefa(enablefa.value).then(() => {
-    toast.success('2FA updated successfully')
-  })
+  authStore.enablefa(enablefa.value).then(() => {})
 }
 
 init()
@@ -59,10 +55,10 @@ function updatePassword() {
   authStore
     .updatePassword(password.value.old, password.value.new)
     .then(() => {
-      toast.success('Password updated successfully')
+
     })
     .catch(() => {
-      toast.error('An error occurred while updating the password')
+      console.log('An error occurred while updating the password');
     })
 }
 
@@ -73,10 +69,9 @@ function update() {
       email: authStore.user.email
     })
     .then(() => {
-      toast.success('User updated successfully')
     })
     .catch(() => {
-      toast.error('An error occurred while updating the user')
+      console.log('An error occurred while updating the user');
     })
 }
 
@@ -85,19 +80,18 @@ function deleteAccount() {
     authStore
       .removeAccount()
       .then(() => {
-        toast.success('User deleted successfully')
         router.push({ name: 'login' })
       })
       .catch(() => {
-        toast.error('An error occurred while deleting the user')
+        console.log('An error occurred while deleting the account');
       })
   }
 }
 </script>
 
 <template>
-  <div v-if="loading" class="tw-flex tw-justify-between tw-h-screen tw-flex-col tw-items-center">
-    <div class="tw-animate-spin tw-bg-blue-800 tw-h-2 tw-w-2"></div>
+  <div v-if="loading" class="tw-flex tw-justify-center tw-h-screen tw-flex-col tw-items-center">
+    <div class="tw-animate-spin tw-bg-blue-800 tw-h-10 tw-w-10"></div>
   </div>
   <div v-else>
     <header-bar></header-bar>

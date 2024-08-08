@@ -126,15 +126,7 @@ function updatePost() {
         <v-card>
           <v-card-title> other panda's </v-card-title>
           <v-card-text>
-            <v-text-field
-              @keyup.enter="addComment(comment, postStore.post.id, authStore.user.id)"
-              v-model="comment"
-              label="Comment"
-              outlined
-              dense
-              clearable
-            ></v-text-field>
-            <v-list>
+            <v-list class="tw-mb-20">
               <comment-tile
                 v-for="(item, i) in postStore.post.comment"
                 :key="i"
@@ -142,6 +134,15 @@ function updatePost() {
                 :auth="authStore.user"
               ></comment-tile>
             </v-list>
+            <v-text-field
+              class="tw-fixed tw-bottom-2 tw-w-[95%] tw-mx-auto tw-bg-white"
+              @keyup.enter="addComment(comment, postStore.post.id, authStore.user.id)"
+              v-model="comment"
+              label="Comment"
+              outlined
+              dense
+              clearable
+            ></v-text-field>
           </v-card-text>
         </v-card>
       </v-sheet>

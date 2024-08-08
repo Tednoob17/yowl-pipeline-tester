@@ -1,3 +1,39 @@
+<script setup>
+import { ref, onMounted } from 'vue'
+import HeaderBar from '@/components/bars/HeaderBar.vue'
+import { useNavStore } from '@/stores/tab.store'
+import EditModal from '@/components/modals/EditModal.vue'
+import { useRouter } from 'vue-router'
+import CreateModal from '@/components/modals/CreateModal.vue'
+import { useCreatePostStore } from '@/stores/createpost.store'
+import { usePostStore } from '@/stores/post.store'
+import { useAuthStore } from '@/stores/auth.store'
+
+const authStore = useAuthStore()
+const postStore = usePostStore()
+const tabStore = useNavStore()
+const router = useRouter()
+const postDialStore = useCreatePostStore()
+
+if (router.currentRoute.value.name === 'new-post') {
+  postDialStore.setDialog(true)
+}
+
+function editPost(post) {
+  postStore.setPost(post)
+  tabStore.setEditDialog(true, post.id)
+}
+
+onMounted(async () => {
+  tabStore.setMainLoading(true)
+  await authStore.initAuth().then(async () => {
+    await postStore.fetchPosts().then(() => {
+      tabStore.setMainLoading(!authStore.authenticated)
+    })
+  })
+})
+</script>
+
 <template>
   <div>
     <header-bar></header-bar>
@@ -7,8 +43,8 @@
         class="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center tw-h-96"
         v-if="postStore.getPosts.posts < 1"
       >
-          Aucun pandas trouvé
-    </div>
+        Aucun pandas trouvé
+      </div>
       <div
         v-else
         class="tw-grid tw-grid-flow-row tw-grid-cols-1 sm:tw-grid-cols-2 md:tw-grid-cols-3 lg:tw-grid-cols-4 tw-gap-4 tw-p-5"
@@ -47,11 +83,9 @@
                 icon="mdi-comment-multiple-outline"
                 text
               ></v-btn>
-              <div
-                class="mx-2"
-              >
+              <div class="mx-2">
                 {{ post.comment_count }}
-            </div>
+              </div>
               <v-spacer></v-spacer>
               <v-btn
                 @click="postStore.deletePost(post.id)"
@@ -80,39 +114,3 @@
     ></v-fab>
   </div>
 </template>
-
-<script setup>
-import { ref, onMounted } from 'vue'
-import HeaderBar from '@/components/bars/HeaderBar.vue'
-import { useNavStore } from '@/stores/tab.store'
-import EditModal from '@/components/modals/EditModal.vue'
-import { useRouter } from 'vue-router'
-import CreateModal from '@/components/modals/CreateModal.vue'
-import { useCreatePostStore } from '@/stores/createpost.store'
-import { usePostStore } from '@/stores/post.store'
-import { useAuthStore } from '@/stores/auth.store'
-
-const authStore = useAuthStore()
-const postStore = usePostStore()
-const tabStore = useNavStore()
-const router = useRouter()
-const postDialStore = useCreatePostStore()
-
-if (router.currentRoute.value.name === 'new-post') {
-  postDialStore.setDialog(true)
-}
-
-function editPost(post) {
-  postStore.setPost(post)
-  tabStore.setEditDialog(true, post.id)
-}
-
-onMounted(async () => {
-  tabStore.setMainLoading(true)
-  await authStore.initAuth().then(async () => {
-    await postStore.fetchPosts().then(() => {
-      tabStore.setMainLoading(!authStore.authenticated)
-    })
-  })
-})
-</script>

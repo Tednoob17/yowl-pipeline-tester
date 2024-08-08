@@ -1,6 +1,5 @@
 <script setup>
 import { usePostStore } from '@/stores/post.store'
-import { toast } from 'vuetify-sonner'
 
 const postStore = usePostStore()
 
@@ -11,7 +10,6 @@ defineProps({
 
 function deleteComment(id) {
   postStore.deleteComment(id)
-  toast.error('Commentaire supprimé')
 }
 </script>
 
