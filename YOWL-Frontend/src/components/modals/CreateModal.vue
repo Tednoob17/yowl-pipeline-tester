@@ -2,6 +2,7 @@
 import { useRouter } from 'vue-router'
 import { usePostStore } from '@/stores/post.store'
 import { ref } from 'vue'
+import InputFile from '../forms/InputFile.vue'
 import { useCreatePostStore } from '@/stores/createpost.store'
 import { utilsService } from '@/services/utils.service'
 
@@ -11,7 +12,7 @@ const router = useRouter()
 const link = ref('')
 const form = ref(null)
 const content = ref('')
-const image = ref(null)
+const image = ref([])
 const locked = ref(false)
 
 const submit = async () => {
@@ -76,13 +77,16 @@ if (router.currentRoute.value.name === 'new-post' && !!router.currentRoute.value
             placeholder="Lien du contenu"
             outlined
           ></v-text-field>
-          <v-file-input clearable v-model="image" accept="image/*" label="Image">
+          <!-- <v-file-input clearable v-model="image" accept="image/*" label="Image">
             <template v-slot:prepend>
               <v-chip v-if="image" label close @click:close="image = null">
                 {{ image.name }}
               </v-chip>
             </template>
-          </v-file-input>
+          </v-file-input> -->
+          <input-file
+            v-model="image"
+          ></input-file>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>

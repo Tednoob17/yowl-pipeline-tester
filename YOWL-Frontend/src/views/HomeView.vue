@@ -50,11 +50,14 @@ onMounted(async () => {
     <!-- {{ postStore.getPosts }} -->
     <v-skeleton-loader
       class="bg-transparent"
+      v-if="tabStore.mainLoading"
       :loading="tabStore.mainLoading"
       type="card, list-item"
       height="100%"
     >
-      <v-tabs-window class="tw-w-full tw-px-4 py-8" v-model="tabStore.tabs">
+      
+    </v-skeleton-loader>
+    <v-tabs-window v-else class="tw-w-full tw-px-4 py-8" v-model="tabStore.tabs">
         <div
           class="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center tw-h-96"
           v-if="postStore.getPosts.post_recent < 1 && tabStore.tabs === 'recent'"
@@ -256,8 +259,6 @@ onMounted(async () => {
         app
         appear
       ></v-fab>
-    </v-skeleton-loader>
-
     <edit-modal />
     <CreateModal />
   </div>
@@ -266,5 +267,6 @@ onMounted(async () => {
 <style scoped>
 .root {
   background-image: url('../assets/img/bg-login.png');
+  background-size: cover;
 }
 </style>
