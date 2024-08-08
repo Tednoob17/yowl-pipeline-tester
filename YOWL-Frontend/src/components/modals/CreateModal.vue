@@ -70,15 +70,13 @@ if (router.currentRoute.value.name === 'new-post' && !!router.currentRoute.value
           <v-text-field
             :rules="[rules.required]"
             v-model="content"
-            label="Votre commentaire"
-            outlined
+            label="Votre panda"
           ></v-text-field>
           <v-text-field
             :rules="[rules.required, rules.url]"
             :disabled="locked"
             v-model="link"
             placeholder="Lien du contenu"
-            outlined
           ></v-text-field>
           <!-- <v-file-input clearable v-model="image" accept="image/*" label="Image">
             <template v-slot:prepend>
@@ -87,9 +85,7 @@ if (router.currentRoute.value.name === 'new-post' && !!router.currentRoute.value
               </v-chip>
             </template>
           </v-file-input> -->
-          <input-file
-            v-model="image"
-          ></input-file>
+          <input-file v-model="image"></input-file>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>

@@ -49,10 +49,15 @@ const rules = {
 
 const router = useRouter()
 
+const errors = ref({
+  email: '',
+  password: ''
+})
+
 const login = async () => {
   await loginForm.value.validate().then(() => {
     if (!loginForm) {
-      console.log(loginForm.value.valid);
+      console.log(loginForm.value.valid)
     } else {
       authStore
         .login(user.value.login)
@@ -60,7 +65,21 @@ const login = async () => {
           router.push('/')
         })
         .catch((error) => {
-          console.log(error)
+          toast.error(error.response.data.message)
+
+          if (error.response) {
+            errors.value.email = error?.response.data.email
+              ? error.response.data.email.join('</br>')
+              : ''
+            errors.value.password = error?.response.data.password
+              ? error.response.data.password.join('</br>')
+              : ''
+            if (!errors.value.email && !errors.value.password) {
+              errors.value.email = error.response.data.message
+            }
+          } else {
+            errors.value.email = 'Something went wrong'
+          }
         })
     }
   })
@@ -143,11 +162,13 @@ const signup = async () => {
                   type="email"
                   required
                 ></v-text-field>
+                <div>
+                  <span class="tw-text-red-700" v-if="errors.email">{{ errors.email }}</span>
+                </div>
                 <v-text-field
                   v-model="user.login.password"
                   label="Password"
                   :rules="[rules.required]"
-                  outlined
                   :type="showPassword ? 'text' : 'password'"
                   required
                 >
@@ -160,6 +181,9 @@ const signup = async () => {
                     </v-btn>
                   </template>
                 </v-text-field>
+                <div>
+                  <span class="tw-text-red-700" v-if="errors.password">{{ errors.password }}</span>
+                </div>
                 <v-btn
                   append-icon="mdi-arrow-right"
                   class="tw-mt-4"
