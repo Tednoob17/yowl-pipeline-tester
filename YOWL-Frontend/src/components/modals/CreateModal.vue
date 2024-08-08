@@ -26,7 +26,6 @@ const submit = async () => {
     .createPost({ panda: content.value, link: link.value, file: image.value })
     .then((res) => {
       dialogStore.setDialog(false)
-      console.log(res)
     })
     .catch((error) => {
       console.log(error)

@@ -27,7 +27,7 @@ if (router.currentRoute.value.name === 'new-post' || router.currentRoute.value.n
       <v-tabs align-tabs="title" v-if="show_tabs" v-model="tabStore.tabs">
         <v-tab value="recent">Recents<v-icon>mdi-history</v-icon></v-tab>
         <v-tab value="hot">Hot <v-icon>mdi-fire</v-icon></v-tab>
-        <v-tab value="rising">Rising <v-icon>mdi-panda</v-icon></v-tab>
+        <v-tab value="rising"> All posts <v-icon>mdi-panda</v-icon></v-tab>
       </v-tabs>
     </template>
   </v-toolbar>

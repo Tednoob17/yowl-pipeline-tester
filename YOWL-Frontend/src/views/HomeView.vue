@@ -54,7 +54,7 @@ onMounted(async () => {
       type="card, list-item"
       height="100%"
     >
-      <v-tabs-window class="tw-w-full tw-px-4 py-8 tw-h-[80vh]" v-model="tabStore.tabs">
+      <v-tabs-window class="tw-w-full tw-px-4 py-8" v-model="tabStore.tabs">
         <div
           class="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center tw-h-96"
           v-if="postStore.getPosts.post_recent < 1 && tabStore.tabs === 'recent'"
@@ -237,23 +237,29 @@ onMounted(async () => {
               </v-card-actions>
             </v-card>
           </div>
+          <v-pagination
+            v-if="postStore.getPosts.post_all.last_page > 1"
+            v-model="postStore.getPosts.post_all.current_page"
+            :length="postStore.getPosts.post_all.last_page"
+            @input="postStore.fetchPosts"
+          ></v-pagination>
         </v-tabs-window-item>
       </v-tabs-window>
+      <v-fab
+        @click="postDialStore.setDialog(true)"
+        icon="mdi-plus"
+        location="bottom end"
+        class="tw-text-white"
+        color="primary"
+        size="64"
+        fixed
+        app
+        appear
+      ></v-fab>
     </v-skeleton-loader>
 
     <edit-modal />
     <CreateModal />
-    <v-fab
-      @click="postDialStore.setDialog(true)"
-      icon="mdi-plus"
-      location="bottom end"
-      class="tw-text-white"
-      color="transparent"
-      size="64"
-      fixed
-      app
-      appear
-    ></v-fab>
   </div>
 </template>
 
