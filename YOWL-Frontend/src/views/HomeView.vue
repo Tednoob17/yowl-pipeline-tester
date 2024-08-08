@@ -1,86 +1,3 @@
-<template>
-  <div>
-    <header-bar></header-bar>
-
-    <v-skeleton-loader :loading="tabStore.mainLoading" type="card">
-      <div
-        class="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center tw-h-96"
-        v-if="postStore.getPosts.posts < 1"
-      >
-          Aucun pandas trouvé
-    </div>
-      <div
-        v-else
-        class="tw-grid tw-grid-flow-row tw-grid-cols-1 sm:tw-grid-cols-2 md:tw-grid-cols-3 lg:tw-grid-cols-4 tw-gap-4 tw-p-5"
-      >
-        <div class="tw-w-full" v-for="post in postStore.getPosts.posts" :key="post.id">
-          <v-card>
-            <v-carousel
-              v-if="post.images.length > 0"
-              cycle
-              height="200"
-              hide-delimiters
-              hide-controls
-              :show-arrows="post.images.length > 1"
-            >
-              <v-carousel-item
-                v-for="(image, index) in post.images"
-                :key="index"
-                :src="image.path"
-                height="200"
-                width="400"
-                cover
-              ></v-carousel-item>
-            </v-carousel>
-            <v-img
-              v-else
-              src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-              height="200"
-              cover
-            ></v-img>
-            <v-card-title>{{ post.panda }}</v-card-title>
-            <v-card-text>{{ post.link }}</v-card-text>
-            <v-card-actions>
-              <v-btn
-                @click="editPost(post)"
-                color="primary"
-                icon="mdi-comment-multiple-outline"
-                text
-              ></v-btn>
-              <div
-                class="mx-2"
-              >
-                {{ post.comment_count }}
-            </div>
-              <v-spacer></v-spacer>
-              <v-btn
-                @click="postStore.deletePost(post.id)"
-                color="error"
-                icon="mdi-delete"
-                text
-              ></v-btn>
-            </v-card-actions>
-          </v-card>
-        </div>
-      </div>
-    </v-skeleton-loader>
-
-    <edit-modal />
-    <CreateModal />
-    <v-fab
-      @click="postDialStore.setDialog(true)"
-      color="primary"
-      icon="mdi-plus"
-      class="n-ms-4 mb-4"
-      location="bottom end"
-      size="64"
-      fixed
-      app
-      appear
-    ></v-fab>
-  </div>
-</template>
-
 <script setup>
 import { ref, onMounted } from 'vue'
 import HeaderBar from '@/components/bars/HeaderBar.vue'
@@ -109,10 +26,215 @@ function editPost(post) {
 
 onMounted(async () => {
   tabStore.setMainLoading(true)
-  await authStore.initAuth().then(async () => {
-    await postStore.fetchPosts().then(() => {
-      tabStore.setMainLoading(!authStore.authenticated)
+  await authStore
+    .initAuth()
+    .then(async () => {
+      await postStore
+        .fetchPosts()
+        .then(() => {
+          tabStore.setMainLoading(!authStore.authenticated)
+        })
+        .catch(() => {
+          tabStore.setMainLoading(false)
+        })
     })
-  })
+    .catch(() => {
+      tabStore.setMainLoading(false)
+    })
 })
 </script>
+
+<template>
+  <div class="root">
+    <header-bar></header-bar>
+    <!-- {{ postStore.getPosts }} -->
+    <v-skeleton-loader
+      class="bg-transparent"
+      v-if="tabStore.mainLoading"
+      :loading="tabStore.mainLoading"
+      type="card, list-item"
+      height="100%"
+    >
+      
+    </v-skeleton-loader>
+    <v-tabs-window v-else class="tw-w-full tw-px-4 py-8" v-model="tabStore.tabs">
+        <div
+          class="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center tw-h-96"
+          v-if="postStore.getPosts.post_recent < 1 && tabStore.tabs === 'recent'"
+        >
+          No panda found
+        </div>
+        <v-tabs-window-item
+          v-else
+          class="tw-w-full tw-grid md:tw-grid-cols-2 lg:tw-grid-cols-3 xl:tw-grid-cols-4 tw-gap-4"
+          value="recent"
+        >
+          <div class="" v-for="post in postStore.getPosts.post_recent" :key="post.id">
+            <v-card class="bg-transparent tw-backdrop-blur-lg">
+              <v-carousel
+                v-if="post.images.length > 0"
+                cycle
+                height="200"
+                width="100%"
+                hide-delimiters
+                hide-controls
+                :show-arrows="post.images.length > 1"
+              >
+                <v-carousel-item
+                  v-for="(image, index) in post.images"
+                  :key="index"
+                  :src="image.path"
+                  height="200"
+                  cover
+                ></v-carousel-item>
+              </v-carousel>
+              <v-img
+                v-else
+                src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+                height="200"
+                cover
+              ></v-img>
+              <v-card-title>{{ post.panda }}</v-card-title>
+              <v-card-text>
+                <a :href="post.link" target="_blank">{{ post.link }}</a>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn
+                  @click="editPost(post)"
+                  color="primary"
+                  icon="mdi-comment-multiple-outline"
+                  text
+                ></v-btn>
+                <div class="mx-2">
+                  {{ post.comment_count }}
+                </div>
+              </v-card-actions>
+            </v-card>
+          </div>
+        </v-tabs-window-item>
+        <div
+          class="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center tw-h-96"
+          v-if="postStore.getPosts.post_hot < 1 && tabStore.tabs === 'hot'"
+        >
+          No panda found
+        </div>
+        <v-tabs-window-item
+          v-else
+          class="tw-w-full tw-grid md:tw-grid-cols-2 lg:tw-grid-cols-3 xl:tw-grid-cols-4 tw-gap-4"
+          value="hot"
+        >
+          <div class="" v-for="post in postStore.getPosts.post_hot" :key="post.id">
+            <v-card class="bg-transparent tw-backdrop-blur-lg">
+              <v-carousel
+                v-if="post.images.length > 0"
+                cycle
+                height="200"
+                width="100%"
+                hide-delimiters
+                hide-controls
+                :show-arrows="post.images.length > 1"
+              >
+                <v-carousel-item
+                  v-for="(image, index) in post.images"
+                  :key="index"
+                  :src="image.path"
+                  height="200"
+                  cover
+                ></v-carousel-item>
+              </v-carousel>
+              <v-img
+                v-else
+                src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+                height="200"
+                cover
+              ></v-img>
+              <v-card-title>{{ post.panda }}</v-card-title>
+              <v-card-text>
+                <a :href="post.link" target="_blank">{{ post.link }}</a>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn
+                  @click="editPost(post)"
+                  color="primary"
+                  icon="mdi-comment-multiple-outline"
+                  text
+                ></v-btn>
+                <div class="mx-2">
+                  {{ post.comment_count }}
+                </div>
+              </v-card-actions>
+            </v-card>
+          </div>
+        </v-tabs-window-item>
+        <div
+          class="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center tw-h-96"
+          v-if="postStore.getPosts.post_all < 1 && tabStore.tabs === 'rising'"
+        >
+          No panda found
+        </div>
+        <v-tabs-window-item
+          v-else
+          class="tw-w-full tw-grid md:tw-grid-cols-2 lg:tw-grid-cols-3 xl:tw-grid-cols-4 tw-gap-4"
+          value="rising"
+        >
+          <div class="" v-for="post in postStore.getPosts.post_all.data" :key="post.id">
+            <v-card class="bg-transparent tw-backdrop-blur-lg">
+              <v-carousel
+                v-if="post.images.length > 0"
+                cycle
+                height="200"
+                width="100%"
+                hide-delimiters
+                hide-controls
+                :show-arrows="post.images.length > 1"
+              >
+                <v-carousel-item
+                  v-for="(image, index) in post.images"
+                  :key="index"
+                  :src="image.path"
+                  height="200"
+                  cover
+                ></v-carousel-item>
+              </v-carousel>
+              <v-img
+                v-else
+                src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+                height="200"
+                cover
+              ></v-img>
+              <v-card-title>{{ post.panda }}</v-card-title>
+              <v-card-text>
+                <a :href="post.link" target="_blank">{{ post.link }}</a>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn
+                  @click="editPost(post)"
+                  color="primary"
+                  icon="mdi-comment-multiple-outline"
+                  text
+                ></v-btn>
+                <div class="mx-2">
+                  {{ post.comment_count }}
+                </div>
+              </v-card-actions>
+            </v-card>
+          </div>
+          <v-pagination
+            v-if="postStore.getPosts.post_all.last_page > 1"
+            v-model="postStore.getPosts.post_all.current_page"
+            :length="postStore.getPosts.post_all.last_page"
+            @input="postStore.fetchPosts"
+          ></v-pagination>
+        </v-tabs-window-item>
+      </v-tabs-window>
+    <edit-modal />
+    <CreateModal />
+  </div>
+</template>
+
+<style scoped>
+.root {
+  background-image: url('../assets/img/bg-login.png');
+  background-size: cover;
+}
+</style>

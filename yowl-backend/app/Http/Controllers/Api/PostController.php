@@ -19,15 +19,35 @@ class PostController extends Controller
      */
     public function index(): JsonResponse
     {
-        $posts = Post::with(['user', 'likes', 'images'])->withCount('comment')->get();
-        //, 'comment', 'comment.user', 'comment.comment', 'comment.comment.user'])->paginate(10);
-
-        // $limit_posts = Post::withCount('comment')->having('comment_count', '<', 10)->get();
+        $average = Post::avg('vues');
+        $post_hot = Post::with(['user', 'likes', 'comment', 'comment.user', 'images'])->where('vues', '>', $average)->orderBy('vues', 'desc')->limit(10)->get();
+        $post_recent = Post::with(['user', 'likes', 'comment', 'comment.user', 'images'])->orderBy('created_at', 'desc')->limit(10)->get();
+        $post_all = Post::with(['user', 'likes', 'images'])->withCount('comment', 'likes')->paginate(5);
 
         return response()->json([
             "success" => true,
-            "posts" => $posts,
+            "post_hot" => $post_hot,
+            "post_recent" => $post_recent,
+            "post_all" => $post_all,
         ]);
+    }
+
+    public function imcrementVue($post): JsonResponse
+    {
+        try {
+            $post = Post::find($post);
+            $post->vues += 1;
+            $post->save();
+
+            return response()->json([
+                "success" => true,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "success" => false,
+                "message" => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -37,11 +57,10 @@ class PostController extends Controller
     public function show($post): JsonResponse
     {
         try {
-            $post = Post::with(['user', 'likes', 'comment', 'comment.user', 'images'])->find($post);
+            $post = Post::with(['user', 'likes', 'comment', 'comment.user', 'images'])->withCount('comment', 'likes')->find($post);
             return response()->json([
                 "success" => true,
                 "post" => $post,
-                "media" => $post->getMedia(),
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -56,10 +75,10 @@ class PostController extends Controller
      */
     public function store(StoreRequest $request): JsonResponse
     {
-        try {
-            $request->link = str_replace('http', 'https', $request->link);
+        // dd($request);
 
-            $post = Post::where('link', $request->link)->first();
+        try {
+            $post = Post::where('link', str_replace('http', 'https', $request->link))->first();
 
             if ($post) {
                 $comment = Comment::create([
@@ -79,23 +98,30 @@ class PostController extends Controller
                     'user_id' => Auth::id(),
                 ]);
 
-                if ($request->hasFile('file') && $request->file('file')->isValid()) {
-                    $post_image = new PostImage();
+                if ($request->hasFile('file')) {
+                    // $request->file('file')->isValid()
 
-                    $post_image->post_id = $post->id;
+                    foreach ($request->file as $file) {
 
-                    $path = public_path('images/posts/');
-                    !is_dir($path) &&
-                        mkdir($path, 0777, true);
+                        if ($file->isValid()) {
+                            $post_image = new PostImage();
 
-                    $post_image->path = "posts/" . time() . '.' . $request->file->extension();
+                            $post_image->post_id = $post->id;
 
-                    $request->file->move($path, $post_image->path);
+                            $path = public_path('images/posts/');
+                            !is_dir($path) &&
+                                mkdir($path, 0777, true);
 
-                    $base_url = url('/');
-                    $post_image->path =  "$base_url/images/$post_image->path";
+                            $post_image->path = "posts/" . time() . '.' . $file->extension();
 
-                    $post_image->save();
+                            $file->move($path, $post_image->path);
+
+                            $base_url = url('/');
+                            $post_image->path =  "$base_url/images/$post_image->path";
+
+                            $post_image->save();
+                        }
+                    }
                 }
 
                 $post = Post::with(['user', 'comment', 'images'])->find($post);
@@ -129,6 +155,7 @@ class PostController extends Controller
             return response()->json([
                 "success" => true,
                 "post" => $post,
+                "message" => "Post updated successfully",
             ]);
         } catch (\Exception $e) {
             return response()->json([

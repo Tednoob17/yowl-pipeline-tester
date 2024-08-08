@@ -38,10 +38,22 @@ export function postService() {
     return axios.delete(`${base_url}/${id}`)
   }
 
+  async function hasView($postId)
+  {
+    return axios.get('`posts/vues/${postId}`')
+  }
+
+  async function editComment(comment, id)
+  {
+    return axios.put(`comments/${id}`, {content: comment})
+  }
+
   return {
     getPosts,
     deleteComment,
+    editComment,
     getPost,
+    hasView,
     newComment,
     createPost,
     updatePost,

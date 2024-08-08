@@ -23,6 +23,10 @@ export function baseService() {
 
   axios.interceptors.request.use(
     (config) => {
+      const token = localStorage.getItem('token')
+      if (token) {
+        config.headers['Authorization'] = `Bearer ${token}`
+      }
       return config
     },
     (error) => {
@@ -32,15 +36,25 @@ export function baseService() {
 
   axios.interceptors.response.use(
     (response) => {
+      if (response.data.message) {
+        toast(response.data.message, 'success')
+      }
       return response
     },
     (error) => {
-      // if (error.response.status === 401 || error.response.status === 403) {
-      //   localStorage.removeItem('token')
-      //   localStorage.removeItem('user')
-      //   router.push('/login')
-      //   toast.error('You are not authorized to access this resource')
-      // }
+      if (error.response.status === 401) {
+        localStorage.removeItem('token')
+        router.push('/login')
+      }
+      if (error.response.status === 403) {
+        toast.error('You are not authorized to access this resource')
+      }
+      if (error.response.status === 404) {
+        router.push('/not-found')
+      }
+      if (error.response.status === 422) {
+        console.log(error.response.data);
+      }
       return Promise.reject(error)
     }
   )

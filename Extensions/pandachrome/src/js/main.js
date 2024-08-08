@@ -29,6 +29,6 @@ div.addEventListener('click', async () => {
         .then((res) => res.json())
         .then((data) => {
             console.log(data);
-            window.open("http://localhost:5174/posts/create/"+data.extensionWeb.id, '_blank');
+            window.open("http://localhost:5173/posts/create/"+data.extensionWeb.id, '_blank');
         });
 });

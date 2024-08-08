@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { authService } from '@/services/auth.service'
+import router from '@/router'
 
 export const useAuthStore = defineStore('auth', () => {
   const serve = authService()
@@ -36,9 +37,6 @@ export const useAuthStore = defineStore('auth', () => {
         localStorage.setItem('token', user.value.data.access_token)
       })
       .then(async () => {
-        serve.axios.defaults.headers.common['Authorization'] =
-          `Bearer ${user.value.data.access_token}`
-        // get user data
         await initAuth()
       })
       .then(() => {
@@ -87,7 +85,8 @@ export const useAuthStore = defineStore('auth', () => {
     await serve.logout()
     localStorage.removeItem('user')
     localStorage.removeItem('token')
-    user.value = null
+    user.value = {}
+    router.push({ name: 'login' })
   }
 
   async function veryfymail(email) {

@@ -33,11 +33,6 @@
 
 
         <footer class="mt-8">
-            <p class="text-gray-500 dark:text-gray-400">
-                This email was sent to <a href="mailto:georges.ayeni@epitech.eu"
-                    class="text-blue-600 hover:underline dark:text-blue-400" target="_blank">contact@epitech.eu</a>.
-            </p>
-
             <p class="mt-3 text-gray-500 dark:text-gray-400">© 2024 Free PANDAS. All Rights
                 Reserved.</p>
         </footer>

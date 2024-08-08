@@ -2,6 +2,7 @@
 import { useRouter } from 'vue-router'
 import { usePostStore } from '@/stores/post.store'
 import { ref } from 'vue'
+import InputFile from '../forms/InputFile.vue'
 import { useCreatePostStore } from '@/stores/createpost.store'
 import { utilsService } from '@/services/utils.service'
 
@@ -9,21 +10,38 @@ const dialogStore = useCreatePostStore()
 const postStore = usePostStore()
 const router = useRouter()
 const link = ref('')
+const form = ref(null)
 const content = ref('')
-const errors = ref('')
-const image = ref(null)
+const image = ref([])
 const locked = ref(false)
 
 const submit = async () => {
-  await postStore
+  if (!(content.value && link.value)) return
+
+  const pattern = /^(http|https):\/\/[^ "]+$/
+  if (!pattern.test(link.value)) {
+    return
+  }
+
+  postStore
     .createPost({ panda: content.value, link: link.value, file: image.value })
-    .then(() => {
+    .then((res) => {
       dialogStore.setDialog(false)
+      content.value = ''
+      link.value = ''
+      image.value = []
     })
     .catch((error) => {
       console.log(error)
-      errors.value = error
     })
+}
+
+const rules = {
+  required: (value) => !!value || 'Required.',
+  url: (value) => {
+    const pattern = /^(http|https):\/\/[^ "]+$/
+    return pattern.test(value) || 'Invalid URL.'
+  }
 }
 
 async function loadlink() {
@@ -44,31 +62,37 @@ if (router.currentRoute.value.name === 'new-post' && !!router.currentRoute.value
 </script>
 
 <template>
-  <v-dialog v-model="dialogStore.postDialog">
-    <v-card>
+  <v-dialog class="bg-transparent" v-model="dialogStore.postDialog">
+    <v-card class="tw-backdrop-blur-xl tw-bg-transparent tw-text-white">
       <v-card-title> Créer un nouveau panda </v-card-title>
-      <v-form>
+      <v-form ref="form" class="tw-w-full">
         <v-card-text>
-          <v-text-field v-model="content" label="Votre commentaire" outlined></v-text-field>
           <v-text-field
+            :rules="[rules.required]"
+            v-model="content"
+            label="Votre panda"
+          ></v-text-field>
+          <v-text-field
+            :rules="[rules.required, rules.url]"
             :disabled="locked"
             v-model="link"
             placeholder="Lien du contenu"
-            outlined
-            :error-messages="errors"
           ></v-text-field>
-          <v-file-input clearable v-model="image" accept="image/*" label="Image">
+          <!-- <v-file-input clearable v-model="image" accept="image/*" label="Image">
             <template v-slot:prepend>
               <v-chip v-if="image" label close @click:close="image = null">
                 {{ image.name }}
               </v-chip>
             </template>
-          </v-file-input>
+          </v-file-input> -->
+          <input-file v-model="image"></input-file>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn> Annuler </v-btn>
-          <v-btn @click="submit"> Valider </v-btn>
+          <v-btn @click="dialogStore.setDialog(false)" class="tw-mr-2" color="error">
+            Cancel
+          </v-btn>
+          <v-btn color="black" @click="submit"> Valider </v-btn>
         </v-card-actions>
       </v-form>
     </v-card>

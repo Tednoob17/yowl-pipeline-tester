@@ -15,7 +15,7 @@ const iseditingpost = ref(false)
 
 function addComment(commentaire, post_id, user_id) {
   if (commentaire === '') {
-    toast.error('Commentaire vide')
+    toast.error('Panda vide')
   }
   postStore.newComment(commentaire, post_id, user_id)
   comment.value = ''
@@ -25,11 +25,6 @@ function completeUpdate() {
   iseditingpost.value = !iseditingpost.value
   updatePost
 }
-
-// function deleteComment(id) {
-//   postStore.deleteComment(id)
-//   toast.error('Commentaire supprimé')
-// }
 
 function deletePost() {
   postStore.deletePost(postStore.post.id)
@@ -43,9 +38,23 @@ function updatePost() {
 
 <template>
   <div class="text-center pa-4">
-    <v-dialog v-model="tabStore.editDialog" transition="dialog-bottom-transition" fullscreen>
-      <v-sheet>
-        <v-card>
+    <v-dialog
+      class="bg-transparent tw-backdrop-blur-lg"
+      v-model="tabStore.editDialog"
+      transition="dialog-bottom-transition"
+      fullscreen
+    >
+      <v-sheet class="tw-backdrop-blur-lg">
+        <v-card class="bg-transparent">
+          <v-fab
+            @click="tabStore.editDialog = false"
+            icon="mdi-arrow-left-top-bold"
+            class="bg-transparent mr-4 mt-4"
+            location="top right"
+            size="64"
+            :flat="true"
+            absolute
+          ></v-fab>
           <v-carousel
             v-if="postStore.post.images.length > 0"
             cycle
@@ -60,15 +69,6 @@ function updatePost() {
               cover
               width="100%"
             >
-              <v-fab
-                @click="tabStore.editDialog = false"
-                icon="mdi-arrow-left-top-bold"
-                class="bg-transparent mr-4 mt-4"
-                location="top right"
-                size="64"
-                :flat="true"
-                absolute
-              ></v-fab>
             </v-carousel-item>
           </v-carousel>
           <div v-if="iseditingpost">
@@ -77,7 +77,6 @@ function updatePost() {
                 @keyup.enter="updatePost"
                 v-model="postStore.post.panda"
                 label="Panda"
-                outlined
                 dense
                 clearable
               ></v-text-field>
@@ -87,7 +86,6 @@ function updatePost() {
                 @keyup.enter="updatePost"
                 v-model="postStore.post.link"
                 label="Link"
-                outlined
                 dense
                 clearable
               ></v-text-field>
@@ -131,14 +129,6 @@ function updatePost() {
         <v-card>
           <v-card-title> other panda's </v-card-title>
           <v-card-text>
-            <v-text-field
-              @keyup.enter="addComment(comment, postStore.post.id, authStore.user.id)"
-              v-model="comment"
-              label="Comment"
-              outlined
-              dense
-              clearable
-            ></v-text-field>
             <v-list>
               <comment-tile
                 v-for="(item, i) in postStore.post.comment"
@@ -147,6 +137,13 @@ function updatePost() {
                 :auth="authStore.user"
               ></comment-tile>
             </v-list>
+            <v-text-field
+              @keyup.enter="addComment(comment, postStore.post.id, authStore.user.id)"
+              v-model="comment"
+              label="Comment"
+              dense
+              clearable
+            ></v-text-field>
           </v-card-text>
         </v-card>
       </v-sheet>
