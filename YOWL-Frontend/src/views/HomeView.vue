@@ -188,7 +188,7 @@ onMounted(async () => {
           class="tw-w-full tw-grid md:tw-grid-cols-2 lg:tw-grid-cols-3 xl:tw-grid-cols-4 tw-gap-4"
           value="rising"
         >
-          <div class="" v-for="post in postStore.getPosts.post_all" :key="post.id">
+          <div class="" v-for="post in postStore.getPosts.post_all.data" :key="post.id">
             <v-card class="bg-transparent tw-backdrop-blur-lg">
               <v-carousel
                 v-if="post.images.length > 0"
