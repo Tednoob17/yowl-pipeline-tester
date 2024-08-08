@@ -34,6 +34,11 @@ const router = createRouter({
       component: () => import('../views/SignupView.vue')
     },
     {
+      path: '/landing',
+      name: 'pages',
+      component: () => import('../views/LandingpageView.vue')
+    },
+    {
       path: '/register',
       name: 'register',
       component: () => import('../views/RegisterView.vue')
@@ -58,7 +63,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/login', '/register', '/signin', '/signup', '/forgot-password', '/reset-password'];
+  const publicPages = ['/login', '/register', '/signin', '/signup', '/landing', '/forgot-password', '/reset-password'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('token');
 
