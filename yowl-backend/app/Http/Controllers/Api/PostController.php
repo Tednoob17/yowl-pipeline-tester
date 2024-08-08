@@ -20,8 +20,8 @@ class PostController extends Controller
     public function index(): JsonResponse
     {
         $average = Post::avg('vues');
-        $post_hot = Post::with(['user', 'likes', 'comment', 'comment.user', 'images'])->where('vues', '>', $average)->orderBy('vues', 'desc')->limit(10)->get();
-        $post_recent = Post::with(['user', 'likes', 'comment', 'comment.user', 'images'])->orderBy('created_at', 'desc')->limit(10)->get();
+        $post_hot = Post::with(['user', 'likes', 'comment', 'comment.user', 'images'])->withCount('comment', 'likes')->where('vues', '>', $average)->orderBy('vues', 'desc')->limit(10)->get();
+        $post_recent = Post::with(['user', 'likes', 'comment', 'comment.user', 'images'])->withCount('comment', 'likes')->orderBy('created_at', 'desc')->limit(10)->get();
         $post_all = Post::with(['user', 'likes', 'images'])->withCount('comment', 'likes')->paginate(5);
 
         return response()->json([

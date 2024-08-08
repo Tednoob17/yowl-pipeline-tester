@@ -10,7 +10,7 @@
                         Pandas</span>
                 </a>
                 <div class="tw-flex tw-items-center lg:tw-order-2">
-                    <a href="/signin"
+                    <a href="/login"
                         class="tw-bg-blue-800 tw-text-gray-800 dark:tw-text-white hover:tw-bg-gray-50 focus:tw-ring-4 focus:tw-ring-gray-300 tw-font-medium tw-rounded-lg tw-text-sm tw-px-4 lg:tw-px-5 tw-py-2 lg:tw-py-2.5 tw-mr-2 dark:hover:tw-bg-gray-700 focus:tw-outline-none dark:focus:tw-ring-gray-800">Log
                         in</a>
                     <button data-collapse-toggle="tw-mobile-menu-2" type="button"
@@ -46,7 +46,7 @@
             <div
                 class="tw-flex tw-flex-col tw-mb-8 lg:tw-mb-16 tw-space-y-4 sm:tw-flex-row sm:tw-justify-center sm:tw-space-y-0 sm:tw-space-x-4">
           
-                <a href="/signin"
+                <a href="/login"
                     class="tw-bg-blue-800 hover:tw-bg-gray-700 tw-inline-flex tw-items-center tw-justify-center tw-px-4 tw-py-2.5 tw-text-base tw-font-medium tw-text-center tw-text-white tw-bg-primary-700 tw-rounded-lg hover:tw-bg-primary-800 focus:tw-ring-4 focus:tw-ring-primary-300 dark:focus:tw-ring-primary-900">
                     Get started
                 </a>

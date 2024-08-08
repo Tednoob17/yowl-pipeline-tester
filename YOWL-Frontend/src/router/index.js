@@ -24,15 +24,9 @@ const router = createRouter({
       component: () => import('../views/MessageView.vue')
     },
     {
-<<<<<<< HEAD
-      path: '/signin',
+      path: '/login',
       name: 'signin',
       component: () => import('../views/SigninView.vue')
-    },
-    {
-      path: '/signup',
-      name: 'signup',
-      component: () => import('../views/SignupView.vue')
     },
     {
       path: '/landing',
@@ -40,13 +34,6 @@ const router = createRouter({
       component: () => import('../views/LandingpageView.vue')
     },
     {
-      path: '/register',
-      name: 'register',
-      component: () => import('../views/RegisterView.vue')
-    },
-    {
-=======
->>>>>>> 55461970fbaff9e40d54a52dc1698e4a03ff8572
       path: '/profile',
       name: 'profile',
       component: () => import('../views/Profile/ProfileVIew.vue')
@@ -61,15 +48,11 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-<<<<<<< HEAD
   const publicPages = ['/login', '/register', '/signin', '/signup', '/landing', '/forgot-password', '/reset-password'];
-=======
-  const publicPages = ['/login', '/register',  '/signin', '/signup', '/forgot-password', '/reset-password'];
->>>>>>> 55461970fbaff9e40d54a52dc1698e4a03ff8572
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('token');
 
-  if (authRequired && !loggedIn && to.name !== 'not-found') {
+  if (authRequired && !loggedIn && to.name !== 'not-found' && to.name == 'pages') {
     return next('/login');
   }
 
