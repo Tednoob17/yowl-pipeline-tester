@@ -108,13 +108,6 @@ onMounted(async () => {
                 <div class="mx-2">
                   {{ post.comment_count }}
                 </div>
-                <v-spacer></v-spacer>
-                <v-btn
-                  @click="postStore.deletePost(post.id)"
-                  color="error"
-                  icon="mdi-delete"
-                  text
-                ></v-btn>
               </v-card-actions>
             </v-card>
           </div>
@@ -169,13 +162,6 @@ onMounted(async () => {
                 <div class="mx-2">
                   {{ post.comment_count }}
                 </div>
-                <v-spacer></v-spacer>
-                <v-btn
-                  @click="postStore.deletePost(post.id)"
-                  color="error"
-                  icon="mdi-delete"
-                  text
-                ></v-btn>
               </v-card-actions>
             </v-card>
           </div>
@@ -230,13 +216,6 @@ onMounted(async () => {
                 <div class="mx-2">
                   {{ post.comment_count }}
                 </div>
-                <v-spacer></v-spacer>
-                <v-btn
-                  @click="postStore.deletePost(post.id)"
-                  color="error"
-                  icon="mdi-delete"
-                  text
-                ></v-btn>
               </v-card-actions>
             </v-card>
           </div>

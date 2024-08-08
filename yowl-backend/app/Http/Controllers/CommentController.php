@@ -56,7 +56,7 @@ class CommentController extends Controller
             // $comments = Comment::with('user')->where('post_id', $request->post_id)->get();
             return response()->json([
                 'status' => 'success',
-                'comments' => $comment->with('user')->get(),
+                'comments' => $comment->with('user')->where('post_id', $request->post_id)->get(),
             ]);
         }
         catch (\Exception $e)

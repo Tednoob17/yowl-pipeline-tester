@@ -2,7 +2,6 @@
   <v-file-input
     v-model="files"
     :show-size="1000"
-    color="deep-purple-accent-4"
     label="File input"
     placeholder="Select your files"
     prepend-icon="mdi-paperclip"

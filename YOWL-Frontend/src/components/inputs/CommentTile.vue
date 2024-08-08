@@ -1,14 +1,17 @@
 <script setup>
 import { usePostStore } from '@/stores/post.store'
 const postStore = usePostStore()
+import { ref } from 'vue'
 
-defineProps({
+const props = defineProps({
   comment: Object,
   auth: Object
 })
 
+const show = ref(false)
+
 function editComment() {
-  postStore.editComment(comment.id, comment.content)
+  postStore.editComment(props.comment.id, props.comment.content)
 }
 
 function deleteComment(id) {
@@ -17,12 +20,12 @@ function deleteComment(id) {
 </script>
 
 <template>
-  <v-list-item :title="comment.content" :subtitle="comment.user.name">
+  <v-list-item @click="show = !show" :title="comment.content" :subtitle="comment.user.name">
     <template #append v-if="auth.id === comment.user.id">
       <v-btn @click="deleteComment(comment.id)" icon="mdi-delete" variant="text"></v-btn>
     </template>
   </v-list-item>
-  <v-dialog>
+  <v-dialog v-model="show">
     <v-card>
       <v-card-title>
         Edit your panda

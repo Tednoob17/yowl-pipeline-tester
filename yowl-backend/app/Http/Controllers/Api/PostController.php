@@ -78,9 +78,7 @@ class PostController extends Controller
         // dd($request);
 
         try {
-            $request->link = str_replace('http', 'https', $request->link);
-
-            $post = Post::where('link', $request->link)->first();
+            $post = Post::where('link', str_replace('http', 'https', $request->link))->first();
 
             if ($post) {
                 $comment = Comment::create([

@@ -27,6 +27,9 @@ const submit = async () => {
     .createPost({ panda: content.value, link: link.value, file: image.value })
     .then((res) => {
       dialogStore.setDialog(false)
+      content.value = ''
+      link.value = ''
+      image.value = []
     })
     .catch((error) => {
       console.log(error)
