@@ -1,5 +1,31 @@
 # YOWL PROJECT
 
+<h1 align="center">
+  <br>
+  <a href="vmi2066251.contaboserver.net:5175"><img src="./YOWL-Frontend/src/assets/2.png" alt="Markdownify" width="200"></a>
+  <br>
+  Free Panda's
+  <br>
+</h1>
+
+
+
+<p align="center">
+
+ [![TailwindCSS](https://img.shields.io/badge/Tailwind%20CSS-%2338B2AC.svg?logo=tailwind-css&logoColor=white)](#)
+[![Emacs](https://img.shields.io/badge/Emacs-%237F5AB6.svg?&logo=gnu-emacs&logoColor=white)](#)
+[![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?logo=visual-studio-code&logoColor=white)](#)
+[![CSS](https://img.shields.io/badge/CSS-1572B6?logo=css3&logoColor=fff)](#)
+[![HTML](https://img.shields.io/badge/HTML-%23E34F26.svg?logo=html5&logoColor=white)](#)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000)](#)
+[![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](#)
+[![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=fff)](#)
+[![Trello](https://img.shields.io/badge/Trello-0052CC?logo=trello&logoColor=fff)](#)
+![]( https://img.shields.io/badge/pnpm_-9.6.0-green)
+![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)
+</p>
+
+
 ## Description
 
 This project is a simple implementation of a RESTful API for a web app that allow users to comments every visible content on the internet. The project is built using laravel 11 and vuejs 3.
@@ -29,10 +55,10 @@ The app is very simple to use. You can create an account, login, logout, create 
 
 ## Authors
 
-- [Georges Ayeni]("http://github.com/Georges987")
-- [BELLO-YESSOUF Karim]("")
-- [Ted]("")
-- [Ollaniyi]("")
+* [Georges Ayeni]("http://github.com/Georges987")
+* [BELLO-YESSOUF Karim]("")
+* [Ted]("")
+* [Ollaniyi]("")
 
 ## License
 
@@ -40,17 +66,17 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-- [Epitech Coding Academy](https://www.epitech.eu/)
-- [Laravel](https://laravel.com/)
-- [Vuejs](https://vuejs.org/)
-- [Vuetify](https://vuetifyjs.com/)
-- [Axios](https://axios-http.com/)
-- [Tailwindcss](https://tailwindcss.com/)
-- [Vue Router](https://router.vuejs.org/)
-- [Pinia](https://pinia.esm.dev/)
-- [PNPM](https://pnpm.io/)
-- [Laravel Sanctum](https://laravel.com/docs/8.x/sanctum)
-- [Laravel Jetstream](https://jetstream.laravel.com/2.x/introduction.html)
-- [Laravel Scout](https://laravel.com/docs/8.x/scout)
-- [Laravel Socialite](https://laravel.com/docs/8.x/socialite)
-- [Spatie Laravel Permission](https://spatie.be/docs/laravel-permission/v5/introduction)
+* [Epitech Coding Academy](https://www.epitech.eu/)
+* [Laravel](https://laravel.com/)
+* [Vuejs](https://vuejs.org/)
+* [Vuetify](https://vuetifyjs.com/)
+* [Axios](https://axios-http.com/)
+* [Tailwindcss](https://tailwindcss.com/)
+* [Vue Router](https://router.vuejs.org/)
+* [Pinia](https://pinia.esm.dev/)
+* [PNPM](https://pnpm.io/)
+* [Laravel Sanctum](https://laravel.com/docs/8.x/sanctum)
+* [Laravel Jetstream](https://jetstream.laravel.com/2.x/introduction.html)
+* [Laravel Scout](https://laravel.com/docs/8.x/scout)
+* [Laravel Socialite](https://laravel.com/docs/8.x/socialite)
+* [Spatie Laravel Permission](https://spatie.be/docs/laravel-permission/v5/introduction)
