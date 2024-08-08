@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.store'
+import { toast } from 'vuetify-sonner'
 
 const authStore = useAuthStore()
 const loginForm = ref(null)
@@ -48,9 +49,9 @@ const rules = {
 const router = useRouter()
 
 const login = async () => {
-  await loginForm.value.validate().then((res) => {
-    if (!loginForm.value.valid) {
-      return
+  await loginForm.value.validate().then(() => {
+    if (!loginForm) {
+      console.log(loginForm.value.valid);
     } else {
       authStore
         .login(user.value.login)

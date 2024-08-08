@@ -55,7 +55,10 @@ class PostController extends Controller
     public function show($post): JsonResponse
     {
         try {
-            $post = Post::with(['user', 'likes', 'comment', 'comment.user', 'images'])->find($post);
+            // calculate the average of the post vues
+            $average = Post::avg('vues');
+            // get 10 post that have the most vues
+            $post = Post::with(['user', 'likes', 'comment', 'comment.user', 'images'])->find($post)->where('vues', '>', $average)->orderBy('vues', 'desc')->limit(10)->get();
             return response()->json([
                 "success" => true,
                 "post" => $post,
