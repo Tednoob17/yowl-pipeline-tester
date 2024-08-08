@@ -22,9 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::group(['middleware' => ['auth:sanctum', 'ensure-have-age']], function () {
+Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/update-password', [AuthController::class, 'updatePassword']);
-
     // profile
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/logout-all', [AuthController::class, 'logoutAll']);
@@ -43,15 +42,15 @@ Route::group(['middleware' => ['auth:sanctum', 'ensure-have-age']], function () 
     Route::apiResource('messages', MessageController::class);
 
     // post route
-    Route::get('posts', [PostController::class, 'index']);
     Route::get('posts/{post}', [PostController::class, 'show']);
     Route::post('posts', [PostController::class, 'store']);
     Route::put('posts/{post}', [PostController::class, 'update']);
     Route::delete('posts/{post}', [PostController::class, 'destroy']);
+    Route::get('posts/vues/{post}', [PostController::class, 'vues']);
 
     // likes route
     Route::get('likes/{post}', [LikeController::class, 'index']); // get all likes for a post
-    Route::delete('likes/{like}', [LikeController::class, 'destroy']); // dislike
+    Route::post('likes', [LikeController::class, 'store']); // like or unlike a post
 
     // settings
     Route::get('/user-set', [UserSettingsController::class, 'index']);
@@ -63,6 +62,8 @@ Route::group(['middleware' => ['auth:sanctum', 'ensure-have-age']], function () 
     // delete user profile
     Route::delete('/delete-profile', [UserSettingsController::class, 'deleteAccount']);
 });
+
+Route::get('posts', [PostController::class, 'index']);
 
 Route::post('/register', [AuthController::class, 'register'])->name('api.register');
 Route::post('/login', [AuthController::class, 'login'])->name('api.login');

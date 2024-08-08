@@ -19,7 +19,7 @@ class PostController extends Controller
      */
     public function index(): JsonResponse
     {
-        $posts = Post::with(['user', 'likes', 'images'])->withCount('comment')->get();
+        $posts = Post::with(['user', 'likes', 'images'])->withCount('comment', 'likes')->paginate(10);
         //, 'comment', 'comment.user', 'comment.comment', 'comment.comment.user'])->paginate(10);
 
         // $limit_posts = Post::withCount('comment')->having('comment_count', '<', 10)->get();
@@ -28,6 +28,24 @@ class PostController extends Controller
             "success" => true,
             "posts" => $posts,
         ]);
+    }
+
+    public function imcrementVue($post): JsonResponse
+    {
+        try {
+            $post = Post::find($post);
+            $post->vues += 1;
+            $post->save();
+
+            return response()->json([
+                "success" => true,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "success" => false,
+                "message" => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -129,6 +147,7 @@ class PostController extends Controller
             return response()->json([
                 "success" => true,
                 "post" => $post,
+                "message" => "Post updated successfully",
             ]);
         } catch (\Exception $e) {
             return response()->json([

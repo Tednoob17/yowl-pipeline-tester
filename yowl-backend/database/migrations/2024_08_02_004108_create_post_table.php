@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->longText('link');
             $table->longText('panda');
+            $table->integer('vues')->default(0);
             $table->timestamps();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
         });

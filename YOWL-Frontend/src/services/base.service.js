@@ -36,12 +36,22 @@ export function baseService() {
 
   axios.interceptors.response.use(
     (response) => {
-      if(response.data.message) {
+      if (response.data.message) {
         toast(response.data.message, 'success')
       }
       return response
     },
     (error) => {
+      if (error.response.status === 401) {
+        localStorage.removeItem('token')
+        router.push('/login')
+      }
+      if (error.response.status === 404) {
+        router.push('/not-found')
+      }
+      if (error.response.status === 422) {
+        console.log(error.response.data);
+      }
       return Promise.reject(error)
     }
   )

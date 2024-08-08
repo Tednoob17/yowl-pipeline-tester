@@ -1,14 +1,12 @@
 <script setup>
-import { ref, onMounted } from 'vue'
 import { useNavStore } from '@/stores/tab.store'
 import { useAuthStore } from '@/stores/auth.store'
 const navStore = useNavStore()
 const authStore = useAuthStore()
-const username = ref('')
 </script>
 
 <template>
-  <v-navigation-drawer app v-model="navStore.drawer">
+  <v-navigation-drawer color="transparent" class="tw-backdrop-blur-lg" app v-model="navStore.drawer">
     <v-img src="/image/1.png"></v-img>
     <v-list v-if="authStore.user.id">
       <v-list-item to="/">

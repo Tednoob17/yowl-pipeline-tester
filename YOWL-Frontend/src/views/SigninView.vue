@@ -47,26 +47,38 @@ const rules = {
 
 const router = useRouter()
 
-const login = () => {
-  authStore
-    .login(user.value.login)
-    .then(() => {
-      router.push('/')
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+const login = async () => {
+  await loginForm.value.validate().then((res) => {
+    if (!loginForm.value.valid) {
+      return
+    } else {
+      authStore
+        .login(user.value.login)
+        .then(() => {
+          router.push('/')
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  })
 }
 
-const signup = () => {
-  authStore
-    .register(user.value.signup)
-    .then(() => {
-      router.push('/')
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+const signup = async () => {
+  await signupForm.value.validate().then((res) => {
+    if (!signupForm.value.valid) {
+      return
+    } else {
+      authStore
+        .register(user.value.signup)
+        .then(() => {
+          router.push('/')
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  })
 }
 </script>
 
@@ -126,13 +138,13 @@ const signup = () => {
                   v-model="user.login.email"
                   label="Email"
                   :rules="[rules.required, rules.email]"
-                  outlined
                   type="email"
                   required
                 ></v-text-field>
                 <v-text-field
                   v-model="user.login.password"
                   label="Password"
+                  :rules="[rules.required]"
                   outlined
                   :type="showPassword ? 'text' : 'password'"
                   required
@@ -163,7 +175,6 @@ const signup = () => {
                   v-model="user.signup.name"
                   :rules="[rules.required]"
                   label="Name"
-                  outlined
                   type="text"
                   required
                 ></v-text-field>
@@ -171,7 +182,6 @@ const signup = () => {
                   v-model="user.signup.email"
                   :rules="[rules.required, rules.email]"
                   label="Email"
-                  outlined
                   type="email"
                   required
                 ></v-text-field>
@@ -179,7 +189,6 @@ const signup = () => {
                   v-model="user.signup.birthdate"
                   :rules="[rules.required, rules.birthdate]"
                   label="Birthdate"
-                  outlined
                   type="date"
                   required
                 ></v-text-field>
@@ -187,13 +196,11 @@ const signup = () => {
                   v-model="user.signup.password"
                   :rules="[rules.required, rules.password]"
                   label="Password"
-                  outlined
                   :type="showPassword ? 'text' : 'password'"
                   required
                 >
                   <template #append-inner>
                     <v-btn
-                      variant="icon"
                       :icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                       @click="showPassword = !showPassword"
                     >
@@ -201,9 +208,8 @@ const signup = () => {
                   </template>
                 </v-text-field>
                 <v-text-field
-                  v-model="user.signup.password_comfirm"
+                  v-model="user.signup.password_confirm"
                   label="Confirm Password"
-                  outlined
                   :type="showPassword ? 'text' : 'password'"
                   required
                 >

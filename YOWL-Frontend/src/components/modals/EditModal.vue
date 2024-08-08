@@ -38,9 +38,23 @@ function updatePost() {
 
 <template>
   <div class="text-center pa-4">
-    <v-dialog v-model="tabStore.editDialog" transition="dialog-bottom-transition" fullscreen>
-      <v-sheet>
-        <v-card>
+    <v-dialog
+      class="bg-transparent tw-backdrop-blur-lg"
+      v-model="tabStore.editDialog"
+      transition="dialog-bottom-transition"
+      fullscreen
+    >
+      <v-sheet class="tw-backdrop-blur-lg">
+        <v-card class="bg-transparent">
+          <v-fab
+            @click="tabStore.editDialog = false"
+            icon="mdi-arrow-left-top-bold"
+            class="bg-transparent mr-4 mt-4"
+            location="top right"
+            size="64"
+            :flat="true"
+            absolute
+          ></v-fab>
           <v-carousel
             v-if="postStore.post.images.length > 0"
             cycle
@@ -55,15 +69,6 @@ function updatePost() {
               cover
               width="100%"
             >
-              <v-fab
-                @click="tabStore.editDialog = false"
-                icon="mdi-arrow-left-top-bold"
-                class="bg-transparent mr-4 mt-4"
-                location="top right"
-                size="64"
-                :flat="true"
-                absolute
-              ></v-fab>
             </v-carousel-item>
           </v-carousel>
           <div v-if="iseditingpost">
@@ -101,10 +106,10 @@ function updatePost() {
             <div class="tw-mx-2">
               {{ postStore.post.comment.length }}
             </div>
-            <v-icon color="error" icon="mdi-heart"></v-icon>
+            <!-- <v-icon color="error" icon="mdi-heart"></v-icon>
             <div class="tw-mx-2">
               {{ postStore.post.likes.length }}
-            </div>
+            </div> -->
             <v-btn
               v-if="authStore.user.id === postStore.post.user.id"
               @click="completeUpdate"
@@ -126,7 +131,7 @@ function updatePost() {
         <v-card>
           <v-card-title> other panda's </v-card-title>
           <v-card-text>
-            <v-list class="tw-mb-20">
+            <v-list>
               <comment-tile
                 v-for="(item, i) in postStore.post.comment"
                 :key="i"
