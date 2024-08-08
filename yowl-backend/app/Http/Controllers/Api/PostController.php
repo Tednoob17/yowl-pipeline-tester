@@ -57,16 +57,10 @@ class PostController extends Controller
     public function show($post): JsonResponse
     {
         try {
-            $average = Post::avg('vues');
-            $post_hot = Post::with(['user', 'likes', 'comment', 'comment.user', 'images'])->find($post)->where('vues', '>', $average)->orderBy('vues', 'desc')->limit(10)->get();
-            $post_recent = Post::with(['user', 'likes', 'comment', 'comment.user', 'images'])->orderBy('created_at', 'desc')->limit(10)->get();
-            $post_all = Post::with(['user', 'likes', 'images'])->withCount('comment', 'likes')->paginate(10);
+            $post = Post::with(['user', 'likes', 'comment', 'comment.user', 'images'])->withCount('comment', 'likes')->find($post);
             return response()->json([
                 "success" => true,
                 "post" => $post,
-                "post_hot" => $post_hot,
-                "post_recent" => $post_recent,
-                "post_all" => $post_all,
             ]);
         } catch (\Exception $e) {
             return response()->json([
