@@ -3,7 +3,7 @@ import { useRouter } from 'vue-router'
 import { toast } from 'vuetify-sonner'
 
 export function baseService() {
-  const baseURL = import.meta.env.VITE_API_URL ?? 'http://localhost:8000/api/'
+  const baseURL = import.meta.env.VITE_API_URL ?? 'http://38.242.156.24:8000/api/'
 
   const router = useRouter()
 
