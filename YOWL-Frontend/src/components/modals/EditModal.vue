@@ -104,10 +104,10 @@ function updatePost() {
             <div class="tw-mx-2">
               {{ postStore.post.comment.length }}
             </div>
-            <v-icon color="error" icon="mdi-heart"></v-icon>
+            <!--<v-icon color="error" icon="mdi-heart"></v-icon>
             <div class="tw-mx-2">
               {{ postStore.post.likes.length }}
-            </div>
+            </div>-->
             <v-btn
               v-if="authStore.user.id === postStore.post.user.id"
               @click="completeUpdate"
