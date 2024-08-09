@@ -227,6 +227,7 @@ const signup = async () => {
                 >
                   <template #append-inner>
                     <v-btn
+                      variant="plain"
                       :icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                       @click="showPassword = !showPassword"
                     >

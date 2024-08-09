@@ -46,14 +46,17 @@ export function baseService() {
         localStorage.removeItem('token')
         router.push('/login')
       }
-      if (error.response.status === 403) {
+      else if (error.response.status === 403) {
         toast.error('You are not authorized to access this resource')
       }
-      if (error.response.status === 404) {
+      else if (error.response.status === 404) {
         router.push('/not-found')
       }
-      if (error.response.status === 422) {
-        console.log(error.response.data);
+      else if (error.response.status === 422) {
+        toast.error("Please retry")
+      }
+      else {
+        toast.error("An error occur")
       }
       return Promise.reject(error)
     }
