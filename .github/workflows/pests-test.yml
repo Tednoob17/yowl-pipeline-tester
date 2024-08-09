@@ -6,11 +6,13 @@ on:
   pull_request:
     branches: [deploy-test]
 
+env:
+  MIRROR_URL: https://github.com/EpitechCodingAcademyPromo2024/C-DEV-160-COT-1-2-yowl-georges.ayeni.git
+
+
 jobs: 
-  check-pests:
+  check-dependencies:
     runs-on: ubuntu-latest
-
-
     steps:
     - name: Checkout test by test
       uses: actions/checkout@v4
@@ -23,8 +25,28 @@ jobs:
       env:
         fail-fast: true
 
-    - name: Install dependencies
-      run: cd yowl-backend && composer install
+#    - name: Install dependencies
+#      run: cd yowl-backend && composer install
 
-    - name: Run Laravel Pest tests
-      run: ./yowl-backend/vendor/bin/pest
+
+#  run-laravel-unit_tests:
+#    runs-on: ubuntu-latest
+#    steps:    
+#   - name: Run Laravel Pest tests
+#      run: ./yowl-backend/vendor/bin/pest
+
+
+  push_to_mirror:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    needs: run-laravel-unit_tests
+    steps:
+       - name: checkout repo
+         uses: actions/checkout@v4
+         with:
+           fetch-depth: 0
+       - name: mirror to epitech private repo
+         uses: pixta-dev/repository-mirroring-action@v1
+         with: 
+           target_repo_url: ${{ vars.MIRROR_URL }}
+           ssh_private_key: ${{ secrets.GIT_SSH_PRIVATE_KEY}}
