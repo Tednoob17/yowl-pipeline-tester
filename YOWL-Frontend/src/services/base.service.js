@@ -44,8 +44,7 @@ export function baseService() {
     (error) => {
       if (error.response.status === 401) {
         localStorage.removeItem('token')
-        toast.error("Unauthorized");
-        // router.push('/login')
+        router.push('/login')
       }
       else if (error.response.status === 403) {
         toast.error('You are not authorized to access this resource')
