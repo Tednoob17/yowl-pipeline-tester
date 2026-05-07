@@ -28,7 +28,7 @@
     "@vue/test-utils": "^2.4.6",
     "autoprefixer": "^10.4.19",
     "chromedriver": "^126.0.2",
-    "eslint": "^8.57.0",
+    "eslint": "^9.26.0",
     "eslint-plugin-vue": "^9.23.0",
     "geckodriver": "^4.4.1",
     "jsdom": "^24.1.1",
